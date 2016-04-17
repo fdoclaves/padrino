@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;

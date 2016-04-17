@@ -45,4 +45,8 @@ public class GameTable {
 	public TableSeat getTableSeatByPosition(Position position) {
 		return tableSeats[position.getY()][position.getX()];
 	}
+
+	public void add(Cake cake) {
+		this.cakeList.add(cake);
+	}
 }

@@ -1,4 +1,4 @@
-package gt.ia;
+package gt.ia.getters;
 
 import static org.junit.Assert.*;
 

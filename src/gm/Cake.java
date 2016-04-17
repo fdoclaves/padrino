@@ -1,5 +1,6 @@
 package gm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gm.pojos.Position;
@@ -11,13 +12,19 @@ public class Cake {
 	private Position position;
 
 	private String team;
-
+	
 	public Cake(Position position, String team) {
 		this.position = position;
 		this.team = team;
 	}
+	
+	public Cake(Position position, String team, GameTable gameTable) {
+		this.position = position;
+		this.team = team;
+		this.gameTable = gameTable;
+	}
 
-	public void inicialize(GameTable gameTable) {
+	public void inicialize(GameTable gameTable) { 
 		this.gameTable = gameTable;
 	}
 
@@ -26,37 +33,45 @@ public class Cake {
 	}
 
 	public void boom(GameCharacter[][] characters) {
-		Killer.kill(characters, position);
-		if (isOnSide()) {
-			killSideCharacters(characters);
-		} else {
-			Killer.kill(characters, new Position(position.getX() - 1, position.getY()));
-			Killer.kill(characters, new Position(position.getX() + 1, position.getY()));
+		for (Position position : getBoomPositions(characters)) {
+			Killer.kill(characters, position);
 		}
 		List<Cake> cakeList = gameTable.getCakeList();
 		cakeList.remove(this);
 	}
 
-	private void killSideCharacters(GameCharacter[][] characters) {
+	public List<Position> getBoomPositions(GameCharacter[][] characters) {
+		List<Position> exploteCharacters = new ArrayList<Position>();
+		exploteCharacters.add(position);
+		if (isOnSide()) {
+			killSideCharacters(characters, exploteCharacters);
+		} else {
+			exploteCharacters.add(new Position(position.getX() - 1, position.getY()));
+			exploteCharacters.add(new Position(position.getX() + 1, position.getY()));
+		}
+		return exploteCharacters;
+	}
+
+	private void killSideCharacters(GameCharacter[][] characters, List<Position> exploteCharacters) {
 		if (isConner()) {
 			if (position.getX() == 0) {
-				killConnerCharecters(characters, 1);
+				killConnerCharecters(exploteCharacters, characters, 1);
 			} else {
-				killConnerCharecters(characters, -1);
+				killConnerCharecters(exploteCharacters, characters, -1);
 			}
 		} else {
-			Killer.kill(characters, new Position(position.getX(), position.getY() - 1));
-			Killer.kill(characters, new Position(position.getX(), position.getY() + 1));
+			exploteCharacters.add(new Position(position.getX(), position.getY() - 1));
+			exploteCharacters.add(new Position(position.getX(), position.getY() + 1));
 		}
 	}
 
-	private void killConnerCharecters(GameCharacter[][] characters, int next) {
+	private void killConnerCharecters(List<Position> exploteCharacters, GameCharacter[][] characters, int next) {
 		if (position.getY() == 0) {
-			Killer.kill(characters, new Position(position.getX(), position.getY() + 1));
-			Killer.kill(characters, new Position(position.getX() + next, position.getY()));
+			exploteCharacters.add(new Position(position.getX(), position.getY() + 1));
+			exploteCharacters.add(new Position(position.getX() + next, position.getY()));
 		} else {
-			Killer.kill(characters, new Position(position.getX(), position.getY() - 1));
-			Killer.kill(characters, new Position(position.getX() + next, position.getY()));
+			exploteCharacters.add(new Position(position.getX(), position.getY() - 1));
+			exploteCharacters.add(new Position(position.getX() + next, position.getY()));
 		}
 	}
 

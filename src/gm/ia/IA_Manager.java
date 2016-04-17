@@ -9,11 +9,14 @@ import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.ia.pojos.InfoAction;
 import gm.ia.pojos.ValueData;
 import gm.ia.getters.AsleepEnemyGetter;
+import gm.ia.getters.ChangeCardGetter;
+import gm.ia.getters.DataCakeGetter;
 import gm.ia.getters.CharacterGetter;
 import gm.ia.getters.CharateresToAttackByGunGetter;
 import gm.ia.getters.CharateresToAttackByKnifeGetter;
@@ -35,12 +38,13 @@ public class IA_Manager {
 	public IA_Manager(GameTable gameTable) {
 		this.gameTable = gameTable;
 		this.maxX = gameTable.getMaxX() - 1;
-		this.middle = gameTable.getMaxY() - 1 / 2;
+		this.middle = (gameTable.getMaxY() - 1) / 2;
 		this.knifeGetter = new CharateresToAttackByKnifeGetter(gameTable);
 		this.gunGetter = new CharateresToAttackByGunGetter(gameTable);
 	}
 
 	public InfoAction whoKill(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
+		DataCakeGetter boomCakeGetter = new DataCakeGetter(characterArray, gameTable, player, nextTeam);
 		AsleepEnemyGetter asleepEnemyGetter = new AsleepEnemyGetter(characterArray, player, nextTeam, gameTable);
 		if (asleepEnemyGetter.getAsleepNumber() >= 2) {
 			return asleepEnemyGetter.getBestSleepCard("HAY MAS DE 2 DORMIDOS");
@@ -48,13 +52,24 @@ public class IA_Manager {
 		Map<String, GeneralTeam> generalTeams = new HashMap<String, GeneralTeam>();
 		List<InfoAction> characterThatICanKill = getAttactedPositions(player, "PUEDO ATACARLO", characterArray);
 		if (characterThatICanKill.size() > 0) {
-			List<DataInfoActionGetter> charactesThatTheirCanAttacksMeAndICanKill = getCharactesThatTheirCanAttacksMeAndICanKill(player, characterThatICanKill,
-					"PUEDE ATACARME", characterArray, currentGamers, generalTeams);
-			if (charactesThatTheirCanAttacksMeAndICanKill.size() > 0) {
-				if (charactesThatTheirCanAttacksMeAndICanKill.size() == 1) {
-					return getOne(charactesThatTheirCanAttacksMeAndICanKill, "GANO ATACARME");
-				}
-				List<DataInfoActionGetter> awake = getBestValues(charactesThatTheirCanAttacksMeAndICanKill, "VER DESPIERTOS",
+			List<DataInfoActionGetter> charactesThatTheirCanAttacksMeAndICanKill = getCharactesThatTheirCanAttacksMeAndICanKill(
+					player, characterThatICanKill, "PUEDE ATACARME", characterArray, currentGamers, generalTeams,
+					boomCakeGetter);
+			if (charactesThatTheirCanAttacksMeAndICanKill.size() == 1) {
+				return getOne(charactesThatTheirCanAttacksMeAndICanKill, "GANO ATACARME");
+			}
+			List<DataInfoActionGetter> freeLetalCake = getBestValues(charactesThatTheirCanAttacksMeAndICanKill,
+					"VER FREE LETAL PASTEL", DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE);
+			if (freeLetalCake.size() == 1) {
+				return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ");
+			}
+			List<DataInfoActionGetter> freeCake = getBestValues(freeLetalCake,
+					"VER FREE PASTEL", DataInfoActionGetter.ENEMY_HAS_NOT_CAKE);
+			if (freeCake.size() == 1) {
+				return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ");
+			}
+			if (charactesThatTheirCanAttacksMeAndICanKill.size() > 1) {
+				List<DataInfoActionGetter> awake = getBestValues(freeCake, "VER DESPIERTOS",
 						DataInfoActionGetter.ENEMY_ASLEEP);
 				if (awake.size() == 1) {
 					return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
@@ -96,24 +111,41 @@ public class IA_Manager {
 					return asleepEnemyGetter.getBestSleepCard("PUEDO ATACARLO//NO ME ATACA//3 o MAS JUGADORES, DORMIR");
 				}
 				return moreWeaponVsBestWeaponVsBestBussines(characterThatICanKill, asleepEnemyGetter, currentGamers,
-						characterArray, generalTeams, player);
+						characterArray, generalTeams, player, boomCakeGetter);
 			}
 		} else {
-			// TODO: (NO PUEDO ATACAR) ZZZ, CAKE, MOVECAKE, CHANGE
-			return null;
+			// ** (NO PUEDO ATACAR) CAKE, MOVECAKE
+			if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.all() >= 1) {
+				return asleepEnemyGetter.getBestSleepCard("NO PUEDO ATACAR");
+			}
+			ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);
+			ChangeCard card = changeCardGetter.get();
+			return new InfoAction(card, null, null, "NO PUEDO ATACAR//I DONT HAVE SLEEPCARD");
 		}
 	}
 
 	private InfoAction moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> characterThatICanKill,
 			AsleepEnemyGetter sleepGetter, int currentGamers, GameCharacter[][] characterArray,
-			Map<String, GeneralTeam> generalTeams, Player player) {
+			Map<String, GeneralTeam> generalTeams, Player player, DataCakeGetter boomCakeGetter) {
 		List<DataInfoActionGetter> infoActionUtils = convertToAttackToMe(characterThatICanKill, characterArray,
-				currentGamers, generalTeams);
-		List<DataInfoActionGetter> awake = getBestValues(infoActionUtils, "VER DESPIERTOS", DataInfoActionGetter.ENEMY_ASLEEP);
+				currentGamers, generalTeams, boomCakeGetter);
+		List<DataInfoActionGetter> freeLetalCake = getBestValues(infoActionUtils,
+				"VER FREE LETAL PASTEL", DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE);
+		if (freeLetalCake.size() == 1) {
+			return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ");
+		}
+		List<DataInfoActionGetter> freeCake = getBestValues(freeLetalCake,
+				"VER FREE PASTEL", DataInfoActionGetter.ENEMY_HAS_NOT_CAKE);
+		if (freeCake.size() == 1) {
+			return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ");
+		}
+		List<DataInfoActionGetter> awake = getBestValues(freeCake, "VER DESPIERTOS",
+				DataInfoActionGetter.ENEMY_ASLEEP);
 		if (awake.size() == 1) {
 			return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
 		}
-		List<DataInfoActionGetter> moreWeapons = getBestValues(awake, "MAS ARMAS", DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
+		List<DataInfoActionGetter> moreWeapons = getBestValues(awake, "MAS ARMAS",
+				DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
 		if (moreWeapons.size() == 1) {
 			return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
 		}
@@ -136,11 +168,12 @@ public class IA_Manager {
 	}
 
 	private List<DataInfoActionGetter> convertToAttackToMe(List<InfoAction> characterThatICanKill,
-			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap) {
+			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap,
+			DataCakeGetter boomCakeGetter) {
 		List<DataInfoActionGetter> list = new ArrayList<DataInfoActionGetter>();
 		for (InfoAction infoAction : characterThatICanKill) {
 			list.add(buildInfoActionUtils(characterArray, currentGamers, generalTeamsMap, infoAction, "NO ME ATACA",
-					new ArrayList<Position>()));
+					new ArrayList<Position>(), boomCakeGetter));
 		}
 		return list;
 	}
@@ -269,8 +302,9 @@ public class IA_Manager {
 		return ((attackerPosition.getX() == 0 || attackerPosition.getX() == maxX) && attackerPosition.getY() != middle);
 	}
 
-	private List<DataInfoActionGetter> getCharactesThatTheirCanAttacksMeAndICanKill(Player player, List<InfoAction> attackedPositionIAs, String reason,
-			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap) {
+	private List<DataInfoActionGetter> getCharactesThatTheirCanAttacksMeAndICanKill(Player player,
+			List<InfoAction> attackedPositionIAs, String reason, GameCharacter[][] characterArray, int currentGamers,
+			Map<String, GeneralTeam> generalTeamsMap, DataCakeGetter boomCakeGetter) {
 		List<DataInfoActionGetter> charactesThatTheirCanAttacksMe = new ArrayList<DataInfoActionGetter>();
 		for (InfoAction infoAction : attackedPositionIAs) {
 			List<Position> attacks = new ArrayList<Position>();
@@ -281,24 +315,26 @@ public class IA_Manager {
 			}
 			if (attacks.size() != 0) {
 				charactesThatTheirCanAttacksMe.add(buildInfoActionUtils(characterArray, currentGamers, generalTeamsMap,
-						infoAction, reason, attacks));
+						infoAction, reason, attacks, boomCakeGetter));
 			}
 		}
 		return charactesThatTheirCanAttacksMe;
 	}
 
 	private DataInfoActionGetter buildInfoActionUtils(GameCharacter[][] characterArray, int currentGamers,
-			Map<String, GeneralTeam> generalTeamsMap, InfoAction infoAction, String reason, List<Position> attacks) {
+			Map<String, GeneralTeam> generalTeamsMap, InfoAction infoAction, String reason, List<Position> attacks,
+			DataCakeGetter boomCakeGetter) {
 		ValueData enemy = buildValueData(infoAction.getAttackedPosition(), currentGamers, characterArray,
-				generalTeamsMap);
+				generalTeamsMap, boomCakeGetter.getExploitedEnemies());
 		ValueData me = buildValueDataMe(infoAction.getAttackerPosition(), currentGamers, characterArray,
-				generalTeamsMap, attacks);
+				generalTeamsMap, attacks, boomCakeGetter.getExploitedMine());
 		DataInfoActionGetter infoActionUtils = new DataInfoActionGetter(infoAction, attacks, enemy, me);
 		infoAction.addReason(reason);
 		return infoActionUtils;
 	}
 
-	private List<DataInfoActionGetter> getBestValues(List<DataInfoActionGetter> attacksToMe, String message, String key) {
+	private List<DataInfoActionGetter> getBestValues(List<DataInfoActionGetter> attacksToMe, String message,
+			String key) {
 		List<DataInfoActionGetter> greatestThreats = new ArrayList<DataInfoActionGetter>();
 		float maxValue = 0;
 		for (DataInfoActionGetter attackToMe : attacksToMe) {
@@ -357,13 +393,13 @@ public class IA_Manager {
 	}
 
 	private ValueData buildValueDataMe(Position position, int currentGamers, GameCharacter[][] characterArray,
-			Map<String, GeneralTeam> generalTeamsMap, List<Position> attacks) {
+			Map<String, GeneralTeam> generalTeamsMap, List<Position> attacks, List<DataCake> dataCakes) {
 		float mayorHasKnife = 0;
 		float mayorWeapons = 0;
 		GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
 		float mayorBusiness = setBusinessValue(generalTeamsMap, gameCharacter, position, characterArray);
 		for (Position attack : attacks) {
-			ValueData valueData = buildValueData(attack, currentGamers, characterArray, generalTeamsMap);
+			ValueData valueData = buildValueData(attack, currentGamers, characterArray, generalTeamsMap, dataCakes);
 			if (valueData.getKnife() > mayorHasKnife) {
 				mayorHasKnife = valueData.getKnife();
 			}
@@ -374,12 +410,22 @@ public class IA_Manager {
 				mayorBusiness = valueData.getBusiness();
 			}
 		}
+		return new ValueData(mayorWeapons, mayorHasKnife, mayorBusiness, gameCharacter.isSleeping(),
+				hasCake(position, dataCakes));
+	}
 
-		return new ValueData(mayorWeapons, mayorHasKnife, mayorBusiness, gameCharacter.isSleeping());
+	private DataCake hasCake(Position characterPosition, List<DataCake> dataCakes) {
+		for (DataCake dataCake : dataCakes) {
+			Position explotedPosition = dataCake.getExplotedPosition();
+			if (characterPosition.isEquals(explotedPosition)) {
+				return dataCake;
+			}
+		}
+		return null;
 	}
 
 	private ValueData buildValueData(Position position, int currentGamers, GameCharacter[][] characterArray,
-			Map<String, GeneralTeam> generalTeamsMap) {
+			Map<String, GeneralTeam> generalTeamsMap, List<DataCake> dataCakes) {
 		GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
 		TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
 		float numberWeapon = 0;
@@ -399,7 +445,8 @@ public class IA_Manager {
 			}
 		}
 		float businessValue = setBusinessValue(generalTeamsMap, gameCharacter, position, characterArray);
-		return new ValueData(numberWeapon, knife, businessValue, gameCharacter.isSleeping());
+		return new ValueData(numberWeapon, knife, businessValue, gameCharacter.isSleeping(),
+				hasCake(position, dataCakes));
 	}
 
 	private float setBusinessValue(Map<String, GeneralTeam> generalTeamsMap, GameCharacter character, Position position,

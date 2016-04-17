@@ -1,5 +1,7 @@
 package gm.ia.pojos;
 
+import gm.ia.DataCake;
+
 public class ValueData {
 
 	private float valueWeapon;
@@ -9,8 +11,12 @@ public class ValueData {
 	private float business;
 
 	private float awake;
+	
+	private float hasNotCake;
+	
+	private float hasNotFatalCake;
 
-	public ValueData(float valueWeapon, float knife, float business, boolean sleeping) {
+	public ValueData(float valueWeapon, float knife, float business, boolean sleeping, DataCake dataCake) {
 		this.valueWeapon = valueWeapon;
 		this.knife = knife;
 		this.business = business;
@@ -18,6 +24,17 @@ public class ValueData {
 			this.awake = 0f;
 		} else {
 			this.awake = 1f;
+		}
+		if (dataCake == null) {
+			this.hasNotCake = 1f;
+			this.hasNotFatalCake = 1f;
+		} else {
+			this.hasNotCake = 0f;
+			if (dataCake.isFatal()) {
+				this.hasNotFatalCake = 0f;
+			} else {
+				this.hasNotFatalCake = 1f;
+			}
 		}
 	}
 
@@ -35,5 +52,13 @@ public class ValueData {
 
 	public float getAwake() {
 		return awake;
+	}
+	
+	public float getHasNotCake(){
+		return hasNotCake;
+	}
+
+	public Float getHasNotFatalCake() {
+		return hasNotFatalCake;
 	}
 }

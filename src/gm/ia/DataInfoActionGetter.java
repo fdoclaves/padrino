@@ -18,11 +18,13 @@ public class DataInfoActionGetter {
 	public static final String MY_BUSINESS = "BUSINESS";
 	public static final String ENEMY_HAS_KNIFE = "ENEMY_HAS_KNIFE";
 	public static final String ENEMY_ASLEEP = "ENEMY_ASLEEP";
+	public static final String ENEMY_HAS_NOT_CAKE = "ENEMY_HAS_NOT_CAKE";
+	public static final String ENEMY_HAS_NOT_LETAL_CAKE = "ENEMY_HAS_NOT_LETAL_CAKE";
 	private Map<String, Float> valores;
 	private Position enemyPosition;
 	private Position myPosition;
 	private InfoAction infoAction;
-	private List<Position> attacks;
+	//private List<Position> attacks;
 
 	DataInfoActionGetter(InfoAction infoAction, List<Position> attacks, ValueData enemy, ValueData me) {
 		this.infoAction = infoAction;
@@ -36,8 +38,10 @@ public class DataInfoActionGetter {
 		this.valores.put(ME_HAS_KNIFE, me.getKnife());
 		this.valores.put(ME_WEAPONS_NUMBER, me.getValueWeapon());
 		this.valores.put(ENEMY_ASLEEP, enemy.getAwake());
-		this.attacks = attacks;
 		this.valores.put(FLANCOS, Float.valueOf(attacks.size()));
+		this.valores.put(ENEMY_HAS_NOT_CAKE, enemy.getHasNotCake());
+		this.valores.put(ENEMY_HAS_NOT_LETAL_CAKE, enemy.getHasNotFatalCake());
+		//this.attacks = attacks;
 	}
 
 	public void addReason(String reason) {
@@ -56,13 +60,13 @@ public class DataInfoActionGetter {
 		return myPosition;
 	}
 
-	public List<Position> getTheirAttacks() {
-		return this.attacks;
-	}
-
-	public List<Position> getAttacks() {
-		return attacks;
-	}
+//	public List<Position> getTheirAttacks() {
+//		return this.attacks;
+//	}
+//
+//	public List<Position> getAttacks() {
+//		return attacks;
+//	}
 
 	public GameCharacter getEnemyCharacter(GameCharacter[][] characterArray) {
 		return CharacterUtils.getCharacterByPosition(characterArray, enemyPosition);
