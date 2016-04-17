@@ -14,7 +14,7 @@ import gm.Player;
 import gm.TableSeat;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gm.ia.CharateresToAttackByKnifeGetter;
+import gm.ia.getters.CharateresToAttackByKnifeGetter;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;

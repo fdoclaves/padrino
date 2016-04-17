@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.cards.SleepCard;
-import gm.ia.AsleepEnemyGetter;
+import gm.ia.getters.AsleepEnemyGetter;
 import gm.pojos.Position;
 
 public class SleepGetterTest {

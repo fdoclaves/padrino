@@ -1,11 +1,11 @@
-package gm.ia;
+package gm.ia.getters;
 
 import gm.ia.pojos.IA_Character;
 import gm.info.MoneyValues;
 
 import java.util.List;
 
-public class MoneyNumberSystem {
+public class MoneyNumberGetter {
 
 	private int casinosCounter = 0;
 
@@ -15,7 +15,7 @@ public class MoneyNumberSystem {
 
 	private boolean hasKing;
 
-	public MoneyNumberSystem(List<MoneyValues> totalMoneyValues) {
+	public MoneyNumberGetter(List<MoneyValues> totalMoneyValues) {
 		for (MoneyValues moneyValue : totalMoneyValues) {
 			if (moneyValue == MoneyValues.CASINO) {
 				casinosCounter++;
@@ -32,7 +32,7 @@ public class MoneyNumberSystem {
 		}
 	}
 
-	public int getNumber(IA_Character moneyCharacter) {
+	public int getValue(IA_Character moneyCharacter) {
 		int value = 0;
 		value += getValueByBusiness(barsCounter, MoneyValues.BAR, moneyCharacter);
 		value += getValueByBusiness(restaurantsCounter, MoneyValues.RESTAURANT, moneyCharacter);

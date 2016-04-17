@@ -13,6 +13,11 @@ import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.ia.pojos.InfoAction;
 import gm.ia.pojos.ValueData;
+import gm.ia.getters.AsleepEnemyGetter;
+import gm.ia.getters.CharacterGetter;
+import gm.ia.getters.CharateresToAttackByGunGetter;
+import gm.ia.getters.CharateresToAttackByKnifeGetter;
+import gm.ia.getters.MoneyNumberGetter;
 import gm.ia.pojos.IA_Character;
 import gm.info.CardType;
 import gm.info.MoneyValues;
@@ -43,42 +48,42 @@ public class IA_Manager {
 		Map<String, GeneralTeam> generalTeams = new HashMap<String, GeneralTeam>();
 		List<InfoAction> characterThatICanKill = getAttactedPositions(player, "PUEDO ATACARLO", characterArray);
 		if (characterThatICanKill.size() > 0) {
-			List<InfoActionUtils> charactesThatTheirCanAttacksMe = getThreats(player, characterThatICanKill,
+			List<DataInfoActionGetter> charactesThatTheirCanAttacksMeAndICanKill = getCharactesThatTheirCanAttacksMeAndICanKill(player, characterThatICanKill,
 					"PUEDE ATACARME", characterArray, currentGamers, generalTeams);
-			if (charactesThatTheirCanAttacksMe.size() > 0) {
-				if (charactesThatTheirCanAttacksMe.size() == 1) {
-					return getOne(charactesThatTheirCanAttacksMe, "GANO ATACARME");
+			if (charactesThatTheirCanAttacksMeAndICanKill.size() > 0) {
+				if (charactesThatTheirCanAttacksMeAndICanKill.size() == 1) {
+					return getOne(charactesThatTheirCanAttacksMeAndICanKill, "GANO ATACARME");
 				}
-				List<InfoActionUtils> awake = getBestValues(charactesThatTheirCanAttacksMe, "VER DESPIERTOS",
-						InfoActionUtils.ENEMY_ASLEEP);
+				List<DataInfoActionGetter> awake = getBestValues(charactesThatTheirCanAttacksMeAndICanKill, "VER DESPIERTOS",
+						DataInfoActionGetter.ENEMY_ASLEEP);
 				if (awake.size() == 1) {
-					return getOne(awake, InfoActionUtils.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
+					return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
 				}
-				List<InfoActionUtils> moreWeapons = getBestValues(awake, "MAS ARMAS",
-						InfoActionUtils.ENEMY_WEAPONS_NUMBER);
+				List<DataInfoActionGetter> moreWeapons = getBestValues(awake, "MAS ARMAS",
+						DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
 				if (moreWeapons.size() == 1) {
-					return getOne(moreWeapons, InfoActionUtils.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
+					return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
 				}
-				List<InfoActionUtils> greatestThreats = getBestValues(moreWeapons, "MAS FLANCOS",
-						InfoActionUtils.FLANCOS);
+				List<DataInfoActionGetter> greatestThreats = getBestValues(moreWeapons, "MAS FLANCOS",
+						DataInfoActionGetter.FLANCOS);
 				if (greatestThreats.size() == 1) {
-					return getOne(greatestThreats, InfoActionUtils.FLANCOS, "GANO FLANCOS:");
+					return getOne(greatestThreats, DataInfoActionGetter.FLANCOS, "GANO FLANCOS:");
 				}
 				// **(MEJOR ARMA) CAKE, MOVECAKE
-				List<InfoActionUtils> greatestWeapon = getBestValues(greatestThreats, "MEJOR ARMA",
-						InfoActionUtils.ENEMY_HAS_KNIFE);
+				List<DataInfoActionGetter> greatestWeapon = getBestValues(greatestThreats, "MEJOR ARMA",
+						DataInfoActionGetter.ENEMY_HAS_KNIFE);
 				if (greatestWeapon.size() == 1) {
 					return getOne(greatestWeapon, "GANO MEJOR ARMA");
 				}
 				// **(MAS ARMA YO) CAKE, MOVECAKE
-				List<InfoActionUtils> moreMeWeapons = getBestValues(greatestWeapon, "TENGO MAS ARMAS",
-						InfoActionUtils.ME_WEAPONS_NUMBER);
+				List<DataInfoActionGetter> moreMeWeapons = getBestValues(greatestWeapon, "TENGO MAS ARMAS",
+						DataInfoActionGetter.ME_WEAPONS_NUMBER);
 				if (moreMeWeapons.size() == 1) {
-					return getOne(moreMeWeapons, InfoActionUtils.ME_WEAPONS_NUMBER, "GANO TENGO MAS ARMAS:");
+					return getOne(moreMeWeapons, DataInfoActionGetter.ME_WEAPONS_NUMBER, "GANO TENGO MAS ARMAS:");
 				}
 				// **(MI MEJOR BUSINESS) CAKE, MOVECAKE
-				List<InfoActionUtils> myGreatestBusinnes = getBestValues(moreMeWeapons, "MI MEJOR BUSINESS",
-						InfoActionUtils.MY_BUSINESS);
+				List<DataInfoActionGetter> myGreatestBusinnes = getBestValues(moreMeWeapons, "MI MEJOR BUSINESS",
+						DataInfoActionGetter.MY_BUSINESS);
 				if (myGreatestBusinnes.size() == 1) {
 					return getOne(myGreatestBusinnes, "GANO MI MEJOR BUSINESS");
 				}
@@ -102,23 +107,23 @@ public class IA_Manager {
 	private InfoAction moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> characterThatICanKill,
 			AsleepEnemyGetter sleepGetter, int currentGamers, GameCharacter[][] characterArray,
 			Map<String, GeneralTeam> generalTeams, Player player) {
-		List<InfoActionUtils> infoActionUtils = convertToAttackToMe(characterThatICanKill, characterArray,
+		List<DataInfoActionGetter> infoActionUtils = convertToAttackToMe(characterThatICanKill, characterArray,
 				currentGamers, generalTeams);
-		List<InfoActionUtils> awake = getBestValues(infoActionUtils, "VER DESPIERTOS", InfoActionUtils.ENEMY_ASLEEP);
+		List<DataInfoActionGetter> awake = getBestValues(infoActionUtils, "VER DESPIERTOS", DataInfoActionGetter.ENEMY_ASLEEP);
 		if (awake.size() == 1) {
-			return getOne(awake, InfoActionUtils.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
+			return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
 		}
-		List<InfoActionUtils> moreWeapons = getBestValues(awake, "MAS ARMAS", InfoActionUtils.ENEMY_WEAPONS_NUMBER);
+		List<DataInfoActionGetter> moreWeapons = getBestValues(awake, "MAS ARMAS", DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
 		if (moreWeapons.size() == 1) {
-			return getOne(moreWeapons, InfoActionUtils.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
+			return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
 		}
 		// **(MEJOR ARMA) CAKE, MOVECAKE
-		List<InfoActionUtils> greatestWeapon = getBestValues(moreWeapons, "MEJOR ARMA",
-				InfoActionUtils.ENEMY_HAS_KNIFE);
+		List<DataInfoActionGetter> greatestWeapon = getBestValues(moreWeapons, "MEJOR ARMA",
+				DataInfoActionGetter.ENEMY_HAS_KNIFE);
 		if (greatestWeapon.size() == 1) {
 			return getOne(greatestWeapon, "GANO MEJOR ARMA");
 		}
-		if (greatestWeapon.get(0).getValue(InfoActionUtils.ENEMY_WEAPONS_NUMBER) > 0
+		if (greatestWeapon.get(0).getValue(DataInfoActionGetter.ENEMY_WEAPONS_NUMBER) > 0
 				&& player.getNumberCard(CardType.SLEEP) >= 2 && sleepGetter.getWithoutNextNumber() >= 2
 				&& currentGamers >= 3) {////// DOS
 			return sleepGetter.getBestSleepCard(
@@ -130,27 +135,22 @@ public class IA_Manager {
 
 	}
 
-	private List<InfoActionUtils> convertToAttackToMe(List<InfoAction> characterThatICanKill,
+	private List<DataInfoActionGetter> convertToAttackToMe(List<InfoAction> characterThatICanKill,
 			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap) {
-		List<InfoActionUtils> list = new ArrayList<InfoActionUtils>();
+		List<DataInfoActionGetter> list = new ArrayList<DataInfoActionGetter>();
 		for (InfoAction infoAction : characterThatICanKill) {
-			ValueData enemy = buildValueData(infoAction.getAttackedPosition(), currentGamers, characterArray,
-					generalTeamsMap);
-			ValueData me = buildValueDataMe(infoAction.getAttackerPosition(), currentGamers, characterArray,
-					generalTeamsMap, new ArrayList<Position>());
-			InfoActionUtils infoActionUtils = new InfoActionUtils(infoAction, new ArrayList<Position>(), enemy, me);
-			infoAction.addReason("NO ME ATACA");
-			list.add(infoActionUtils);
+			list.add(buildInfoActionUtils(characterArray, currentGamers, generalTeamsMap, infoAction, "NO ME ATACA",
+					new ArrayList<Position>()));
 		}
 		return list;
 	}
 
 	private InfoAction wonWhoHasBestBusinessVsWhoHasMoreCharacter(Map<String, GeneralTeam> generalTeams,
-			List<InfoActionUtils> myGreatestBusinnes, AsleepEnemyGetter sleepGetter, boolean canAttactMe,
+			List<DataInfoActionGetter> myGreatestBusinnes, AsleepEnemyGetter sleepGetter, boolean canAttactMe,
 			int currentGamers, GameCharacter[][] characterArray, Player player) {
 		// **(SU MEJOR BUSINESS) CAKE, MOVECAKE
-		List<InfoActionUtils> threirGreatestBusinnes = getBestValues(myGreatestBusinnes, "SU MEJOR BUSINESS",
-				InfoActionUtils.THEIR_BUSINESS);
+		List<DataInfoActionGetter> threirGreatestBusinnes = getBestValues(myGreatestBusinnes, "SU MEJOR BUSINESS",
+				DataInfoActionGetter.THEIR_BUSINESS);
 		if (threirGreatestBusinnes.size() == 1) {
 			return getOne(threirGreatestBusinnes, "GANO SU MEJOR BUSINESS");
 		}
@@ -161,8 +161,8 @@ public class IA_Manager {
 				return getOne(threirGreatestBusinnes, "EL QUE SEA, < 3 JUGADORES");
 			}
 			int maxCharactes = 0;
-			InfoActionUtils toReturn = null;
-			for (InfoActionUtils attackToMe : threirGreatestBusinnes) {
+			DataInfoActionGetter toReturn = null;
+			for (DataInfoActionGetter attackToMe : threirGreatestBusinnes) {
 				String team = attackToMe.getEnemyCharacter(characterArray).getTeam();
 				if (generalTeams.get(team).getCountCharacters() >= maxCharactes) {
 					maxCharactes = generalTeams.get(team).getCountCharacters();
@@ -188,11 +188,11 @@ public class IA_Manager {
 		return currentGamers > 3 && sleeptCharactes >= 2;
 	}
 
-	private boolean theyHaveBusiness(List<InfoActionUtils> threirGreatestBusinnes) {
-		return threirGreatestBusinnes.get(0).getValue(InfoActionUtils.THEIR_BUSINESS) > 0;
+	private boolean theyHaveBusiness(List<DataInfoActionGetter> threirGreatestBusinnes) {
+		return threirGreatestBusinnes.get(0).getValue(DataInfoActionGetter.THEIR_BUSINESS) > 0;
 	}
 
-	private MoneyNumberSystem getMoneySystemByTeam(Map<String, GeneralTeam> generalTeams, String team,
+	private MoneyNumberGetter getMoneySystemByTeam(Map<String, GeneralTeam> generalTeams, String team,
 			GameCharacter[][] characterArray) {
 		if (generalTeams.containsKey(team)) {
 			return generalTeams.get(team).getMoneyNumberSystem();
@@ -235,31 +235,31 @@ public class IA_Manager {
 
 	private class GeneralTeam {
 		private int countCharacters;
-		private MoneyNumberSystem moneyNumberSystem;
+		private MoneyNumberGetter moneyNumberSystem;
 
 		public GeneralTeam(int countCharacters, List<MoneyValues> totalMoneyValues) {
 			this.countCharacters = countCharacters;
-			this.moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
+			this.moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
 		}
 
 		public int getCountCharacters() {
 			return countCharacters;
 		}
 
-		public MoneyNumberSystem getMoneyNumberSystem() {
+		public MoneyNumberGetter getMoneyNumberSystem() {
 			return moneyNumberSystem;
 		}
 
 	}
 
-	private InfoAction getOne(List<InfoActionUtils> attacksToMe, String key, String reason) {
-		InfoActionUtils attackToMe = attacksToMe.get(0);
+	private InfoAction getOne(List<DataInfoActionGetter> attacksToMe, String key, String reason) {
+		DataInfoActionGetter attackToMe = attacksToMe.get(0);
 		InfoAction attackedPositionIA = attackToMe.getInfoAction();
 		attackedPositionIA.addReason(reason + attackToMe.getValue(key));
 		return attackToMe.getInfoAction();
 	}
 
-	private InfoAction getOne(List<InfoActionUtils> attacksToMe, String reason) {
+	private InfoAction getOne(List<DataInfoActionGetter> attacksToMe, String reason) {
 		InfoAction attackedPositionIA = attacksToMe.get(0).getInfoAction();
 		attackedPositionIA.addReason(reason);
 		return attackedPositionIA;
@@ -269,9 +269,9 @@ public class IA_Manager {
 		return ((attackerPosition.getX() == 0 || attackerPosition.getX() == maxX) && attackerPosition.getY() != middle);
 	}
 
-	private List<InfoActionUtils> getThreats(Player player, List<InfoAction> attackedPositionIAs, String reason,
+	private List<DataInfoActionGetter> getCharactesThatTheirCanAttacksMeAndICanKill(Player player, List<InfoAction> attackedPositionIAs, String reason,
 			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap) {
-		List<InfoActionUtils> charactesThatTheirCanAttacksMe = new ArrayList<InfoActionUtils>();
+		List<DataInfoActionGetter> charactesThatTheirCanAttacksMe = new ArrayList<DataInfoActionGetter>();
 		for (InfoAction infoAction : attackedPositionIAs) {
 			List<Position> attacks = new ArrayList<Position>();
 			attacks.addAll(enemyCanCutMe(player.getTeam(), infoAction, characterArray));
@@ -280,21 +280,28 @@ public class IA_Manager {
 				attacks.add(enemyGunPosition);
 			}
 			if (attacks.size() != 0) {
-				infoAction.addReason(reason);
-				ValueData enemy = buildValueData(infoAction.getAttackedPosition(), currentGamers, characterArray,
-						generalTeamsMap);
-				ValueData me = buildValueDataMe(infoAction.getAttackerPosition(), currentGamers, characterArray,
-						generalTeamsMap, attacks);
-				charactesThatTheirCanAttacksMe.add(new InfoActionUtils(infoAction, attacks, enemy, me));
+				charactesThatTheirCanAttacksMe.add(buildInfoActionUtils(characterArray, currentGamers, generalTeamsMap,
+						infoAction, reason, attacks));
 			}
 		}
 		return charactesThatTheirCanAttacksMe;
 	}
 
-	private List<InfoActionUtils> getBestValues(List<InfoActionUtils> attacksToMe, String message, String key) {
-		List<InfoActionUtils> greatestThreats = new ArrayList<InfoActionUtils>();
+	private DataInfoActionGetter buildInfoActionUtils(GameCharacter[][] characterArray, int currentGamers,
+			Map<String, GeneralTeam> generalTeamsMap, InfoAction infoAction, String reason, List<Position> attacks) {
+		ValueData enemy = buildValueData(infoAction.getAttackedPosition(), currentGamers, characterArray,
+				generalTeamsMap);
+		ValueData me = buildValueDataMe(infoAction.getAttackerPosition(), currentGamers, characterArray,
+				generalTeamsMap, attacks);
+		DataInfoActionGetter infoActionUtils = new DataInfoActionGetter(infoAction, attacks, enemy, me);
+		infoAction.addReason(reason);
+		return infoActionUtils;
+	}
+
+	private List<DataInfoActionGetter> getBestValues(List<DataInfoActionGetter> attacksToMe, String message, String key) {
+		List<DataInfoActionGetter> greatestThreats = new ArrayList<DataInfoActionGetter>();
 		float maxValue = 0;
-		for (InfoActionUtils attackToMe : attacksToMe) {
+		for (DataInfoActionGetter attackToMe : attacksToMe) {
 			Float value = attackToMe.getValue(key);
 			attackToMe.addReason(message);
 			if (greatestThreats.size() == 0) {
@@ -302,7 +309,7 @@ public class IA_Manager {
 				maxValue = value;
 			} else {
 				if (value > maxValue) {
-					greatestThreats = new ArrayList<InfoActionUtils>();
+					greatestThreats = new ArrayList<DataInfoActionGetter>();
 					greatestThreats.add(attackToMe);
 					maxValue = value;
 				} else {
@@ -398,10 +405,10 @@ public class IA_Manager {
 	private float setBusinessValue(Map<String, GeneralTeam> generalTeamsMap, GameCharacter character, Position position,
 			GameCharacter[][] characterArray) {
 		MoneyValues business = getBusinessByPosition(position);
-		MoneyNumberSystem moneyNumberSystem = getMoneySystemByTeam(generalTeamsMap, character.getTeam(),
+		MoneyNumberGetter moneyNumberSystem = getMoneySystemByTeam(generalTeamsMap, character.getTeam(),
 				characterArray);
 		boolean king = character.isKing();
-		return moneyNumberSystem.getNumber(new IA_Character(position, business, king));
+		return moneyNumberSystem.getValue(new IA_Character(position, business, king));
 	}
 
 	private MoneyValues getBusinessByPosition(Position attackedPositionIA) {

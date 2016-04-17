@@ -13,7 +13,7 @@ import gm.Player;
 import gm.TableSeat;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gm.ia.CharateresToAttackByGunGetter;
+import gm.ia.getters.CharateresToAttackByGunGetter;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;

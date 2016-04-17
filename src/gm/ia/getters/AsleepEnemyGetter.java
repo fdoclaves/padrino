@@ -1,4 +1,4 @@
-package gm.ia;
+package gm.ia.getters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.SleepCard;
+import gm.ia.CharacterUtils;
 import gm.ia.pojos.InfoAction;
 import gm.info.TableObjects;
 import gm.pojos.Position;

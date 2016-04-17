@@ -1,4 +1,4 @@
-package gm.ia;
+package gm.ia.getters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,9 @@ import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.ia.Filter;
+import gm.ia.FilterOnlyTeam;
+import gm.ia.FilterSameTeam;
 import gm.info.TableObjects;
 import gm.pojos.Position;
 

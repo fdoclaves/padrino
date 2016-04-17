@@ -2,7 +2,7 @@ package gt.ia;
 
 import static org.junit.Assert.*;
 
-import gm.ia.MoneyNumberSystem;
+import gm.ia.getters.MoneyNumberGetter;
 import gm.ia.pojos.IA_Character;
 import gm.info.MoneyValues;
 
@@ -37,15 +37,15 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(CASINOS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(KING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, RESTAURANT)));
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS)));
-		assertEquals(10, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(11, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(6, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, RESTAURANT)));
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, CASINOS)));
+		assertEquals(10, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(11, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(6, moneyNumberSystem.getValue(new IA_Character(null, CASINOS, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -58,16 +58,16 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(CASINOS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(KING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, RESTAURANT)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS)));
-		assertEquals(10, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(11, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(2, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS, true)));
-		assertEquals(6, moneyNumberSystem.getNumber(new IA_Character(null, BARS, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, RESTAURANT)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, CASINOS)));
+		assertEquals(10, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(11, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(2, moneyNumberSystem.getValue(new IA_Character(null, CASINOS, true)));
+		assertEquals(6, moneyNumberSystem.getValue(new IA_Character(null, BARS, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -79,16 +79,16 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(CASINOS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(KING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(5, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, RESTAURANT)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS)));
-		assertEquals(10, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(11, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(2, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS, true)));
-		assertEquals(6, moneyNumberSystem.getNumber(new IA_Character(null, BARS, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(5, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, RESTAURANT)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, CASINOS)));
+		assertEquals(10, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(11, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(2, moneyNumberSystem.getValue(new IA_Character(null, CASINOS, true)));
+		assertEquals(6, moneyNumberSystem.getValue(new IA_Character(null, BARS, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -99,16 +99,16 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(CASINOS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(KING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, RESTAURANT)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS)));
-		assertEquals(10, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(11, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(2, moneyNumberSystem.getNumber(new IA_Character(null, CASINOS, true)));
-		assertEquals(2, moneyNumberSystem.getNumber(new IA_Character(null, BARS, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, RESTAURANT)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, CASINOS)));
+		assertEquals(10, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(11, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(2, moneyNumberSystem.getValue(new IA_Character(null, CASINOS, true)));
+		assertEquals(2, moneyNumberSystem.getValue(new IA_Character(null, BARS, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -117,12 +117,12 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(BARS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(KING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(10, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(11, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(10, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(11, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -131,10 +131,10 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(BARS);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(NOTTHING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, BARS)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, BARS)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 
 	@Test
@@ -143,10 +143,10 @@ public class MoneyNumberSystemTest {
 		totalMoneyValues.add(KING);
 		totalMoneyValues.add(MACHINE);
 		totalMoneyValues.add(NOTTHING);
-		MoneyNumberSystem moneyNumberSystem = new MoneyNumberSystem(totalMoneyValues);
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING, true)));
-		assertEquals(1, moneyNumberSystem.getNumber(new IA_Character(null, MACHINE, true)));
-		assertEquals(0, moneyNumberSystem.getNumber(new IA_Character(null, NOTTHING)));
+		MoneyNumberGetter moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, MACHINE)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING, true)));
+		assertEquals(1, moneyNumberSystem.getValue(new IA_Character(null, MACHINE, true)));
+		assertEquals(0, moneyNumberSystem.getValue(new IA_Character(null, NOTTHING)));
 	}
 }

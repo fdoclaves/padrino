@@ -1,4 +1,4 @@
-package gm.ia;
+package gm.ia.getters;
 
 import java.util.ArrayList;
 import java.util.List;

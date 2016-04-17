@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import gm.GameTable;
 import gm.TableSeat;
-import gm.ia.CharacterGetter;
+import gm.ia.getters.CharacterGetter;
 import gm.ia.pojos.IA_Character;
 import gm.info.MoneyValues;
 import gt.extras.Converter;

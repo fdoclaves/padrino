@@ -9,7 +9,7 @@ import gm.ia.pojos.ValueData;
 import gm.pojos.Position;
 import gm.GameCharacter;
 
-public class InfoActionUtils {
+public class DataInfoActionGetter {
 	public static final String THEIR_BUSINESS = "THEIR_BUSINESS";
 	public static final String ME_WEAPONS_NUMBER = "ME_WEAPONS_NUMBER";
 	public static final String ME_HAS_KNIFE = "ME_HAS_KNIFE";
@@ -24,7 +24,7 @@ public class InfoActionUtils {
 	private InfoAction infoAction;
 	private List<Position> attacks;
 
-	InfoActionUtils(InfoAction infoAction, List<Position> attacks, ValueData enemy, ValueData me) {
+	DataInfoActionGetter(InfoAction infoAction, List<Position> attacks, ValueData enemy, ValueData me) {
 		this.infoAction = infoAction;
 		enemyPosition = infoAction.getAttackedPosition();
 		myPosition = infoAction.getAttackerPosition();

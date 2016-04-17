@@ -1,9 +1,13 @@
-package gm.ia;
+package gm.ia.getters;
 
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.ia.CharacterUtils;
+import gm.ia.Filter;
+import gm.ia.FilterOnlyTeam;
+import gm.ia.FilterSameTeam;
 import gm.info.TableObjects;
 import gm.pojos.Position;
 
