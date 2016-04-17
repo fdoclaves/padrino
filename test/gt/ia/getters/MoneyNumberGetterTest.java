@@ -1,4 +1,4 @@
-package gt.ia;
+package gt.ia.getters;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MoneyNumberSystemTest {
+public class MoneyNumberGetterTest {
 
 	private static final MoneyValues KING = MoneyValues.KING;
 	private static final MoneyValues NOTTHING = MoneyValues.NOTTHING;

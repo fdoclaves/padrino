@@ -70,28 +70,28 @@ public class ChangeCardGetter {
 		if (boomCards >= 1 && currentGamers == 2) {
 			return CardType.BOOM;
 		}
-		if (sleepCards == 4) {
+		if (sleepCards >= 4) {
 			return CardType.SLEEP;
 		}
-		if (boomCards == 4) {
+		if (boomCards >= 4) {
 			return CardType.BOOM;
 		}
-		if (knifeCards == 4) {
+		if (knifeCards >= 4) {
 			return CardType.KNIFE;
 		}
-		if (gunCards == 4) {
+		if (gunCards >= 4) {
 			return CardType.GUN;
 		}
-		if (policeCards == 2) {
+		if (policeCards >= 2) {
 			return CardType.POLICE;
 		}
-		if (cakeCards == 4) {
+		if (cakeCards >= 4) {
 			return CardType.CAKE;
 		}
-		if (moveCakeCards == 4) {
+		if (moveCakeCards >= 4) {
 			return CardType.MOVE_CAKE;
 		}
-		if (moveCards == 4) {
+		if (moveCards >= 4) {
 			return CardType.MOVE;
 		}
 		return defautCard();
