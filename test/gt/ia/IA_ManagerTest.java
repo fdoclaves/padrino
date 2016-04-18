@@ -1083,9 +1083,11 @@ public class IA_ManagerTest {
 	public void otros() {
 		// IA
 		// MOVE CAKE
-		// ZZZZ
 		// CAKE
-		// TIENE 2 CARTAS MOVE_SEAT
+		//JUGADA SUICIDA CAKE (PONER CAKE Y MOVERSE)
+		//JUGADA SUICIDA BOOM CAKE (BOOM SI ES FIN DE JUEGO)
+		//2 policias en mano
+		//mejorar dormidos con atacarme (usar knifeGetter y gunGetter)
 		// MOVE SEAT
 		// HAS TWO MOVE SEAT
 		fail();
