@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gm.Cake;
+import gm.Card;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.cards.BoomCard;
+import gm.cards.CakeCard;
 import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
@@ -49,6 +53,14 @@ public class IA_Manager {
 		if (asleepEnemyGetter.getAsleepNumber() >= 2) {
 			return asleepEnemyGetter.getBestSleepCard("HAY MAS DE 2 DORMIDOS");
 		}
+		for (DataCake dataCake : boomCakeGetter.getExploitedEnemies()) {
+			if(!dataCake.isFatal() && dataCake.enemiesByCake() > 1 && 
+					dataCake.getMineByCake() == 0 && player.hasCard(CardType.BOOM)){
+				Cake bestCakeToBoom = getBoomCake(boomCakeGetter, player.getTeam(), characterArray);
+				Card card = new BoomCard(bestCakeToBoom);
+				return new InfoAction(card, null, null, "BOOM, 2 OR MORE GAMERS");
+			}
+		}
 		Map<String, GeneralTeam> generalTeams = new HashMap<String, GeneralTeam>();
 		List<InfoAction> characterThatICanKill = getAttactedPositions(player, "PUEDO ATACARLO", characterArray);
 		if (characterThatICanKill.size() > 0) {
@@ -84,19 +96,16 @@ public class IA_Manager {
 				if (greatestThreats.size() == 1) {
 					return getOne(greatestThreats, DataInfoActionGetter.FLANCOS, "GANO FLANCOS:");
 				}
-				// **(MEJOR ARMA) CAKE, MOVECAKE
 				List<DataInfoActionGetter> greatestWeapon = getBestValues(greatestThreats, "MEJOR ARMA",
 						DataInfoActionGetter.ENEMY_HAS_KNIFE);
 				if (greatestWeapon.size() == 1) {
 					return getOne(greatestWeapon, "GANO MEJOR ARMA");
 				}
-				// **(MAS ARMA YO) CAKE, MOVECAKE
 				List<DataInfoActionGetter> moreMeWeapons = getBestValues(greatestWeapon, "TENGO MAS ARMAS",
 						DataInfoActionGetter.ME_WEAPONS_NUMBER);
 				if (moreMeWeapons.size() == 1) {
 					return getOne(moreMeWeapons, DataInfoActionGetter.ME_WEAPONS_NUMBER, "GANO TENGO MAS ARMAS:");
 				}
-				// **(MI MEJOR BUSINESS) CAKE, MOVECAKE
 				List<DataInfoActionGetter> myGreatestBusinnes = getBestValues(moreMeWeapons, "MI MEJOR BUSINESS",
 						DataInfoActionGetter.MY_BUSINESS);
 				if (myGreatestBusinnes.size() == 1) {
@@ -105,7 +114,7 @@ public class IA_Manager {
 				return wonWhoHasBestBusinessVsWhoHasMoreCharacter(generalTeams, myGreatestBusinnes, asleepEnemyGetter,
 						true, currentGamers, characterArray, player);
 			} else {
-				// **(NADIE ME ATACA) CAKE, MOVECAKE
+				// **(NADIE ME ATACA) ************CONSIDERAR BOOM (gamers > 2 attackToMe >= 1)
 				if (currentGamers > 3 && asleepEnemyGetter.getWithoutNextNumber() >= 3
 						&& player.getNumberCard(CardType.SLEEP) >= 2) {
 					return asleepEnemyGetter.getBestSleepCard("PUEDO ATACARLO//NO ME ATACA//3 o MAS JUGADORES, DORMIR");
@@ -118,10 +127,65 @@ public class IA_Manager {
 			if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.all() >= 1) {
 				return asleepEnemyGetter.getBestSleepCard("NO PUEDO ATACAR");
 			}
+			if(player.hasCard(CardType.BOOM) && boomCakeGetter.getExploitedEnemies().size() >= 1){
+				Cake bestCakeToBoom = getBoomCake(boomCakeGetter, player.getTeam(), characterArray);
+				if(bestCakeToBoom!=null){
+					return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
+				}
+			}
 			ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);
 			ChangeCard card = changeCardGetter.get();
 			return new InfoAction(card, null, null, "NO PUEDO ATACAR//I DONT HAVE SLEEPCARD");
 		}
+	}
+
+	private Cake getBoomCake(DataCakeGetter boomCakeGetter,String myTeam, GameCharacter[][] characters) {
+		KillNumberOrAttackToMePojo killNumberOrAttackToMePojo = new KillNumberOrAttackToMePojo();
+		Cake bestCakeToBoom = null;
+		for (DataCake dataCake : boomCakeGetter.getExploitedEnemies()) {
+			if(!dataCake.isFatal() && dataCake.getMineByCake()==0 && 
+					killNumberOrAttackToMe(killNumberOrAttackToMePojo, dataCake, myTeam, characters) ){
+				bestCakeToBoom = dataCake.getCake();
+				
+			}
+		}
+		return bestCakeToBoom;
+	}
+
+	private boolean killNumberOrAttackToMe(KillNumberOrAttackToMePojo values, DataCake dataCake, 
+			String myTeam, GameCharacter[][] characters) {
+		 
+		if(dataCake.enemiesByCake() > values.numberToKill){
+			values.numberToKill = dataCake.enemiesByCake();
+			values.attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+			return true;
+		}
+			if(dataCake.enemiesByCake() == values.numberToKill){
+				int attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+				if(attacksToMe > values.attacksToMe){
+					values.numberToKill = dataCake.enemiesByCake();
+					values.attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+					return true;
+				}
+			}
+			return false;
+
+	}
+
+	private int getAttacksToMeByCakeKill(DataCake dataCake, String myTeam, GameCharacter[][] characters) {
+		int attacks = 0;
+		for (Position position : dataCake.getEnemiesByCake()) {
+			attacks = knifeGetter.getTheirAttackPositions(characters, position, myTeam).size();
+			if(gunGetter.getTheirAttackPosition(characters, position, myTeam)!=null){
+				attacks++;
+			}
+		}
+		return attacks;
+	}
+	
+	private class KillNumberOrAttackToMePojo{
+		int numberToKill = 0;
+		int attacksToMe = 0;
 	}
 
 	private InfoAction moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> characterThatICanKill,

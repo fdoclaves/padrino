@@ -33,15 +33,46 @@ public class DataCakeGetter {
 	public void evalue(String nextTeam) {
 		for (Cake cake : gameTable.getCakeList()) {
 			List<Position> boomPositions = cake.getBoomPositions(characterArray);
+			Counter counter = new Counter();
+			fillCounters(boomPositions, counter);
 			for (Position position : boomPositions) {
 				GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
 				if(!character.isEmpty()){
 					boolean fatal = nextTeam.equals(cake.getTeam());
 					if(character.isTeam(player.getTeam())){
-						me.add(new DataCake(position, fatal));
+						me.add(new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine));
 					}else{
-						enemies.add(new DataCake(position, fatal));
+						enemies.add(new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine));
 					}
+				}
+			}
+		}
+	}
+	
+	private class Counter{
+		
+		private int counterMine;
+		private List<Position> counterThem;
+		
+		public Counter(){
+			  counterMine = 0;
+			  counterThem = new ArrayList<Position>();
+		}
+		
+		public void add(Position position){
+			counterThem.add(position);
+		}
+		
+	}
+
+	private void fillCounters(List<Position> boomPositions, Counter counter) {
+		for (Position position : boomPositions) {
+			GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
+			if(!character.isEmpty()){
+				if(character.isTeam(player.getTeam())){
+					counter.counterMine++;
+				}else{
+					counter.add(position);
 				}
 			}
 		}

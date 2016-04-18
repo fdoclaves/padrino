@@ -6,6 +6,7 @@ import gm.GameCharacter;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
+import gm.pojos.Position;
 
 public class BoomCard extends Card {
 
@@ -28,6 +29,10 @@ public class BoomCard extends Card {
 	@Override
 	public CardType getType() {
 		return CardType.BOOM;
+	}
+
+	public Cake getCake() {
+		return cake;
 	}
 
 }

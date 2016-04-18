@@ -13,6 +13,7 @@ import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.cards.BoomCard;
 import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
@@ -87,6 +88,274 @@ public class IA_ManagerTest {
 		assertTrue(new Position(3, 0).isEquals(gunCard.getAttackedPosition()));
 		assertTrue(new Position(3, 4).isEquals(gunCard.getAttackerPosition()));
 		assertTrue(new Position(3, 0).isEquals(attackedPositionIA.getAttackedPosition()));
+	}
+	
+	@Test
+	public void _3killByNormalCake3Gamers() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "R", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.KNIFE);
+		cards.add(CardType.GUN);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("BOOM, 2 OR MORE GAMERS",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof BoomCard);
+		BoomCard boomCard = (BoomCard) card;
+		assertTrue(new Position(8, 2).isEquals(boomCard.getCake().getPosition()));
+	}
+	
+	@Test
+	public void _3killByFatalCake3Gamers() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "R", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "R", gameTable);
+		gameTable.add(cakeA);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.GUN);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.MOVE);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//GANO FREE FATAL CAKE: 1.0",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof GunCard);
+		GunCard gunCard = (GunCard) card;
+		assertTrue(new Position(3, 0).isEquals(gunCard.getAttackedPosition()));
+	}
+	
+	@Test
+	public void _3killByNormalCake3GamersICanAttackChangeBest() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "A", "R", "A", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
+		gameTable.add(cakeN);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.GUN);
+		cards.add(CardType.KNIFE);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("BOOM, 2 OR MORE GAMERS",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof BoomCard);
+		BoomCard boomCard = (BoomCard) card;
+		assertTrue(new Position(3, 0).isEquals(boomCard.getCake().getPosition()));
+	}
+	
+	@Test
+	public void killWithCakeWhoCanAttackMe() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "P_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "A", "V", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "B", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
+		gameTable.add(cakeN);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("NO PUEDO ATACAR//BEST BOOM CAKE",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof BoomCard);
+		BoomCard boomCard = (BoomCard) card;
+		assertTrue(new Position(3, 0).isEquals(boomCard.getCake().getPosition()));
+	}
+	
+	@Test
+	public void _3killByFatalCake3GamersICanNotAttack() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "A", "R", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		Cake cakeN = new Cake(new Position(3, 0), "R", gameTable);
+		gameTable.add(cakeN);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("NO PUEDO ATACAR//BEST BOOM CAKE",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof BoomCard);
+		BoomCard boomCard = (BoomCard) card;
+		assertTrue(new Position(8, 2).isEquals(boomCard.getCake().getPosition()));
+	}
+	
+	@Test
+	public void _3killByNormalCake3GamersIDontHaveKnifeOrGun() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "R", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "R" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("BOOM, 2 OR MORE GAMERS",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof BoomCard);
+	}
+	
+	@Test
+	public void _3killByNormalCake3GamersButOneIsMe() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "P", "3$", "k_", "__", "__", "2$", "P_", "Pk", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "P_", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "R", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "A" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
+		gameTable.add(cakeA);
+		IA_Manager manager = new IA_Manager(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.KNIFE);
+		cards.add(CardType.GUN);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.BOOM);
+		Player playerBWithoutGun = new Player(B, cards);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//GANO FREE CAKE: 1.0",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		Card card = attackedPositionIA.getCards().get(0);
+		assertTrue(card instanceof GunCard);
 	}
 	
 	@Test
