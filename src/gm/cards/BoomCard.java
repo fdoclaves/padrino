@@ -6,7 +6,6 @@ import gm.GameCharacter;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
-import gm.pojos.Position;
 
 public class BoomCard extends Card {
 

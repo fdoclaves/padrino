@@ -29,16 +29,16 @@ public class CharateresToAttackByKnifeGetter {
 
 	public List<Position> getMyAttackPositions(GameCharacter[][] characters, Position attackerPosition, Player player) {
 		Filter filter = new FilterSameTeam(player.getTeam());
-		return buildList(characters, attackerPosition, filter);
+		return buildAttackPosition(characters, attackerPosition, filter);
 	}
 
 	public List<Position> getTheirAttackPositions(GameCharacter[][] characters, Position attackerPosition,
 			String myTeam) {
 		Filter filter = new FilterOnlyTeam(myTeam);
-		return buildList(characters, attackerPosition, filter);
+		return buildAttackPosition(characters, attackerPosition, filter);
 	}
 
-	private List<Position> buildList(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
+	private List<Position> buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
 		if (hasWeaponAndWakeUp(attackerPosition, characters)) {
 			if (thereIsOnTheSide(attackerPosition.getX())) {
 				return validateSides(characters, filter, attackerPosition);

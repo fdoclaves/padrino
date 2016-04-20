@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import gm.Cake;
 import gm.Card;
+import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
@@ -18,6 +19,8 @@ import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.SleepCard;
+import gm.ia.AttackData;
+import gm.ia.AttackDataGetter;
 import gm.ia.IA_Manager;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
@@ -61,10 +64,12 @@ public class IA_ManagerTest {
 	@Test
 	public void getAttactedPositionsTest() {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
-		List<InfoAction> attactedPositions = manager.getAttactedPositions(playerB, "",
-				converter.toCharacterArray(playerChairs));
+		AttackDataGetter attackDataGetter = new AttackDataGetter(gameTable, characterArray, playerB);
+		List<AttackData> iaTeam = attackDataGetter.getIaTeamThatCanBeAttackByThey();
+		List<InfoAction> attactedPositions = manager.getAttactedPositions(iaTeam, "");
 		assertEquals(5, attactedPositions.size());
 	}
 
@@ -852,8 +857,8 @@ public class IA_ManagerTest {
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
-		assertTrue(attackedPositionIA.getCards().get(0) instanceof KnifeCard);
-		KnifeCard knifeCard = (KnifeCard) attackedPositionIA.getCards().get(0);
+		assertTrue(attackedPositionIA.getCards().get(1) instanceof KnifeCard);
+		KnifeCard knifeCard = (KnifeCard) attackedPositionIA.getCards().get(1);
 		assertTrue(new Position(2, 0).isEquals(knifeCard.getAttackedPosition()));
 		assertTrue(new Position(3, 0).isEquals(knifeCard.getAttackerPosition()));
 	}

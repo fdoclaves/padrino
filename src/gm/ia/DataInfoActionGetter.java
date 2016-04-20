@@ -1,7 +1,6 @@
 package gm.ia;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import gm.ia.pojos.InfoAction;
@@ -26,7 +25,7 @@ public class DataInfoActionGetter {
 	private InfoAction infoAction;
 	//private List<Position> attacks;
 
-	DataInfoActionGetter(InfoAction infoAction, List<Position> attacks, ValueData enemy, ValueData me) {
+	DataInfoActionGetter(InfoAction infoAction, ValueData enemy, ValueData me, AttackData enemyAttackData) {
 		this.infoAction = infoAction;
 		enemyPosition = infoAction.getAttackedPosition();
 		myPosition = infoAction.getAttackerPosition();
@@ -38,7 +37,7 @@ public class DataInfoActionGetter {
 		this.valores.put(ME_HAS_KNIFE, me.getKnife());
 		this.valores.put(ME_WEAPONS_NUMBER, me.getValueWeapon());
 		this.valores.put(ENEMY_ASLEEP, enemy.getAwake());
-		this.valores.put(FLANCOS, Float.valueOf(attacks.size()));
+		this.valores.put(FLANCOS, Float.valueOf(enemyAttackData.totalFlank()));
 		this.valores.put(ENEMY_HAS_NOT_CAKE, enemy.getHasNotCake());
 		this.valores.put(ENEMY_HAS_NOT_LETAL_CAKE, enemy.getHasNotFatalCake());
 		//this.attacks = attacks;
