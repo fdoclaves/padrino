@@ -16,10 +16,14 @@ public class ValueData {
 	
 	private float hasNotFatalCake;
 
-	public ValueData(float valueWeapon, float knife, float business, boolean sleeping, DataCake dataCake) {
+	public ValueData(float valueWeapon, boolean knife, float business, boolean sleeping, DataCake dataCake) {
 		this.valueWeapon = valueWeapon;
-		this.knife = knife;
 		this.business = business;
+		if (knife) {
+            this.knife = 1f;
+        } else {
+            this.knife = 0f;
+        }
 		if (sleeping) {
 			this.awake = 0f;
 		} else {

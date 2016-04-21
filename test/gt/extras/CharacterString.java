@@ -3,7 +3,7 @@ package gt.extras;
 import gm.Card;
 import gm.GameCharacter;
 
-public class CharacterString implements GameCharacter {
+public class CharacterString extends GameCharacter {
 
 	private static final String KING = "K";
 
@@ -31,7 +31,7 @@ public class CharacterString implements GameCharacter {
 	}
 
 	@Override
-	public boolean isValidSeat() {
+	public boolean isInvalidSeat() {
 		return value.contains("*");
 	}
 
@@ -99,6 +99,9 @@ public class CharacterString implements GameCharacter {
 		if (value.contains("B")) {
 			return "B";
 		}
+		if (value.contains("N")) {
+            return "N";
+        }
 		return null;
 	}
 

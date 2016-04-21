@@ -2,19 +2,12 @@ package gm.ia.getters;
 
 import gm.Cake;
 import gm.GameCharacter;
+import gm.ia.CharacterUtils;
 import gm.ia.DataCake;
 import gm.pojos.Position;
 
 
 public class BoomGetter {
-    
-    private CharateresToAttackByKnifeGetter knifeGetter;
-    private CharateresToAttackByGunGetter gunGetter;
-
-    public BoomGetter(CharateresToAttackByKnifeGetter knifeGetter, CharateresToAttackByGunGetter gunGetter){
-        this.knifeGetter = knifeGetter;
-        this.gunGetter = gunGetter;
-    }
     
     public Cake getBoomCake(DataCakeGetter boomCakeGetter, String myTeam, GameCharacter[][] characters) {
         KillNumberOrAttackToMePojo killNumberOrAttackToMePojo = new KillNumberOrAttackToMePojo();
@@ -34,14 +27,14 @@ public class BoomGetter {
 
         if (dataCake.enemiesByCake() > values.numberToKill) {
             values.numberToKill = dataCake.enemiesByCake();
-            values.attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+            values.attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
             return true;
         }
         if (dataCake.enemiesByCake() == values.numberToKill) {
-            int attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+            int attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
             if (attacksToMe > values.attacksToMe) {
                 values.numberToKill = dataCake.enemiesByCake();
-                values.attacksToMe = getAttacksToMeByCakeKill(dataCake, myTeam, characters);
+                values.attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
                 return true;
             }
         }
@@ -49,13 +42,11 @@ public class BoomGetter {
 
     }
     
-    private int getAttacksToMeByCakeKill(DataCake dataCake, String myTeam, GameCharacter[][] characters) {
+    private int getAttacksToMeByCakeKill(DataCake dataCake , GameCharacter[][] characterArray) {
         int attacks = 0;
         for (Position position : dataCake.getEnemiesByCake()) {
-            attacks = knifeGetter.getTheirAttackPositions(characters, position, myTeam).size();
-            if (gunGetter.getTheirAttackPosition(characters, position, myTeam) != null) {
-                attacks++;
-            }
+            GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
+            attacks = attacks + gameCharacter.getAttackData().getAttackPositions().size();
         }
         return attacks;
     }

@@ -49,7 +49,7 @@ public abstract class Card {
 			throw new GameException(GameMessages.ESTA_DORMIDO);
 		}
 
-		if (attackerChair.isValidSeat()) {
+		if (attackerChair.isInvalidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
 		}
 

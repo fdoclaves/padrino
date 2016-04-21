@@ -19,9 +19,8 @@ import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.SleepCard;
-import gm.ia.AttackData;
-import gm.ia.AttackDataGetter;
 import gm.ia.IA_Manager;
+import gm.ia.getters.IaComponentsSetter;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 import gm.pojos.Position;
@@ -67,8 +66,8 @@ public class IA_ManagerTest {
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
-		AttackDataGetter attackDataGetter = new AttackDataGetter(gameTable, characterArray, playerB);
-		List<AttackData> iaTeam = attackDataGetter.getIaTeamThatCanBeAttackByThey();
+		IaComponentsSetter attackDataGetter = new IaComponentsSetter(gameTable, characterArray, playerB,3);
+		List<GameCharacter> iaTeam = attackDataGetter.getIaTeamThatCanBeAttackByThey();
 		List<InfoAction> attactedPositions = manager.getAttactedPositions(iaTeam, "");
 		assertEquals(5, attactedPositions.size());
 	}
@@ -622,12 +621,12 @@ public class IA_ManagerTest {
 	
 
 	@Test
-	public void AtacadoPorMasArmas() {
+	public void AtacadoPorDiferentesFlanco2_MasArmas() {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
-		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//GANO MAS ARMAS:2.0",
+		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
 				attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof GunCard);
@@ -667,25 +666,27 @@ public class IA_ManagerTest {
 	}
 
 	@Test
-	public void AtacadoPorMasFlancos() {
+	public void AtacadoPorDiferentesFlancos() {
 
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
-		String[][] TABLE_VALUES2 = { { "P_", "3$", "k_", "1$", "__", "2$", "P_", "k_", "P_" },
-				{ "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
-				{ "M_", "**", "**", "**", "**", "**", "**", "**", "P_" },
-				{ "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
-				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+		String[][] TABLE_VALUES2 = { { "P_", "3$", "k_", "1$", "__", "2$", "P_", "kP", "P_" },
+				                     { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+				                     { "M_", "**", "**", "**", "**", "**", "**", "**", "P_" },
+				                     { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+				                     { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
-		String[][] playerChairs2 = { { "A", "R", "B", "RP", "R", "R", "B", "R", "B" },
-				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
-				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "R", "B", "B", "B", "B", "B", "B", "R" } };
+		String[][] playerChairs2 = { { "A", "R", "B","RP", "R", "R", "B", "R", "B" },
+				                     { "R", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+				                     { "B", "*", "*", "*", "*", "*", "*", "*", "R" },
+				                     { "R", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+				                     { "B", "R", "B", "B", "B", "B", "B", "B", "R" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 2);
-		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//GANO FLANCOS:2.0",
+		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
 				attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof GunCard);
@@ -711,7 +712,7 @@ public class IA_ManagerTest {
 
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//GANO MEJOR ARMA",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//GANO MEJOR ARMA",
 				attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof GunCard);
@@ -736,7 +737,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 3);
-		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//GANO MAS ARMAS:1.5",
+		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//GANO MAS ARMAS:1.5",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof KnifeCard);
@@ -767,7 +768,7 @@ public class IA_ManagerTest {
 
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//GANO MI MEJOR BUSINESS",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//GANO MI MEJOR BUSINESS",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof KnifeCard);
@@ -798,7 +799,7 @@ public class IA_ManagerTest {
 
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO SU MEJOR BUSINESS",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO SU MEJOR BUSINESS",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof KnifeCard);
@@ -828,7 +829,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
 				attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof GunCard);
@@ -854,7 +855,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(1) instanceof KnifeCard);
@@ -878,7 +879,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//EL QUE SEA, < 3 JUGADORES",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//EL QUE SEA, < 3 JUGADORES",
 				attackedPositionIA.getReason());
 		assertEquals(2, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof KnifeCard);
@@ -905,7 +906,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs), playerB, R, 3);
 		assertEquals(
-				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MAS FLANCOS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO MAS PERSONAJES:10",
+				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO MAS PERSONAJES:10",
 				attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof GunCard);

@@ -23,7 +23,6 @@ public class DataInfoActionGetter {
 	private Position enemyPosition;
 	private Position myPosition;
 	private InfoAction infoAction;
-	//private List<Position> attacks;
 
 	DataInfoActionGetter(InfoAction infoAction, ValueData enemy, ValueData me, AttackData enemyAttackData) {
 		this.infoAction = infoAction;
@@ -37,10 +36,9 @@ public class DataInfoActionGetter {
 		this.valores.put(ME_HAS_KNIFE, me.getKnife());
 		this.valores.put(ME_WEAPONS_NUMBER, me.getValueWeapon());
 		this.valores.put(ENEMY_ASLEEP, enemy.getAwake());
-		this.valores.put(FLANCOS, Float.valueOf(enemyAttackData.totalFlank()));
+		this.valores.put(FLANCOS, enemyAttackData.getTypeFlankNumber());
 		this.valores.put(ENEMY_HAS_NOT_CAKE, enemy.getHasNotCake());
 		this.valores.put(ENEMY_HAS_NOT_LETAL_CAKE, enemy.getHasNotFatalCake());
-		//this.attacks = attacks;
 	}
 
 	public void addReason(String reason) {
@@ -58,14 +56,6 @@ public class DataInfoActionGetter {
 	public Position getMyPosition() {
 		return myPosition;
 	}
-
-//	public List<Position> getTheirAttacks() {
-//		return this.attacks;
-//	}
-//
-//	public List<Position> getAttacks() {
-//		return attacks;
-//	}
 
 	public GameCharacter getEnemyCharacter(GameCharacter[][] characterArray) {
 		return CharacterUtils.getCharacterByPosition(characterArray, enemyPosition);

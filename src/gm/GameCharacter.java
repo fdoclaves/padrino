@@ -1,29 +1,66 @@
 package gm;
 
-public interface GameCharacter {
+import gm.ia.AttackData;
+import gm.pojos.Position;
 
-	void dead();
+public abstract class GameCharacter {
+    
+    private AttackData attackData;
+    
+    private float businessValue;
 
-	boolean isTeam(String team);
+    private float weaponValue;
 
-	boolean isValidSeat();
+    public float getBusinessValue() {
+        return this.businessValue;
+    }
+    
+    public void setBusinessValue(float businessValue) {
+        this.businessValue = businessValue;
+    }
 
-	boolean hasGun();
+    public AttackData getAttackData() {
+        return this.attackData;
+    }
+    
+    public void setAttackData(AttackData attackData) {
+        this.attackData = attackData;
+    }
+    
+    public Position getPosition(){
+        return this.attackData.getPosition();
+    }
+    
+    public float getWeaponValue() {
+        return this.weaponValue;
+    }
+    
+    public void setWeaponValue(float weaponValue) {
+        this.weaponValue = weaponValue;
+    }
 
-	boolean hasKnife();
+    abstract public void dead();
 
-	boolean isEmpty();
+    abstract public boolean isTeam(String team);
 
-	void sleep();
+    abstract public boolean isInvalidSeat();
 
-	boolean isSleeping();
+    abstract public boolean hasGun();
 
-	void wakeUp();
+    abstract public boolean hasKnife();
 
-	GameCharacter cloneCharacters();
+    abstract public boolean isEmpty();
 
-	boolean isKing();
+    abstract public void sleep();
 
-	String getTeam();
+    abstract public boolean isSleeping();
+
+    abstract public void wakeUp();
+
+    abstract public GameCharacter cloneCharacters();
+
+    abstract public boolean isKing();
+
+    abstract public String getTeam();
 
 }

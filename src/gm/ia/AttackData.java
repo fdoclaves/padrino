@@ -16,10 +16,14 @@ public class AttackData {
     private List<Position> knifeAttacksPositions;
 
     private Position gunAttackPosition;
-    
+
     private List<Position> attacks;
 
-    public AttackData(List<Position> knifeAttacksPositions, Position gunAttackPosition, Position position) {
+    private boolean knife;
+
+    public AttackData(List<Position> knifeAttacksPositions, Position gunAttackPosition, Position position,
+            boolean hasKnife) {
+        this.knife = hasKnife;
         this.attacks = new ArrayList<Position>();
         this.knifeAttacksPositions = knifeAttacksPositions;
         this.gunAttackPosition = gunAttackPosition;
@@ -27,20 +31,28 @@ public class AttackData {
         this.gunAttack = gunAttackPosition != null;
         this.position = position;
         this.attacks.addAll(knifeAttacksPositions);
-        if(gunAttack){
+        if (gunAttack) {
             this.attacks.add(gunAttackPosition);
         }
+    }
+
+    public boolean hasKnife() {
+        return this.knife;
+    }
+
+    public void setHasKnife(boolean knife) {
+        this.knife = knife;
     }
 
     public boolean canAttack() {
         return knifeAttacks > 0 || gunAttack;
     }
 
-    public int totalFlank() {
-        return attacks.size();
-    }
-    
-    public boolean canAttackWithKnife(){
+//    public int totalFlank() {
+//        return attacks.size();
+//    }
+
+    public boolean canAttackWithKnife() {
         return knifeAttacks > 0;
     }
 
@@ -51,16 +63,27 @@ public class AttackData {
     public Position getGunAttackPosition() {
         return this.gunAttackPosition;
     }
-    
-    public boolean canAttackWithGun(){
+
+    public boolean canAttackWithGun() {
         return gunAttack;
     }
 
     public List<Position> getKnifeAttacksPositions() {
         return this.knifeAttacksPositions;
     }
-    
-    public List<Position> getAttackPositions(){
+
+    public List<Position> getAttackPositions() {
         return attacks;
+    }
+
+    public float getTypeFlankNumber() {
+        float typeFlankNumber = 0;
+        if (knifeAttacks > 0) {
+            typeFlankNumber++;
+        }
+        if (gunAttack) {
+            typeFlankNumber++;
+        }
+        return typeFlankNumber;
     }
 }
