@@ -1,6 +1,7 @@
 package gm;
 
 import gm.pojos.Position;
+import gt.extras.CharacterString;
 
 public class Killer {
 
@@ -9,6 +10,6 @@ public class Killer {
 		if (character != null) {
 			character.dead();
 		}
-		characters[position.getY()][position.getX()] = null;
+		characters[position.getY()][position.getX()] = new CharacterString("V");
 	}
 }
