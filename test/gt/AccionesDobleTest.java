@@ -2,12 +2,17 @@ package gt;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import gm.Card;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.PlayManager;
+import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
@@ -15,15 +20,16 @@ import gm.cards.MoveCard;
 import gm.cards.SleepCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class AccionesDobleTest {
 
-	private static final String J1 = "1";
+	private static Player J1;
 
-	private static final String J2 = "2";
+	private static Player J2;
 
 	private PlayManager donePlays;
 
@@ -43,6 +49,14 @@ public class AccionesDobleTest {
 
 	@Before
 	public void setUp() throws Exception {
+	    List<CardType> cards = new ArrayList<CardType>();
+	    cards.add(CardType.KNIFE);
+	    cards.add(CardType.GUN);
+	    cards.add(CardType.MOVE);
+	    cards.add(CardType.CAKE);
+	    cards.add(CardType.SLEEP);
+	    J1 = new Player("1", cards);
+	    J2 = new Player("2", cards);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
@@ -70,6 +84,7 @@ public class AccionesDobleTest {
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
 			assertEquals(0, donePlays.getMoney());
+			fail("checar cartas");
 		}
 	}
 

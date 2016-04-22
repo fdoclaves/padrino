@@ -42,7 +42,7 @@ public class IA_Manager {
         for (DataCake dataCake : dataCakeGetter.getExploitedEnemies()) {
             if (!dataCake.isFatal() && dataCake.enemiesByCake() > 1 && dataCake.getMineByCake() == 0
                     && player.hasCard(CardType.BOOM)) {
-                Cake bestCakeToBoom = boomGetter.getBoomCake(dataCakeGetter, player.getTeam(), characterArray);
+                Cake bestCakeToBoom = boomGetter.getBestBoom(dataCakeGetter, characterArray);
                 Card card = new BoomCard(bestCakeToBoom);
                 return new InfoAction(card, null, null, "BOOM, 2 OR MORE GAMERS");
             }
@@ -116,7 +116,7 @@ public class IA_Manager {
         } else {
             // ** (NO PUEDO ATACAR) CAKE, MOVECAKE
             if (player.hasCard(CardType.BOOM) && dataCakeGetter.getExploitedEnemies().size() >= 1) {
-                Cake bestCakeToBoom = boomGetter.getBoomCake(dataCakeGetter, player.getTeam(), characterArray);
+                Cake bestCakeToBoom = boomGetter.getBestBoom(dataCakeGetter, characterArray);
                 if (bestCakeToBoom != null) {
                     return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
                 }
@@ -126,7 +126,7 @@ public class IA_Manager {
             }
             ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);
             ChangeCard card = changeCardGetter.get();
-            return new InfoAction(card, null, null, "NO PUEDO ATACAR//I DONT HAVE SLEEPCARD");
+            return new InfoAction(card, null, null, "NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD");
         }
     }
 
@@ -200,8 +200,10 @@ public class IA_Manager {
         if (threirGreatestBusinnes.size() == 1) {
             return getOne(threirGreatestBusinnes, "GANO SU MEJOR BUSINESS");
         }
-        if (canAttactMe || theyHaveBusiness(threirGreatestBusinnes)
-                || !thereAreSleptAttacteds(sleepGetter, currentGamers, player)) {
+        if (thereAreSleptAttacteds(sleepGetter, currentGamers, player) && 
+                !canAttactMe && !theyHaveBusiness(threirGreatestBusinnes)) {
+            return sleepGetter.getBestSleepCard("PUEDO ATACAR//NO PUEDE ATACAR//SIN BUSINESS//DUERMO PARA AHORRA CARTA");
+        }else{
             // **(MAS PERSONAJES) CAKE,MOVECAKE
             if (currentGamers < 3) {
                 return getOne(threirGreatestBusinnes, "EL QUE SEA, < 3 JUGADORES");
@@ -217,10 +219,7 @@ public class IA_Manager {
             }
             toReturn.addReason("GANO MAS PERSONAJES:" + maxCharactes);
             return toReturn.getInfoAction();
-
         }
-        return sleepGetter.getBestSleepCard("PUEDO ATACAR//NO PUEDE ATACAR//SIN BUSINESS//DUERMO PARA AHORRA CARTA");
-
     }
 
     private boolean thereAreSleptAttacteds(AsleepEnemyGetter sleepGetter, int currentGamers, Player player) {
@@ -228,8 +227,8 @@ public class IA_Manager {
             return false;
         }
         int sleeptCharactes = sleepGetter.all();
-        if (currentGamers == 3) {
-            return sleeptCharactes >= 2 && player.getNumberCard(CardType.SLEEP) >= 2;
+        if (currentGamers == 3 && sleeptCharactes >= 2) {
+            return player.getNumberCard(CardType.SLEEP) >= 2;
         }
         return currentGamers > 3 && sleeptCharactes >= 2;
     }

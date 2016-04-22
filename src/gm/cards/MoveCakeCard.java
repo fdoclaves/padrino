@@ -30,12 +30,14 @@ public class MoveCakeCard extends Card {
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException, GameWarning {
 		GameCharacter character = characters[newPosition.getY()][newPosition.getX()];
+		if (character== null || character.isEmpty()) {
+            throw new GameException(GameMessages.SEAT_EMPTY);
+        }
+		
 		if (character.isInvalidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
 		}
-		if (character.isEmpty()) {
-			throw new GameException(GameMessages.SEAT_EMPTY);
-		}
+		
 		boolean isValid = false;
 		for (Position position : getValidPositions(characters)) {
 			if (newPosition.isEquals(position)) {

@@ -33,7 +33,7 @@ public class PlayManager {
 
 	private boolean startTurn;
 
-	private String team;
+	private Player player;
 
 	private List<Cake> startCakeList;
 
@@ -43,11 +43,11 @@ public class PlayManager {
 		this.beforeCharacters = new GameCharacter[gameTable.getMaxY()][gameTable.getMaxX()];
 	}
 
-	public void startTurn(String team) throws GameException {
+	public void startTurn(Player player) throws GameException {
 		if (startTurn) {
 			finishTurn();
 		}
-		this.team = team;
+		this.player = player;
 		this.playedCardsCounter = 1;
 		this.startTurn = true;
 		for (int i = 0; i < gameTable.getMaxY(); i++) {
@@ -64,13 +64,13 @@ public class PlayManager {
 		for (Cake cake : gameTable.getCakeList()) {
 			this.startCakeList.add(cake);
 		}
-		this.money = getMoney(team);
+		this.money = getMoney(player.getTeam());
 	}
 
 	private void boomCake() throws GameException {
 		List<Cake> boomCakes = new ArrayList<Cake>();
 		for (Cake cake : gameTable.getCakeList()) {
-			if (team.equals(cake.getTeam())) {
+			if (player.getTeam().equals(cake.getTeam())) {
 				boomCakes.add(cake);
 			}
 		}
@@ -85,7 +85,7 @@ public class PlayManager {
 		}
 		validatePlays(card.getType(), playedCardsCounter);
 		card.inicialize(gameTable);
-		card.validateAction(characters, team);
+		card.validateAction(characters, player.getTeam());
 		card.doAction(characters);
 		if (playedCardsCounter == 2) {
 			finishTurn();
@@ -101,6 +101,9 @@ public class PlayManager {
 	}
 
 	private void validatePlays(CardType currentPlay, int playedCardsCounter) throws GameException {
+	    if(!player.hasCard(currentPlay)){
+	        throw new GameException(GameMessages.NO_TIENES_CARD);
+	    }
 		if (playedCardsCounter == 2) {
 			if (currentPlay != CardType.MOVE) {
 				throw new GameException(GameMessages.TWO_ATTACK_ACTIONS);
@@ -161,7 +164,7 @@ public class PlayManager {
 	}
 
 	public void finishTurn() {
-		removeZzz(team);
+		removeZzz(player.getTeam());
 		playedCardsCounter++;
 	}
 

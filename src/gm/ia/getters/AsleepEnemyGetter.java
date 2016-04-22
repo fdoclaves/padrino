@@ -15,106 +15,129 @@ import gm.pojos.Position;
 
 public class AsleepEnemyGetter {
 
-	private GameTable gameTable;
-	private List<Position> others;
-	private List<Position> withoutNext;
-	private List<Position> asleep;
+    private GameTable gameTable;
 
-	public AsleepEnemyGetter(GameCharacter[][] characterArray, Player player, String nextTeam, GameTable gameTable) {
-		this.gameTable = gameTable;
-		fillSleepList(characterArray, player.getTeam(), nextTeam);
-	}
+    private List<Position> others;
 
-	public AsleepEnemyGetter(List<Position> others, List<Position> withoutNext, List<Position> asleep) {
-		this.others = others;
-		this.withoutNext = withoutNext;
-		this.asleep = asleep;
-	}
+    private List<Position> withoutNext;
 
-	public int getWithoutNextNumber() {
-		return withoutNext.size();
-	}
+    private List<Position> asleep;
 
-	private void fillSleepList(GameCharacter[][] characterArray, String myTeam, String nextTeam) {
-		withoutNext = new ArrayList<Position>();
-		others = new ArrayList<Position>();
-		asleep = new ArrayList<Position>();
-		for (int x = 0; x < gameTable.getMaxX(); x++) {
-			for (int y = 0; y < gameTable.getMaxY(); y++) {
-				Position position = new Position(x, y);
-				TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
-				if (tableSeat.has(TableObjects.GLASS)) {
-					GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
-					if (!character.isEmpty() && !character.isTeam(myTeam)) {
-						if (character.isSleeping()) {
-							asleep.add(position);
-						} else {
-							if (!character.isTeam(nextTeam)) {
-								withoutNext.add(position);
-							} else {
-								others.add(position);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    private List<Position> othersAttackME;
 
-	public InfoAction getBestSleepCard(String reason) {
-		List<Position> toSleep = new ArrayList<Position>();
-		if (asleep.size() >= 1) {
-			toSleep.add(asleep.get(0));
-		}
-		if (asleep.size() >= 2) {
-			toSleep.add(asleep.get(1));
-		}
-		if (asleep.size() >= 3) {
-			toSleep.add(asleep.get(2));
-		}
-		if (getWithoutNextNumber() >= 1 && toSleep.size() < 3) {
-			toSleep.add(withoutNext.get(0));
-		}
-		if (getWithoutNextNumber() >= 2 && toSleep.size() < 3) {
-			toSleep.add(withoutNext.get(1));
-		}
-		if (getWithoutNextNumber() >= 3 && toSleep.size() < 3) {
-			toSleep.add(withoutNext.get(2));
-		}
-		if (getOthers() >= 1 && toSleep.size() < 3) {
-			toSleep.add(others.get(0));
-		}
-		if (getOthers() >= 2 && toSleep.size() < 3) {
-			toSleep.add(others.get(1));
-		}
-		if (getOthers() >= 3 && toSleep.size() < 3) {
-			toSleep.add(others.get(2));
-		}
+    private List<Position> withoutNextAttackME;
 
-		if (toSleep.size() == 1) {
-			SleepCard sleepCard = new SleepCard(toSleep.get(0));
-			return new InfoAction(sleepCard, null, null, reason);
-		}
-		if (toSleep.size() == 2) {
-			SleepCard sleepCard = new SleepCard(toSleep.get(0), toSleep.get(1));
-			return new InfoAction(sleepCard, null, null, reason);
-		}
-		if (toSleep.size() == 3) {
-			SleepCard sleepCard = new SleepCard(toSleep.get(0), toSleep.get(1), toSleep.get(2));
-			return new InfoAction(sleepCard, null, null, reason);
-		}
-		return null;
-	}
+    private List<Position> asleepAttackMe;
 
-	public int getOthers() {
-		return others.size();
-	}
+    public AsleepEnemyGetter(GameCharacter[][] characterArray, Player player, String nextTeam, GameTable gameTable) {
+        this.gameTable = gameTable;
+        fillSleepList(characterArray, player.getTeam(), nextTeam);
+    }
 
-	public int getAsleepNumber() {
-		return asleep.size();
-	}
+    public AsleepEnemyGetter(List<Position> others, List<Position> withoutNext, List<Position> asleep,
+            List<Position> othersAttackME, List<Position> withoutNextAttackME, List<Position> asleepAttackMe) {
+        this.others = others;
+        this.withoutNext = withoutNext;
+        this.asleep = asleep;
+        this.othersAttackME = othersAttackME;
+        this.withoutNextAttackME = withoutNextAttackME;
+        this.asleepAttackMe = asleepAttackMe;
+    }
 
-	public int all() {
-		return others.size() + asleep.size() + withoutNext.size();
-	}
+    public int getWithoutNextNumber() {
+        return withoutNext.size();
+    }
+
+    private void fillSleepList(GameCharacter[][] characterArray, String myTeam, String nextTeam) {
+        withoutNext = new ArrayList<Position>();
+        others = new ArrayList<Position>();
+        asleep = new ArrayList<Position>();
+        withoutNextAttackME = new ArrayList<Position>();
+        othersAttackME = new ArrayList<Position>();
+        asleepAttackMe = new ArrayList<Position>();
+        for (int x = 0; x < gameTable.getMaxX(); x++) {
+            for (int y = 0; y < gameTable.getMaxY(); y++) {
+                Position position = new Position(x, y);
+                TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
+                if (tableSeat.has(TableObjects.GLASS)) {
+                    GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
+                    if (CharacterUtils.isValid(character) && !character.isTeam(myTeam)) {
+                        if (character.isSleeping()) {
+                            if (character.getAttackData().canAttack()) {
+                                asleepAttackMe.add(position);
+                            } else {
+                                asleep.add(position);
+                            }
+                        } else {
+                            if (!character.isTeam(nextTeam)) {
+                                if (character.getAttackData().canAttack()) {
+                                    withoutNextAttackME.add(position);
+                                } else {
+                                    withoutNext.add(position);
+                                }
+
+                            } else {
+                                if (character.getAttackData().canAttack()) {
+                                    othersAttackME.add(position);
+                                } else {
+                                    others.add(position);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public InfoAction getBestSleepCard(String reason) {
+        List<Position> positions = new ArrayList<Position>();
+        addToListIfCan(positions, asleepAttackMe);
+        addToListIfCan(positions, asleep);
+        addToListIfCan(positions, withoutNextAttackME);
+        addToListIfCan(positions, othersAttackME);
+        addToListIfCan(positions, withoutNext);
+        addToListIfCan(positions, others);
+        return buildSleepCard(reason, positions);
+    }
+
+    private InfoAction buildSleepCard(String reason, List<Position> positions) {
+        if (positions.size() == 1) {
+            SleepCard sleepCard = new SleepCard(positions.get(0));
+            return new InfoAction(sleepCard, null, null, reason);
+        }
+        if (positions.size() == 2) {
+            SleepCard sleepCard = new SleepCard(positions.get(0), positions.get(1));
+            return new InfoAction(sleepCard, null, null, reason);
+        }
+        if (positions.size() == 3) {
+            SleepCard sleepCard = new SleepCard(positions.get(0), positions.get(1), positions.get(2));
+            return new InfoAction(sleepCard, null, null, reason);
+        }
+        return null;
+    }
+
+    private void addToListIfCan(List<Position> positions, List<Position> list) {
+        if (list.size() >= 1 && positions.size() < 3) {
+            positions.add(list.get(0));
+        }
+        if (list.size() >= 2 && positions.size() < 3) {
+            positions.add(list.get(1));
+        }
+        if (list.size() >= 3 && positions.size() < 3) {
+            positions.add(list.get(2));
+        }
+    }
+
+    public int getOthers() {
+        return others.size();
+    }
+
+    public int getAsleepNumber() {
+        return asleep.size();
+    }
+
+    public int all() {
+        return others.size() + asleep.size() + withoutNext.size();
+    }
 }

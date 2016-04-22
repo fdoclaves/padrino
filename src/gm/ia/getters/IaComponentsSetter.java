@@ -51,7 +51,7 @@ public class IaComponentsSetter {
                 Position position = new Position(x, y);
                 GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
                 TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
-                if (!gameCharacter.isEmpty() && !gameCharacter.isInvalidSeat()) {
+                if (CharacterUtils.isValid(gameCharacter)) {
                     float businessValue = businessValueGetter.setBusinessValue(generalTeams, gameCharacter, position);
                     gameCharacter.setBusinessValue(businessValue);
                     boolean hasKnife = hasKnife(gameCharacter, tableSeat);

@@ -2,12 +2,16 @@ package gt;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import gm.Cake;
 import gm.GameTable;
 import gm.PlayManager;
+import gm.Player;
 import gm.TableSeat;
 import gm.cards.BoomCard;
 import gm.cards.CakeCard;
@@ -15,17 +19,18 @@ import gm.cards.GunCard;
 import gm.cards.MoveCakeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class CakeTest {
 
-	private static final String J1 = "1";
+	private static Player J1;
 
-	private static final String J2 = "2";
+	private static Player J2;
 
-	private static final String J3 = "3";
+	private static Player J3;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "P_", "3$", "k-", "1$", "__", "2$", "P_", "__", "P_" },
@@ -47,6 +52,15 @@ public class CakeTest {
 
 	@Before
 	public void setUp() throws Exception {
+	    List<CardType> cards = new ArrayList<CardType>();
+        cards.add(CardType.KNIFE);
+        cards.add(CardType.GUN);
+        cards.add(CardType.BOOM);
+        cards.add(CardType.CAKE);
+        cards.add(CardType.MOVE_CAKE);
+        J1 = new Player("1", cards);
+        J2 = new Player("2", cards);
+        J3 = new Player("3", cards);
 		converter = new Converter(9, 3);
 		tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
@@ -56,7 +70,7 @@ public class CakeTest {
 	@Test
 	public void ponerCake() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(3, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(3, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -70,7 +84,7 @@ public class CakeTest {
 	@Test
 	public void finRondaCake() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(3, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(3, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -95,7 +109,7 @@ public class CakeTest {
 	@Test
 	public void finRondaCakeVacioAlado() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(5, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(5, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -120,7 +134,7 @@ public class CakeTest {
 	@Test
 	public void ponerPastelEnLugarVacio() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -145,7 +159,7 @@ public class CakeTest {
 	@Test
 	public void tresJugadores() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1.getTeam())));
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.finishTurn();
 
@@ -168,7 +182,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaEsquinaSuperiorIzquierda() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(0, 0), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(0, 0), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -193,7 +207,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaEsquinaInferiorDerecha() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(8, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(8, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -218,7 +232,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaEsquinaInferiorIzquierda() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(0, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(0, 2), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -243,7 +257,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaEsquinaSuperiorDerecha() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(8, 0), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(8, 0), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -268,7 +282,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaMedioIzquieda() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(0, 1), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(0, 1), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -293,7 +307,7 @@ public class CakeTest {
 	@Test
 	public void pastelFinRondaMedioDerecha() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(8, 1), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(8, 1), J1.getTeam())));
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
@@ -318,7 +332,7 @@ public class CakeTest {
 	@Test
 	public void boomCardTest() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 2), J1);
+		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.finishTurn();
@@ -334,7 +348,7 @@ public class CakeTest {
 	@Test
 	public void boom2PastelesMismaPosicion() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 2), J1);
+		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		assertEquals(1, gameTable.getCakeList().size());
 		assertEquals(6, gameTable.getCakeList().get(0).getPosition().getX());
@@ -344,7 +358,7 @@ public class CakeTest {
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
-		Cake cake2 = new Cake(new Position(6, 2), J2);
+		Cake cake2 = new Cake(new Position(6, 2), J2.getTeam());
 		donePlays.play(new CakeCard(cake2));
 		assertEquals(2, gameTable.getCakeList().size());
 		donePlays.finishTurn();
@@ -363,7 +377,7 @@ public class CakeTest {
 	@Test
 	public void boom2PastelesDiferentePosicion() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 2), J1);
+		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		assertEquals(1, gameTable.getCakeList().size());
 		assertEquals(6, gameTable.getCakeList().get(0).getPosition().getX());
@@ -373,7 +387,7 @@ public class CakeTest {
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
-		Cake cake2 = new Cake(new Position(1, 0), J2);
+		Cake cake2 = new Cake(new Position(1, 0), J2.getTeam());
 		donePlays.play(new CakeCard(cake2));
 		assertEquals(2, gameTable.getCakeList().size());
 		assertEquals(1, gameTable.getCakeList().get(1).getPosition().getX());
@@ -405,7 +419,7 @@ public class CakeTest {
 
 		assertEquals(0, gameTable.getCakeList().size());
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1.getTeam())));
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.finishTurn();
 		assertEquals(1, gameTable.getCakeList().size());
@@ -427,7 +441,7 @@ public class CakeTest {
 	@Test
 	public void moverPastel() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(3, 2), J1);
+		Cake cake = new Cake(new Position(3, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -457,7 +471,7 @@ public class CakeTest {
 	@Test
 	public void moverPastelAVacio() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(3, 2), J1);
+		Cake cake = new Cake(new Position(3, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -478,7 +492,7 @@ public class CakeTest {
 	@Test
 	public void moverPastelDosEspaciosMas() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(3, 2), J1);
+		Cake cake = new Cake(new Position(3, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -499,7 +513,7 @@ public class CakeTest {
 	@Test
 	public void moverPastelDespuesVacioIzquierda() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(5, 2), J1);
+		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -524,7 +538,7 @@ public class CakeTest {
 	@Test
 	public void moverPastelDespuesVacioDerecha() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(7, 2), J1);
+		Cake cake = new Cake(new Position(7, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -549,7 +563,7 @@ public class CakeTest {
 	@Test
 	public void moverPastelDespuesVacioMal() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(7, 2), J1);
+		Cake cake = new Cake(new Position(7, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -575,7 +589,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(5, 2), J1);
+		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -608,7 +622,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(5, 2), J1);
+		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -641,7 +655,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(5, 2), J1);
+		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -674,7 +688,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 0), J1);
+		Cake cake = new Cake(new Position(6, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -707,7 +721,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(0, 0), J1);
+		Cake cake = new Cake(new Position(0, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -740,7 +754,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(0, 0), J1);
+		Cake cake = new Cake(new Position(0, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -773,7 +787,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(8, 0), J1);
+		Cake cake = new Cake(new Position(8, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -806,7 +820,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(8, 2), J1);
+		Cake cake = new Cake(new Position(8, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -839,7 +853,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(0, 2), J1);
+		Cake cake = new Cake(new Position(0, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -872,7 +886,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(0, 1), J1);
+		Cake cake = new Cake(new Position(0, 1), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -916,7 +930,7 @@ public class CakeTest {
 
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs2), gameTable);
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(8, 1), J1);
+		Cake cake = new Cake(new Position(8, 1), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		donePlays.finishTurn();
 
@@ -937,14 +951,14 @@ public class CakeTest {
 	@Test
 	public void mover1Pastel2EnMesa() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1)));
+		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J1.getTeam())));
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
-		Cake cake2 = new Cake(new Position(0, 0), J2);
+		Cake cake2 = new Cake(new Position(0, 0), J2.getTeam());
 		donePlays.play(new CakeCard(cake2));
 		donePlays.finishTurn();
 		assertEquals(2, gameTable.getCakeList().size());
@@ -967,7 +981,7 @@ public class CakeTest {
 	@Test
 	public void mover1PastelMismoLugarOtroPastel() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 2), J1);
+		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.finishTurn();
@@ -975,7 +989,7 @@ public class CakeTest {
 		assertEquals(1, gameTable.getCakeList().size());
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
-		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J2)));
+		donePlays.play(new CakeCard(new Cake(new Position(6, 2), J2.getTeam())));
 		donePlays.finishTurn();
 		assertEquals(2, gameTable.getCakeList().size());
 
@@ -997,7 +1011,7 @@ public class CakeTest {
 	@Test
 	public void dosJugadasConPastel_RegresarComoEstabaAntes() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
-		Cake cake = new Cake(new Position(6, 2), J1);
+		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
 		assertEquals(1, gameTable.getCakeList().size());
 		try {

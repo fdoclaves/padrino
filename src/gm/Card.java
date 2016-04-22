@@ -44,6 +44,10 @@ public abstract class Card {
 		}
 
 		GameCharacter attackerChair = characters[attackerPosition.getY()][attackerPosition.getX()];
+		
+	    if (attackerChair==null || attackerChair.isEmpty()) {
+	            throw new GameException(GameMessages.SEAT_EMPTY);
+	    }
 
 		if (attackerChair.isSleeping()) {
 			throw new GameException(GameMessages.ESTA_DORMIDO);
@@ -51,10 +55,6 @@ public abstract class Card {
 
 		if (attackerChair.isInvalidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
-		}
-
-		if (attackerChair.isEmpty()) {
-			throw new GameException(GameMessages.SEAT_EMPTY);
 		}
 
 		if (!attackerChair.isTeam(team)) {

@@ -9,12 +9,11 @@ import gm.pojos.Position;
 
 public class BoomGetter {
     
-    public Cake getBoomCake(DataCakeGetter boomCakeGetter, String myTeam, GameCharacter[][] characters) {
-        KillNumberOrAttackToMePojo killNumberOrAttackToMePojo = new KillNumberOrAttackToMePojo();
+    public Cake getBestBoom(DataCakeGetter boomCakeGetter, GameCharacter[][] characters) {
         Cake bestCakeToBoom = null;
         for (DataCake dataCake : boomCakeGetter.getExploitedEnemies()) {
             if (!dataCake.isFatal() && dataCake.getMineByCake() == 0
-                    && killNumberOrAttackToMe(killNumberOrAttackToMePojo, dataCake, myTeam, characters)) {
+                    && killNumberOrAttackToMe(dataCake, characters)) {
                 bestCakeToBoom = dataCake.getCake();
 
             }
@@ -22,17 +21,15 @@ public class BoomGetter {
         return bestCakeToBoom;
     }
     
-    private boolean killNumberOrAttackToMe(KillNumberOrAttackToMePojo values, DataCake dataCake, String myTeam,
-            GameCharacter[][] characters) {
-
+    private boolean killNumberOrAttackToMe(DataCake dataCake, GameCharacter[][] characters) {
+        KillNumberOrAttackToMePojo values = new KillNumberOrAttackToMePojo();
         if (dataCake.enemiesByCake() > values.numberToKill) {
             values.numberToKill = dataCake.enemiesByCake();
             values.attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
             return true;
         }
         if (dataCake.enemiesByCake() == values.numberToKill) {
-            int attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
-            if (attacksToMe > values.attacksToMe) {
+            if (getAttacksToMeByCakeKill(dataCake, characters) > values.attacksToMe) {
                 values.numberToKill = dataCake.enemiesByCake();
                 values.attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
                 return true;

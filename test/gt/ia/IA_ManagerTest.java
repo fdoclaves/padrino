@@ -546,7 +546,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
-		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD",attackedPositionIA.getReason());
+		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		Card card = attackedPositionIA.getCards().get(0);
 		assertTrue(card instanceof ChangeCard);

@@ -12,4 +12,8 @@ public class CharacterUtils {
 	public static GameCharacter getCharacterByXY(GameCharacter[][] characterArray, int x, int y) {
 		return characterArray[y][x];
 	}
+	
+	public static boolean isValid(GameCharacter gameCharacter){
+	    return gameCharacter!=null && !gameCharacter.isInvalidSeat() && !gameCharacter.isEmpty();
+	}
 }

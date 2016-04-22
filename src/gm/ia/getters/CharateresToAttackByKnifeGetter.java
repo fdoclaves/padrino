@@ -7,6 +7,7 @@ import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.ia.CharacterUtils;
 import gm.ia.Filter;
 import gm.ia.FilterOnlyTeam;
 import gm.ia.FilterSameTeam;
@@ -107,7 +108,7 @@ public class CharateresToAttackByKnifeGetter {
 	private void filter(GameCharacter[][] characters, Filter filter, List<Position> positions,
 			Position positionToEvaluate) {
 		GameCharacter attackedCharacter = characters[positionToEvaluate.getY()][positionToEvaluate.getX()];
-		if (!attackedCharacter.isEmpty() && filter.addIfTeam(attackedCharacter)) {
+		if (CharacterUtils.isValid(attackedCharacter) && filter.addIfTeam(attackedCharacter)) {
 			positions.add(positionToEvaluate);
 		}
 	}

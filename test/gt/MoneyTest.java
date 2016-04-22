@@ -2,24 +2,29 @@ package gt;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.PlayManager;
+import gm.Player;
 import gm.TableSeat;
 import gm.cards.KnifeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class MoneyTest {
 
-	private static final String J1 = "1";
+	private static Player J1;
 
-	private static final String J2 = "2";
+	private static Player J2;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "P", "3$", "k", "1$", "_", "2$", "P", "_", "P" },
@@ -31,6 +36,14 @@ public class MoneyTest {
 
 	@Before
 	public void setUp() throws Exception {
+	    List<CardType> cards = new ArrayList<CardType>();
+        cards.add(CardType.KNIFE);
+        cards.add(CardType.GUN);
+        cards.add(CardType.MOVE);
+        cards.add(CardType.CAKE);
+        cards.add(CardType.SLEEP);
+        J1 = new Player("1", cards);
+        J2 = new Player("2", cards);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);

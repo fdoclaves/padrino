@@ -2,18 +2,23 @@ package gt;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.PlayManager;
+import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.MoveCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -22,11 +27,11 @@ public class CharactersValuesTest {
 
 	private PlayManager donePlays;
 
-	private static final String J1 = "1";
+	private static Player J1;
 
-	private static final String B = "B";
+	private static Player B;
 
-	private static final String J2 = "2";
+	private static Player J2;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "P_", "_", "k_", "1$", "__", "__", "P_", "__", "P_" },
@@ -44,6 +49,15 @@ public class CharactersValuesTest {
 
 	@Before
 	public void setUp() throws Exception {
+	    List<CardType> cards = new ArrayList<CardType>();
+        cards.add(CardType.KNIFE);
+        cards.add(CardType.GUN);
+        cards.add(CardType.MOVE);
+        cards.add(CardType.CAKE);
+        cards.add(CardType.SLEEP);
+        J1 = new Player("1", cards);
+        J2 = new Player("2", cards);
+        B = new Player("B", cards);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);

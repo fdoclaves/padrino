@@ -2,17 +2,22 @@ package gt;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import gm.GameTable;
 import gm.PlayManager;
+import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.MoveCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -21,9 +26,9 @@ public class OchoEsquinas {
 
 	private PlayManager donePlays;
 
-	private static final String R = "R";
+	private static Player R;
 
-	private static final String B = "B";
+	private static Player B;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "P_", "__", "k_", "1$", "__", "__", "P_", "__", "P_" },
@@ -43,6 +48,14 @@ public class OchoEsquinas {
 
 	@Before
 	public void setUp() throws Exception {
+	    List<CardType> cards = new ArrayList<CardType>();
+        cards.add(CardType.KNIFE);
+        cards.add(CardType.GUN);
+        cards.add(CardType.MOVE);
+        cards.add(CardType.CAKE);
+        cards.add(CardType.SLEEP);
+        B = new Player("B", cards);
+        R = new Player("R", cards);
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);

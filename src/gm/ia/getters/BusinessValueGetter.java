@@ -48,7 +48,7 @@ public class BusinessValueGetter {
         for (int x = 0; x < gameTable.getMaxX(); x++) {
             for (int y = 0; y < gameTable.getMaxY(); y++) {
                 GameCharacter character = CharacterUtils.getCharacterByXY(characterArray, x, y);
-                if (character.isTeam(team)) {
+                if (CharacterUtils.isValid(character) && character.isTeam(team)) {
                     countCharacters++;
                     TableSeat tableSeat = gameTable.getTableSeats()[y][x];
                     if (character.isKing()) {

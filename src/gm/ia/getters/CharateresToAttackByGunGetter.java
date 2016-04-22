@@ -77,7 +77,7 @@ public class CharateresToAttackByGunGetter {
 
 	private Position filterByTeamAndEmpty(GameCharacter[][] characterArray, Filter filter, Position attackedPosition) {
 		GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, attackedPosition);
-		if (!character.isEmpty() && filter.addIfTeam(character)) {
+		if (CharacterUtils.isValid(character) && filter.addIfTeam(character)) {
 			return attackedPosition;
 		} else {
 			return null;
