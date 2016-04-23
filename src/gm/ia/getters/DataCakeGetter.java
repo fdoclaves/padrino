@@ -1,7 +1,9 @@
 package gm.ia.getters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gm.Cake;
 import gm.GameCharacter;
@@ -39,11 +41,13 @@ public class DataCakeGetter {
 				GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
 				if(CharacterUtils.isValid(character)){
 					boolean fatal = nextTeam.equals(cake.getTeam());
+					DataCake dataCake = new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine);
 					if(character.isTeam(player.getTeam())){
-						me.add(new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine));
+						me.add(dataCake);
 					}else{
-						enemies.add(new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine));
+						enemies.add(dataCake);
 					}
+					cake.setDataCake(dataCake);
 				}
 			}
 		}

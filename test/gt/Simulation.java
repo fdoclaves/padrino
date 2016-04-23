@@ -61,11 +61,14 @@ public class Simulation {
 	@Test
     public void contarMoney(){
         fail("contar money");
+        fail("money limitado");
     }
 	
 	@Test
     public void QuienPierde(){
         fail("QuienPierde");
+        fail("fin juego por $");
+        fail("fin juego un solo jugador");
     }
 
 	@Test

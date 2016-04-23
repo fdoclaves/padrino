@@ -3,6 +3,7 @@ package gm;
 import java.util.ArrayList;
 import java.util.List;
 
+import gm.ia.DataCake;
 import gm.pojos.Position;
 
 public class Cake {
@@ -12,6 +13,8 @@ public class Cake {
 	private Position position;
 
 	private String team;
+
+	private DataCake dataCake;
 	
 	public Cake(Position position, String team) {
 		this.position = position;
@@ -89,6 +92,14 @@ public class Cake {
 
 	public void changePosition(Position newPosition) {
 		this.position = newPosition;
+	}
+
+	public void setDataCake(DataCake dataCake) {
+		this.dataCake = dataCake;
+	}
+	
+	public DataCake getDataCake(){
+		return this.dataCake;
 	}
 
 }

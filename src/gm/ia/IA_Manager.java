@@ -42,7 +42,7 @@ public class IA_Manager {
         for (DataCake dataCake : dataCakeGetter.getExploitedEnemies()) {
             if (!dataCake.isFatal() && dataCake.enemiesByCake() > 1 && dataCake.getMineByCake() == 0
                     && player.hasCard(CardType.BOOM)) {
-                Cake bestCakeToBoom = boomGetter.getBestBoom(dataCakeGetter, characterArray);
+                Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
                 Card card = new BoomCard(bestCakeToBoom);
                 return new InfoAction(card, null, null, "BOOM, 2 OR MORE GAMERS");
             }
@@ -102,7 +102,7 @@ public class IA_Manager {
                 return wonWhoHasBestBusinessVsWhoHasMoreCharacter(attackDataGetter.getGeneralTeams(),
                         myGreatestBusinnes, asleepEnemyGetter, true, currentGamers, characterArray, player);
             } else {
-                // **(NADIE ME ATACA) ***CONSIDERAR BOOM (gamers > 2 attackToMe
+                // **(NADIE ME ATACA) ***CONSIDERAR BOOM, CAKE, MOVECAKE, MOVE (gamers > 2 attackToMe
                 // >= 1)
                 if (currentGamers > 3 && asleepEnemyGetter.getWithoutNextNumber() >= 3
                         && player.getNumberCard(CardType.SLEEP) >= 2) {
@@ -114,9 +114,9 @@ public class IA_Manager {
                         enemyAttackDatas);
             }
         } else {
-            // ** (NO PUEDO ATACAR) CAKE, MOVECAKE
+            // ** (NO PUEDO ATACAR) CAKE, MOVECAKE, MOVE
             if (player.hasCard(CardType.BOOM) && dataCakeGetter.getExploitedEnemies().size() >= 1) {
-                Cake bestCakeToBoom = boomGetter.getBestBoom(dataCakeGetter, characterArray);
+                Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
                 if (bestCakeToBoom != null) {
                     return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
                 }
