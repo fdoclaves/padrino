@@ -102,8 +102,6 @@ public class IA_Manager {
                 return wonWhoHasBestBusinessVsWhoHasMoreCharacter(attackDataGetter.getGeneralTeams(),
                         myGreatestBusinnes, asleepEnemyGetter, true, currentGamers, characterArray, player);
             } else {
-                // **(NADIE ME ATACA) ***CONSIDERAR BOOM, CAKE, MOVECAKE, MOVE (gamers > 2 attackToMe
-                // >= 1)
                 if (currentGamers > 3 && asleepEnemyGetter.getWithoutNextNumber() >= 3
                         && player.getNumberCard(CardType.SLEEP) >= 2) {
                     return asleepEnemyGetter
