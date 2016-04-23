@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.Card;
+import gm.CardManager;
+import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.PlayManager;
@@ -49,18 +51,29 @@ public class AccionesDobleTest {
 
 	@Before
 	public void setUp() throws Exception {
+		CardManager cardManager = new CardManagerImpl(){
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.SLEEP);
+				}
+			}
+		};
 	    List<CardType> cards = new ArrayList<CardType>();
 	    cards.add(CardType.KNIFE);
 	    cards.add(CardType.GUN);
 	    cards.add(CardType.MOVE);
-	    cards.add(CardType.CAKE);
-	    cards.add(CardType.SLEEP);
+	    cards.add(CardType.MOVE);
+	    cards.add(CardType.KNIFE);
+	    
 	    J1 = new Player("1", cards);
 	    J2 = new Player("2", cards);
+	    List<Player> players = new ArrayList<Player>();
+	    players.add(J1);
+	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
 
 	}
 

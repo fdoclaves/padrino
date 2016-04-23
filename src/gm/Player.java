@@ -36,4 +36,17 @@ public class Player {
 		}
 		return counter;
 	}
+
+	public void removeCard(CardType type) {
+		for (CardType cardType : cards) {
+			if(cardType == type){
+				cards.remove(cardType);
+				break;
+			}
+		}
+	}
+
+	public void addCard(CardType card) {
+		cards.add(card);
+	}
 }

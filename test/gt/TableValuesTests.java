@@ -45,18 +45,21 @@ public class TableValuesTests {
 
 	@Before
 	public void setUp() throws Exception {
-	    List<CardType> cards = new ArrayList<CardType>();
-        cards.add(CardType.KNIFE);
-        cards.add(CardType.GUN);
-        cards.add(CardType.MOVE);
-        cards.add(CardType.CAKE);
-        cards.add(CardType.SLEEP);
-        B = new Player("B", cards);
-        R = new Player("R", cards);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.KNIFE);
+		cards.add(CardType.GUN);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.KNIFE);
+		cards.add(CardType.SLEEP);
+		B = new Player("B", cards);
+		R = new Player("R", cards);
+		List<Player> players = new ArrayList<Player>();
+		players.add(B);
+		players.add(R);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 	}
 
 	@Test

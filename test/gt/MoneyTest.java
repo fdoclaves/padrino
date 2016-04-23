@@ -33,6 +33,8 @@ public class MoneyTest {
 	private Converter converter;
 
 	private GameTable gameTable;
+	
+	private List<Player> players;
 
 	@Before
 	public void setUp() throws Exception {
@@ -44,6 +46,9 @@ public class MoneyTest {
         cards.add(CardType.SLEEP);
         J1 = new Player("1", cards);
         J2 = new Player("2", cards);
+        players = new ArrayList<Player>();
+	    players.add(J1);
+	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
@@ -55,7 +60,7 @@ public class MoneyTest {
 		String[][] playerChairs = { { "1_", "1P", "2_", "1k", "1k", "1P", "1_", "1P", "1_" },
 				{ "1PK", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
-		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new KnifeCard(new Position(3, 0), new Position(2, 0)));
 		donePlays.finishTurn();
@@ -80,7 +85,7 @@ public class MoneyTest {
 		String[][] playerChairs = { { "1_", "1P", "2_", "2k", "1k", "1P", "1_", "1P", "1_" },
 				{ "1PK", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
-		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.finishTurn();
 		assertEquals(6, donePlays.getMoney());

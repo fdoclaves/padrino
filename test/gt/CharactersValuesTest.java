@@ -46,6 +46,10 @@ public class CharactersValuesTest {
 	private Converter converter;
 
 	private GameTable gameTable;
+	
+	private List<Player> players;
+	
+	private List<Player> playersLetters;
 
 	@Before
 	public void setUp() throws Exception {
@@ -57,11 +61,16 @@ public class CharactersValuesTest {
         cards.add(CardType.SLEEP);
         J1 = new Player("1", cards);
         J2 = new Player("2", cards);
+        players = new ArrayList<Player>();
+	    players.add(J1);
+	    players.add(J2);
         B = new Player("B", cards);
+        playersLetters = new ArrayList<Player>();
+        playersLetters.add(B);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
 	}
 
 	@Test
@@ -119,7 +128,7 @@ public class CharactersValuesTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "B", "R", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "V" }, { "B", "R", "B", "B", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new GunCard(new Position(8, 1), new Position(0, 1)));
@@ -135,7 +144,7 @@ public class CharactersValuesTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "V", "R", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "R", "B", "B", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(3, 0)));
@@ -151,7 +160,7 @@ public class CharactersValuesTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "B", "A", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "V" }, { "B", "R", "B", "R", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new GunCard(new Position(3, 2), new Position(3, 0)));

@@ -6,15 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.CardManager;
+import gm.CardManagerImpl;
 import gm.info.CardType;
 
 public class CardManagerTest {
 	
-	private CardManager cardManager;
+	private CardManagerImpl cardManager;
 	
 	@Before
 	public void setUp() throws Exception {
-		cardManager = new CardManager();
+		cardManager = new CardManagerImpl();
 	}
 
 	@Test
@@ -28,6 +29,7 @@ public class CardManagerTest {
 			CardType cardType = cardManager.getCard();
 			assertNotNull(cardType);
 		}
+		assertEquals(0, cardManager.getTotalCard());
 		cardManager.setCard(CardType.POLICE);
 		CardType cardType = cardManager.getCard(); 
 		assertEquals(CardType.POLICE, cardType);

@@ -47,7 +47,7 @@ public class Simulation {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
 		characterArray = converter.toCharacterArray(playerChairs);
-		donePlays = new PlayManager(characterArray, gameTable);
+		
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class Simulation {
 	@Test
 	public void simulacion() throws GameException, GameWarning {
 		IA_Manager ia_Manager = new IA_Manager(gameTable);
-		CardManager cardManager = new CardManager(){
+		CardManagerImpl cardManager = new CardManagerImpl(){
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.SLEEP);
@@ -74,6 +74,7 @@ public class Simulation {
 				}
 			}
 		};
+		
 		Player player1 = new Player(J1, getCardsToStart(cardManager));
 		Player player2 = new Player(J2, getCardsToStart(cardManager));
 		Player player3 = new Player(J3, getCardsToStart(cardManager));
@@ -81,14 +82,18 @@ public class Simulation {
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);
+		donePlays = new PlayManager(characterArray, gameTable,cardManager, players);
 		int currentGamers = players.size();
 		int counterGamers = 0;
 		System.out.println(converter.cToString(donePlays.getChairs()));
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 19; i++) {
 			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
-			play(ia_Manager, cardManager, players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
+			play(ia_Manager, players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
+			assertEquals(5, players.get(counterGamers).getCards().size());
+			assertEquals(13, cardManager.getTotalCard());
 			counterGamers = nextPlayerIndex;
 		}
+		System.out.println("fin");
 	}
 
 	private int getNextPlayerIndex(int counterGamers) {
@@ -98,7 +103,7 @@ public class Simulation {
 		return counterGamers+1;
 	}
 
-	private void play(IA_Manager ia_Manager, CardManager cardManager, Player gaming, Player next, int currentGamers, int counter)
+	private void play(IA_Manager ia_Manager, Player gaming, Player next, int currentGamers, int counter)
 			throws GameException, GameWarning {
 		System.out.println("Team: "+gaming.getTeam());
 		System.out.println("Cards:"+gaming.getCards());
@@ -109,9 +114,6 @@ public class Simulation {
 		System.out.println("Used card: "+usedcard.getType());
 		donePlays.play(usedcard);
 		donePlays.finishTurn();
-		cardManager.setCard(usedcard.getType());
-		CardType newCard = cardManager.getCard();
-		gaming.getCards().add(newCard);
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		System.out.println("Money: $"+ donePlays.getMoney());
 		System.out.println("--------------------------------------------------------"+counter);

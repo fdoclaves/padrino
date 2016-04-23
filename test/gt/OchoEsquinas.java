@@ -54,12 +54,16 @@ public class OchoEsquinas {
         cards.add(CardType.MOVE);
         cards.add(CardType.CAKE);
         cards.add(CardType.SLEEP);
+        
         B = new Player("B", cards);
         R = new Player("R", cards);
+        List<Player> players = new ArrayList<Player>();
+	    players.add(B);
+	    players.add(R);
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable);
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 	}
 
 	@Test

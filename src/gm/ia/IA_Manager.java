@@ -34,7 +34,7 @@ public class IA_Manager {
     public InfoAction whoKill(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
         IaComponentsSetter attackDataGetter = new IaComponentsSetter(gameTable, characterArray, player, currentGamers);
         AsleepEnemyGetter asleepEnemyGetter = new AsleepEnemyGetter(characterArray, player, nextTeam, gameTable);
-        if (asleepEnemyGetter.getAsleepNumber() >= 2) {
+        if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.getAsleepNumber() >= 2) {
             return asleepEnemyGetter.getBestSleepCard("HAY MAS DE 2 DORMIDOS");
         }
         DataCakeGetter dataCakeGetter = new DataCakeGetter(characterArray, gameTable, player, nextTeam);

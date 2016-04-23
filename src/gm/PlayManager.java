@@ -1,7 +1,9 @@
 package gm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
@@ -33,21 +35,32 @@ public class PlayManager {
 
 	private boolean startTurn;
 
-	private Player player;
-
 	private List<Cake> startCakeList;
+	
+	private CardManager cardManager;
 
-	public PlayManager(GameCharacter[][] characters, GameTable gameTable) {
+	private Map<String, Player> players;
+	
+	private String team;
+
+	public PlayManager(GameCharacter[][] characters, GameTable gameTable, CardManager cardManager, List<Player> players) {
+		this(characters, gameTable,players);
+		this.cardManager = cardManager;
+	}
+	
+	public PlayManager(GameCharacter[][] characters, GameTable gameTable, List<Player> players) {
+		this.cardManager = new CardManagerImpl();
 		this.characters = characters;
 		this.gameTable = gameTable;
 		this.beforeCharacters = new GameCharacter[gameTable.getMaxY()][gameTable.getMaxX()];
+		this.players = new HashMap<String, Player>();
+		for(Player player : players){
+			this.players.put(player.getTeam(), player);
+		}
 	}
 
-	public void startTurn(Player player) throws GameException {
-		if (startTurn) {
-			finishTurn();
-		}
-		this.player = player;
+	public void startTurn(final Player player) throws GameException {
+		this.team = player.getTeam();
 		this.playedCardsCounter = 1;
 		this.startTurn = true;
 		for (int i = 0; i < gameTable.getMaxY(); i++) {
@@ -70,7 +83,7 @@ public class PlayManager {
 	private void boomCake() throws GameException {
 		List<Cake> boomCakes = new ArrayList<Cake>();
 		for (Cake cake : gameTable.getCakeList()) {
-			if (player.getTeam().equals(cake.getTeam())) {
+			if (team.equals(cake.getTeam())) {
 				boomCakes.add(cake);
 			}
 		}
@@ -79,15 +92,19 @@ public class PlayManager {
 		}
 	}
 
-	public void play(Card card) throws GameException, GameWarning {
+	public void play(final Card card) throws GameException, GameWarning {
+		CardType cardType = card.getType();
 		if (!startTurn) {
 			throw new GameException(NO_STARTED);
 		}
-		validatePlays(card.getType(), playedCardsCounter);
+		validatePlays(cardType, playedCardsCounter);
 		card.inicialize(gameTable);
-		card.validateAction(characters, player.getTeam());
+		card.validateAction(characters, team);
 		card.doAction(characters);
+		players.get(team).removeCard(cardType);
+		cardManager.setCard(cardType);
 		if (playedCardsCounter == 2) {
+			players.get(team).addCard(cardManager.getCard());
 			finishTurn();
 		} else {
 			playedCardsCounter++;
@@ -101,7 +118,7 @@ public class PlayManager {
 	}
 
 	private void validatePlays(CardType currentPlay, int playedCardsCounter) throws GameException {
-	    if(!player.hasCard(currentPlay)){
+	    if(!players.get(team).hasCard(currentPlay)){
 	        throw new GameException(GameMessages.NO_TIENES_CARD);
 	    }
 		if (playedCardsCounter == 2) {
@@ -164,8 +181,10 @@ public class PlayManager {
 	}
 
 	public void finishTurn() {
-		removeZzz(player.getTeam());
+		removeZzz(team);
 		playedCardsCounter++;
+		Player player = players.get(team);
+		player.addCard(cardManager.getCard());
 	}
 
 	private void removeZzz(String team) {
