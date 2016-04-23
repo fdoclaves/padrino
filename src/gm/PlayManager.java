@@ -41,6 +41,8 @@ public class PlayManager {
 
 	private Map<String, Player> players;
 	
+	private List<CardType> beforeCardType;
+	
 	private String team;
 
 	public PlayManager(GameCharacter[][] characters, GameTable gameTable, CardManager cardManager, List<Player> players) {
@@ -60,6 +62,7 @@ public class PlayManager {
 	}
 
 	public void startTurn(final Player player) throws GameException {
+		this.beforeCardType = copy(player.getCards());
 		this.team = player.getTeam();
 		this.playedCardsCounter = 1;
 		this.startTurn = true;
@@ -78,6 +81,14 @@ public class PlayManager {
 			this.startCakeList.add(cake);
 		}
 		this.money = getMoney(player.getTeam());
+	}
+
+	private List<CardType> copy(List<CardType> cards) {
+		List<CardType> respaldo = new ArrayList<CardType>();
+		for (CardType cardType : cards) {
+			respaldo.add(cardType);
+		}
+		return respaldo;
 	}
 
 	private void boomCake() throws GameException {
@@ -115,6 +126,8 @@ public class PlayManager {
 		characters = beforeCharacters;
 		money = 0;
 		gameTable.setCakeList(startCakeList);
+		players.get(team).setCardList(beforeCardType);
+		cardManager.removeLastCard();
 	}
 
 	private void validatePlays(CardType currentPlay, int playedCardsCounter) throws GameException {

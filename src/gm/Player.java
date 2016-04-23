@@ -49,4 +49,8 @@ public class Player {
 	public void addCard(CardType card) {
 		cards.add(card);
 	}
+
+	public void setCardList(List<CardType> beforeCardType) {
+		this.cards = beforeCardType;
+	}
 }

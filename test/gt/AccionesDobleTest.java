@@ -48,6 +48,8 @@ public class AccionesDobleTest {
 	private Converter converter;
 
 	private GameTable gameTable;
+	
+	private List<Player> players;
 
 	@Before
 	public void setUp() throws Exception {
@@ -64,10 +66,9 @@ public class AccionesDobleTest {
 	    cards.add(CardType.MOVE);
 	    cards.add(CardType.MOVE);
 	    cards.add(CardType.KNIFE);
-	    
 	    J1 = new Player("1", cards);
 	    J2 = new Player("2", cards);
-	    List<Player> players = new ArrayList<Player>();
+	    players = new ArrayList<Player>();
 	    players.add(J1);
 	    players.add(J2);
 		converter = new Converter(9, 3);
@@ -79,6 +80,14 @@ public class AccionesDobleTest {
 
 	@Test
 	public void moverseYAccion() throws GameException, GameWarning {
+		CardManagerImpl cardManager = new CardManagerImpl(){
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.POLICE);
+				}
+			}
+		};
+		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
 		donePlays.startTurn(J1);
 		donePlays.play(new MoveCard(new Position(3, 0), new Position(4, 2)));
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
@@ -97,7 +106,10 @@ public class AccionesDobleTest {
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
 			assertEquals(0, donePlays.getMoney());
-			fail("checar cartas");
+			assertEquals(5,J1.getCards().size());
+			assertTrue(J1.hasCard(CardType.KNIFE));
+			assertFalse(J1.hasCard(CardType.POLICE));
+			assertEquals(6, cardManager.getTotalCard());
 		}
 	}
 

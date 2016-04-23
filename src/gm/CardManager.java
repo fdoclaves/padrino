@@ -8,4 +8,6 @@ public interface CardManager {
 
 	void setCard(CardType cardType);
 
+	void removeLastCard();
+
 }
