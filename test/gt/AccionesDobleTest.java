@@ -104,7 +104,7 @@ public class AccionesDobleTest {
 			assertEquals(GameMessages.TWO_ATTACK_ACTIONS, e.getMessage());
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-			assertEquals(0, donePlays.getMoney());
+			assertEquals(0, J1.getMoney());
 			assertEquals(5,J1.getCards().size());
 			assertTrue(J1.hasCard(CardType.KNIFE));
 			assertFalse(J1.hasCard(CardType.POLICE));
@@ -130,7 +130,7 @@ public class AccionesDobleTest {
 				{ "2_", "1_", "2_", "2_", "2_", "VV", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, J2.getMoney());
 
 		try {
 			donePlays.play(new MoveCard(new Position(5, 0), new Position(8, 0)));
@@ -139,7 +139,7 @@ public class AccionesDobleTest {
 			assertEquals(GameMessages.THREE_ACTIONS, e.getMessage());
 			assertEquals(converter.toString(chairsExpert2),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-			assertEquals(0, donePlays.getMoney());
+			assertEquals(1, J2.getMoney());
 		}
 
 	}
@@ -164,7 +164,7 @@ public class AccionesDobleTest {
 			assertEquals(GameMessages.TWO_ATTACK_ACTIONS, e.getMessage());
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-			assertEquals(0, donePlays.getMoney());
+			assertEquals(0, J2.getMoney());
 		}
 
 	}
@@ -186,7 +186,7 @@ public class AccionesDobleTest {
 				{ "1P", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "2_", "1k", "2_", "2_", "2_", "2Z" } };
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(2, J1.getMoney());
 	}
 
 	@Test
@@ -202,16 +202,17 @@ public class AccionesDobleTest {
 				{ "2_", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2Z" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(chairsResult).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(2, J1.getMoney());
 		donePlays.startTurn(J2);
 		donePlays.play(new MoveCard(new Position(2, 0), new Position(4, 2)));
+		donePlays.finishTurn();
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] chairsExpert2 = { { "1_", "1P", "VV", "1k", "VV", "1P", "1_", "1P", "1k" },
 				{ "1P", "**", "**", "**", "**", "**", "**", "**", "2_" },
-				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2Z" } };
+				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
 		chairsResult = donePlays.getChairs();
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(chairsResult).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, J2.getMoney());
 	}
 
 	@Test
@@ -227,7 +228,7 @@ public class AccionesDobleTest {
 				{ "2_", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, J2.getMoney());
 
 		// JUEGA JUGADOR #1
 		donePlays.startTurn(J1);
@@ -237,15 +238,15 @@ public class AccionesDobleTest {
 				{ "1P", "**", "**", "**", "**", "**", "**", "**", "VV" },
 				{ "2_", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2_" } };
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
 		// se mueve
 		donePlays.play(new MoveCard(new Position(3, 0), new Position(4, 2)));
+		donePlays.finishTurn();
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] chairsExpert3 = { { "1_", "VV", "2_", "VV", "1k", "1P", "1_", "1P", "VV" },
 				{ "1P", "**", "**", "**", "**", "**", "**", "**", "VV" },
 				{ "2_", "1_", "2_", "2_", "1k", "2_", "2_", "2_", "2_" } };
 		assertEquals(converter.toString(chairsExpert3), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(0, donePlays.getMoney());
+		assertEquals(2, J1.getMoney());
 
 		// JUEGA JUGADOR #2
 		donePlays.startTurn(J2);
@@ -256,6 +257,6 @@ public class AccionesDobleTest {
 				{ "2_", "1_", "2_", "2_", "1k", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert4), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, J2.getMoney());
 	}
 }

@@ -90,7 +90,8 @@ public class PoisonTest {
 				{ "2Z", "1_", "2_", "2Z", "VV", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		donePlays.finishTurn();
+		assertEquals(2, J1.getMoney());
 	}
 
 	@Test
@@ -112,7 +113,9 @@ public class PoisonTest {
 				{ "2Z", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		donePlays.finishTurn();
+		assertEquals(2, J1.getMoney());
+		
 		donePlays.startTurn(J2);
 		donePlays.play(new GunCard(new Position(5, 2), new Position(5, 0)));
 		donePlays.finishTurn();
@@ -122,7 +125,8 @@ public class PoisonTest {
 				{ "2_", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert2B), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		donePlays.finishTurn();
+		assertEquals(1, J2.getMoney());
 
 		// duerme con vaso 1 personas
 		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
@@ -135,7 +139,8 @@ public class PoisonTest {
 				{ "2_", "1_", "2_", "2_", "VV", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert3), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		donePlays.finishTurn();
+		assertEquals(2, J2.getMoney());
 	}
 
 	@Test

@@ -8,6 +8,8 @@ public class Player {
 	
 	private String team;
 	
+	private int money;
+	
 	private List<CardType> cards;
 
 	public Player(String team, List<CardType> cards) {
@@ -52,5 +54,13 @@ public class Player {
 
 	public void setCardList(List<CardType> beforeCardType) {
 		this.cards = beforeCardType;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+	
+	public void addMoney(int money) {
+		this.money = this.money + money;
 	}
 }

@@ -59,8 +59,7 @@ public class Simulation {
 	}
 	
 	@Test
-    public void contarMoney(){
-        fail("contar money");
+    public void moneyLimitado(){
         fail("money limitado");
     }
 	
@@ -131,7 +130,7 @@ public class Simulation {
 		donePlays.play(usedcard);
 		donePlays.finishTurn();
 		System.out.println(converter.cToString(donePlays.getChairs()));
-		System.out.println("Money: $"+ donePlays.getMoney());
+		System.out.println("Money: $"+ gaming.getMoney());
 		System.out.println("--------------------------------------------------------"+counter);
 	}
 

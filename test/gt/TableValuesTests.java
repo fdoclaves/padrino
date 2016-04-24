@@ -74,7 +74,7 @@ public class TableValuesTests {
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "V", "B", "B", "B", "B", "B", "B", "B" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(donePlays.getChairs()));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, B.getMoney());
 
 		// Turno Rojo (ataca con pistola)
 		donePlays.startTurn(R);
@@ -85,7 +85,7 @@ public class TableValuesTests {
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "V", "B", "B", "B", "B", "V", "B", "B" } };
 
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()));
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(2, R.getMoney());
 
 		// Turno Azul (se mueve al dinero)
 		donePlays.startTurn(B);
@@ -96,7 +96,7 @@ public class TableValuesTests {
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "V", "V", "B", "B", "B", "B", "B", "B" } };
 
 		assertEquals(converter.toString(chairsExpert3), converter.cToString(donePlays.getChairs()));
-		assertEquals(0, donePlays.getMoney());
+		assertEquals(1, B.getMoney());
 
 		// Turno Rojo (ataca con cuchillo a vacio)
 		donePlays.startTurn(B);

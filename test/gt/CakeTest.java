@@ -89,11 +89,11 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		donePlays.finishTurn();
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(2, J2.getMoney());
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -128,7 +128,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -153,7 +153,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -201,7 +201,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -226,7 +226,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -251,7 +251,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -276,7 +276,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -301,7 +301,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());
@@ -326,7 +326,7 @@ public class CakeTest {
 		donePlays.finishTurn();
 
 		assertEquals(1, gameTable.getCakeList().size());
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		assertEquals(1, gameTable.getCakeList().size());

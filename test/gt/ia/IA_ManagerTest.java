@@ -1148,8 +1148,6 @@ public class IA_ManagerTest {
 
 	@Test
 	public void otros() {
-		// IA
-		// MOVE CAKE
 		// CAKE
 		//JUGADA SUICIDA CAKE (PONER CAKE Y MOVERSE)
 		//JUGADA SUICIDA MOVECAKE (MOVER CAKE Y MOVERSE)

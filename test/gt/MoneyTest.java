@@ -72,11 +72,11 @@ public class MoneyTest {
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(chairsResult).replace("V", "VV"));
-		assertEquals(8, donePlays.getMoney());
+		assertEquals(8, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		donePlays.finishTurn();
-		assertEquals(3, donePlays.getMoney());
+		assertEquals(3, J2.getMoney());
 	}
 
 	@Test
@@ -88,11 +88,11 @@ public class MoneyTest {
 		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.finishTurn();
-		assertEquals(6, donePlays.getMoney());
+		assertEquals(6, J1.getMoney());
 
 		donePlays.startTurn(J2);
 		donePlays.finishTurn();
-		assertEquals(6, donePlays.getMoney());
+		assertEquals(6, J2.getMoney());
 	}
 
 }

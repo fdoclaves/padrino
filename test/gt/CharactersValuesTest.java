@@ -88,7 +88,7 @@ public class CharactersValuesTest {
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(chairsResult).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(2, J1.getMoney());
 
 		// Turno JUGADOR #1 (ataca con PISTOLA)
 		donePlays.startTurn(J1);
@@ -102,7 +102,7 @@ public class CharactersValuesTest {
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(chairsResult).replace("V", "VV"));
-		assertEquals(2, donePlays.getMoney());
+		assertEquals(4, J1.getMoney());
 	}
 
 	@Test
@@ -119,7 +119,7 @@ public class CharactersValuesTest {
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
 
 		assertEquals(converter.toString(chairsExpert2), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-		assertEquals(1, donePlays.getMoney());
+		assertEquals(1, J2.getMoney());
 	}
 
 	@Test

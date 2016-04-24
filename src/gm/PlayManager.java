@@ -187,17 +187,18 @@ public class PlayManager {
 		return money;
 	}
 
-	public int getMoney() {
-		int wonMoney = money;
-		money = 0;
-		return wonMoney;
-	}
-
 	public void finishTurn() {
 		removeZzz(team);
 		playedCardsCounter++;
 		Player player = players.get(team);
 		player.addCard(cardManager.getCard());
+		player.addMoney(getMoney());
+	}
+	
+	private int getMoney() {
+		int wonMoney = money;
+		money = 0;
+		return wonMoney;
 	}
 
 	private void removeZzz(String team) {
