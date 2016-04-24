@@ -26,8 +26,6 @@ public class PlayManagerCardsTest {
 
 	private PlayManager donePlays;
 
-	private static final String R = "R";
-
 	private static final String B = "B";
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|

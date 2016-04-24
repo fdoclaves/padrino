@@ -5,9 +5,7 @@ import java.util.List;
 
 import gm.Cake;
 import gm.GameCharacter;
-import gm.GameTable;
 import gm.cards.CakeUtils;
-import gm.cards.MoveCakeCard;
 import gm.pojos.Position;
 
 public class MoverCakeGetter {
