@@ -14,6 +14,9 @@ public class BoomGetter {
 	public Cake getBestBoom(List<Cake> cakes, GameCharacter[][] characters, String nextTeam) {
 		List<KillNumberOrAttackToMePojo> pojosList = new ArrayList<KillNumberOrAttackToMePojo>();
 		fillPojosList(cakes, characters, nextTeam, pojosList);
+		if(pojosList.isEmpty()){
+			return null;
+		}
 		KillNumberOrAttackToMePojo best = whichIsBestPojoToBoom(pojosList);
 		return best.cake;
 	}

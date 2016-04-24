@@ -11,6 +11,8 @@ public abstract class GameCharacter {
 
     private float weaponValue;
 
+	private boolean hasCake;
+
     public float getBusinessValue() {
         return this.businessValue;
     }
@@ -62,5 +64,13 @@ public abstract class GameCharacter {
     abstract public boolean isKing();
 
     abstract public String getTeam();
+
+	public void setCake(boolean hasCake) {
+		this.hasCake = hasCake;
+	}
+	
+	public boolean hasCake(){
+		return this.hasCake;
+	}
 
 }

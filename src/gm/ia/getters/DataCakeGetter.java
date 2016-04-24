@@ -42,6 +42,7 @@ public class DataCakeGetter {
 				if(CharacterUtils.isValid(character)){
 					boolean fatal = nextTeam.equals(cake.getTeam());
 					DataCake dataCake = new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine);
+					character.setCake(true);
 					if(character.isTeam(player.getTeam())){
 						me.add(dataCake);
 					}else{

@@ -1115,6 +1115,36 @@ public class IA_ManagerTest {
 		BoomCard card = (BoomCard) attackedPositionIA.getCards().get(0);
 		assertTrue(new Position(2, 0).isEquals(card.getCake().getPosition()));
 	}
+	
+	@Test
+	public void boomCakeWithBusiness2() {
+
+		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+		String[][] playerChairs2 = { { "V", "R", "R", "R", "V", "A", "A", "R", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
+
+		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+		String[][] TABLE_VALUES2 = { { "P_", "3$", "3$_", "k_", "__", "__", "P_", "P_", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "M_", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);
+		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
+		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));		
+		IA_Manager manager = new IA_Manager(gameTable);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("BOOM, 2 OR MORE GAMERS",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		assertEquals(CardType.BOOM, attackedPositionIA.getCards().get(0).getType());
+		BoomCard card = (BoomCard) attackedPositionIA.getCards().get(0);
+		assertTrue(new Position(2, 0).isEquals(card.getCake().getPosition()));
+	}
 
 	@Test
 	public void otros() {
