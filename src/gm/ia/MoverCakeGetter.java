@@ -31,7 +31,7 @@ public class MoverCakeGetter {
 		int currentHurtMe = 0;
 		for (Position boomPosition : currentBoomPositions) {
 			GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, boomPosition);
-			if(gameCharacter.isTeam(myTeam)){
+			if(gameCharacter != null && gameCharacter.isTeam(myTeam)){
 				currentHurtMe++;
 			}
 		}

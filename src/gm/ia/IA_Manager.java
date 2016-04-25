@@ -10,6 +10,7 @@ import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.cards.BoomCard;
+import gm.cards.CakeCard;
 import gm.cards.CakeUtils;
 import gm.cards.ChangeCard;
 import gm.cards.GunCard;
@@ -20,6 +21,7 @@ import gm.ia.pojos.ValueData;
 import gm.ia.getters.AsleepEnemyGetter;
 import gm.ia.getters.IaComponentsSetter;
 import gm.ia.getters.BoomGetter;
+import gm.ia.getters.CakeGetter;
 import gm.ia.getters.ChangeCardGetter;
 import gm.ia.getters.DataCakeGetter;
 import gm.info.CardType;
@@ -72,6 +74,15 @@ public class IA_Manager {
 				Position newPosition = moreEnemies.getDataCake().getExplotedPosition();
 				MoveCakeCard moveCakeCard = new MoveCakeCard(moreEnemies.getDataCake().getCake(), newPosition);
 				return new InfoAction(moveCakeCard, null, null, "MORE ENEMIES, MOVE CAKE");
+			}
+		}
+		DataCake dataCakeToNewCake = null;
+		CakeGetter cakeGetter = new CakeGetter(cakeUtils, characterArray, player.getTeam());
+		if(player.hasCard(CardType.CAKE)){
+			dataCakeToNewCake = cakeGetter.getBestPosition();
+			if(dataCakeToNewCake!=null && dataCakeToNewCake.enemiesByCake() >= 2){
+				Card card = new CakeCard(dataCakeToNewCake.getCake());
+				return new InfoAction(card, null, null, "PUT CAKE:ENEMIES:"+dataCakeToNewCake.enemiesByCake());
 			}
 		}
 
@@ -153,7 +164,14 @@ public class IA_Manager {
 						characterArray, componentSetter.getGeneralTeams(), player, dataCakeGetter, enemyAttackDatas);
 			}
 		} else {
-			// ** (NO PUEDO ATACAR) CAKE, MOVE
+			// ** (NO PUEDO ATACAR) MOVE
+			if(player.hasCard(CardType.CAKE)){
+				if(dataCakeToNewCake!=null && dataCakeToNewCake.enemiesByCake() >= 1){
+					Card card = new CakeCard(dataCakeToNewCake.getCake());
+					return new InfoAction(card, null, null, "PUT CAKE:ENEMIES:"+dataCakeToNewCake.enemiesByCake());
+				}
+			}
+			
 			if (player.hasCard(CardType.BOOM) && dataCakeGetter.getExploitedEnemies().size() >= 1) {
 				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
 				if (bestCakeToBoom != null) {
@@ -169,6 +187,14 @@ public class IA_Manager {
 					if (best != null && best.getValue() > currentValor) {
 						return buildInfoActionMoveCard(best, cake);
 					}
+				}
+			}
+			
+			if(player.hasCard(CardType.CAKE)){
+				Position peorEsNada = cakeGetter.getPeorEsNada();
+				if(peorEsNada != null){
+					Card card = new CakeCard(new Cake(peorEsNada, player.getTeam()));
+					return new InfoAction(card, null, null, "PEOR ES NADA, PUT CAKE");
 				}
 			}
 			ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);

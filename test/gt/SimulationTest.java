@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import gm.Cake;
 import gm.Card;
 import gm.CardManager;
 import gm.CardManagerImpl;
@@ -23,7 +24,7 @@ import gm.ia.IA_Manager;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 
-public class Simulation {
+public class SimulationTest {
 	
 	private static final String J1 = "1";
 
@@ -69,9 +70,56 @@ public class Simulation {
         fail("fin juego por $");
         fail("fin juego un solo jugador");
     }
+	
+	@Test
+	public void simulacion2_guns_knives_cakes() throws GameException, GameWarning {
+		IA_Manager ia_Manager = new IA_Manager(gameTable);
+		CardManagerImpl cardManager = new CardManagerImpl(){
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.SLEEP);
+				}
+				for (int i = 1; i <= 4; i++) {
+					chooseCard.add(CardType.BOOM);
+				}
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.MOVE_CAKE);
+				}
+				for (int i = 1; i <= 8; i++) {
+					chooseCard.add(CardType.CAKE);
+				}
+				for (int i = 1; i <= 9; i++) {
+					chooseCard.add(CardType.GUN);
+				}
+				for (int i = 1; i <= 9; i++) {
+					chooseCard.add(CardType.KNIFE);
+				}
+			}
+		};
+		
+		Player player1 = new Player(J1, getCardsToStart(cardManager));
+		Player player2 = new Player(J2, getCardsToStart(cardManager));
+		Player player3 = new Player(J3, getCardsToStart(cardManager));
+		List<Player> players = new ArrayList<Player>();
+		players.add(player1);
+		players.add(player2);
+		players.add(player3);
+		donePlays = new PlayManager(characterArray, gameTable,cardManager, players);
+		int currentGamers = players.size();
+		int counterGamers = 0;
+		System.out.println(converter.cToString(donePlays.getChairs()));
+		for (int i = 0; i < 19; i++) {
+			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
+			play(ia_Manager, players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
+			assertEquals(5, players.get(counterGamers).getCards().size());
+			assertEquals(27, cardManager.getTotalCard());
+			counterGamers = nextPlayerIndex;
+		}
+		System.out.println("fin");
+	}
 
 	@Test
-	public void simulacion() throws GameException, GameWarning {
+	public void simulacion1_knives_guns_sleeps() throws GameException, GameWarning {
 		IA_Manager ia_Manager = new IA_Manager(gameTable);
 		CardManagerImpl cardManager = new CardManagerImpl(){
 			protected void fillCards(List<CardType> chooseCard) {
@@ -131,6 +179,9 @@ public class Simulation {
 		donePlays.finishTurn();
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		System.out.println("Money: $"+ gaming.getMoney());
+		for (Cake cake : gameTable.getCakeList()) {
+			System.out.println("cake:" + cake.getPosition());
+		}
 		System.out.println("--------------------------------------------------------"+counter);
 	}
 

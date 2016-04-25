@@ -1148,12 +1148,10 @@ public class IA_ManagerTest {
 
 	@Test
 	public void otros() {
-		// CAKE
 		//JUGADA SUICIDA CAKE (PONER CAKE Y MOVERSE)
 		//JUGADA SUICIDA MOVECAKE (MOVER CAKE Y MOVERSE)
 		//JUGADA SUICIDA BOOM CAKE (BOOM SI ES FIN DE JUEGO)
 		//2 policias en mano
-		//mejorar dormidos con atacarme (usar knifeGetter y gunGetter)
 		// MOVE SEAT
 		// HAS TWO MOVE SEAT
 		fail();

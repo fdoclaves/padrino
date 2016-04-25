@@ -6,6 +6,7 @@ import gm.GameCharacter;
 import gm.exceptions.GameException;
 import gm.info.CardType;
 import gm.info.GameMessages;
+import gm.pojos.Position;
 
 public class CakeCard extends Card {
 
@@ -23,7 +24,8 @@ public class CakeCard extends Card {
 
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
-		if (characters[cake.getPosition().getY()][cake.getPosition().getX()].isInvalidSeat()) {
+		GameCharacter gameCharacter = characters[cake.getPosition().getY()][cake.getPosition().getX()];
+		if (gameCharacter!=null && gameCharacter.isInvalidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
 		}
 	}
@@ -31,6 +33,10 @@ public class CakeCard extends Card {
 	@Override
 	public CardType getType() {
 		return CardType.CAKE;
+	}
+
+	public Position getCakePosition() {
+		return cake.getPosition();
 	}
 
 }
