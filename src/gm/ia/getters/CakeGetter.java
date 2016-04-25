@@ -56,7 +56,7 @@ public class CakeGetter {
 							valueBusiness = valueBusiness + gameCharacter.getBusinessValue();
 						}
 					}
-					float value = (attackMe*10 + valueBusiness)*enemies.size() + enemies.size();
+					float value = (attackMe*10 + valueBusiness)*enemies.size() + enemies.size()*100;
 					if(!hurtMe){
 						if(hasCake){
 							if(value > bestValuePeorEsNada){

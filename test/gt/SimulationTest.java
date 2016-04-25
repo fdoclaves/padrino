@@ -170,7 +170,7 @@ public class SimulationTest {
 		System.out.println("Team: "+gaming.getTeam());
 		System.out.println("Cards:"+gaming.getCards());
 		donePlays.startTurn(gaming);
-		IA_Manager ia_Manager = new IA_Manager(gameTable);
+		IA_Manager ia_Manager = new IA_Manager(gameTable);//actualizado con Zzz y muertesXpastel
 		InfoAction whoKill = ia_Manager.whoKill(characterArray, gaming, next.getTeam(), currentGamers);
 		System.out.println(whoKill.getReason());
 		Card usedcard = whoKill.getCards().get(0);
@@ -183,7 +183,7 @@ public class SimulationTest {
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		System.out.println("Money: $"+ gaming.getMoney());
 		for (Cake cake : gameTable.getCakeList()) {
-			System.out.println("cake:" + cake.getPosition());
+			System.out.println("cake:" + cake.getPosition()+", team:"+cake.getTeam());
 		}
 		System.out.println("--------------------------------------------------------"+counter);
 	}

@@ -51,8 +51,8 @@ public class DataCakeGetter {
 			}
 		}
 	}
-	
-	private class Counter{
+
+    private class Counter{
 		
 		private int counterMine;
 		private List<Position> counterThem;

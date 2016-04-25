@@ -581,7 +581,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
-		assertEquals("NO PUEDO ATACAR",attackedPositionIA.getReason());
+		assertEquals("NO PUEDO ATACAR:1",attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertTrue(attackedPositionIA.getCards().get(0) instanceof SleepCard);
 		SleepCard card = (SleepCard) attackedPositionIA.getCards().get(0);
@@ -1167,7 +1167,7 @@ public class IA_ManagerTest {
 		IA_Manager manager = new IA_Manager(gameTable);
 		playerB.removeCard(CardType.GUN);
 		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("NO PUEDO ATACAR",attackedPositionIA.getReason());
+		assertEquals("NO PUEDO ATACAR:4",attackedPositionIA.getReason());
 		assertEquals(1, attackedPositionIA.getCards().size());
 		assertEquals(CardType.SLEEP, attackedPositionIA.getCards().get(0).getType());
 	}
