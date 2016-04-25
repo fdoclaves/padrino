@@ -13,7 +13,6 @@ import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeCard;
-import gm.cards.MoveCakeCard;
 import gm.ia.IA_Manager;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;

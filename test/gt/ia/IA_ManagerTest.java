@@ -1145,6 +1145,35 @@ public class IA_ManagerTest {
 		BoomCard card = (BoomCard) attackedPositionIA.getCards().get(0);
 		assertTrue(new Position(2, 0).isEquals(card.getCake().getPosition()));
 	}
+	
+	
+	@Test
+	public void testSimulacionSleep() {
+
+		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+		String[][] playerChairs2 = { { "B", "B", "R", "V","BK", "BP", "B","BP", "V" },
+									 { "BP", "*", "*", "*", "*", "*", "*", "*", "R" }, 
+									 { "BP", "*", "*", "*", "*", "*", "*", "*", "R" },
+									 { "BP", "*", "*", "*", "*", "*", "*", "*", "R" }, 
+									 { "R", "B", "V", "V", "V", "N", "R", "R", "R" } };
+
+		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+		String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									 { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									 { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									 { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									 { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats);		
+		IA_Manager manager = new IA_Manager(gameTable);
+		playerB.removeCard(CardType.GUN);
+		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("NO PUEDO ATACAR",attackedPositionIA.getReason());
+		assertEquals(1, attackedPositionIA.getCards().size());
+		assertEquals(CardType.SLEEP, attackedPositionIA.getCards().get(0).getType());
+	}
+	
 
 	@Test
 	public void otros() {

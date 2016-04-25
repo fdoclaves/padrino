@@ -29,7 +29,7 @@ public class CakeGetterTest {
 	
 	private Player playerB;
 	
-	private Player playerA;
+	private Player playerR;
 
 	@Before
 	public void setUp() throws Exception {
@@ -38,7 +38,7 @@ public class CakeGetterTest {
 		playerB = new Player("B", cardsB);
 		List<CardType> cardsA = new ArrayList<CardType>();
 		cardsA.add(CardType.CAKE);
-		playerA = new Player("R", cardsA);
+		playerR = new Player("R", cardsA);
 		converter = new Converter(9, 5);
 		//........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
 		String[][] TABLE_VALUES = { { "k_", "__", "__", "__", "__", "__", "P_", "__", "k_" },
@@ -244,12 +244,40 @@ public class CakeGetterTest {
 									{ "V", "**", "**", "**", "**", "**", "**", "**", "VV" },
 									{ "R", "B_", "VV", "VV", "VV", "N_", "R_", "R_", "R_" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
-		new IaComponentsSetter(gameTable, characterArray, playerA, 3);
-		new DataCakeGetter(characterArray, gameTable, playerA, "N");
+		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
+		new DataCakeGetter(characterArray, gameTable, playerR, "N");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
-		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerA.getTeam());
+		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
 		assertTrue(""+position, position.isEquals(new Position(6, 0)));
+	}
+	
+	
+	@Test
+	public void moreEnemies() {
+		//........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
+		String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+		// ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
+		String[][] playerChairs = { { "VV", "VV", "VV", "Bk", "Bk", "BP", "VV", "VV", "VV" },
+									{ "V", "**", "**", "**", "**", "**", "**", "**", "R_" },
+									{ "V", "**", "**", "**", "**", "**", "**", "**", "R_" },
+									{ "V", "**", "**", "**", "**", "**", "**", "**", "R_" },
+									{ "R_", "B_", "VV", "VV", "VV", "N_", "R_", "R", "R_" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		gameTable = new GameTable(tableSeats);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
+		new DataCakeGetter(characterArray, gameTable, playerR, "N");
+		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
+		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
+		Position position = cakeGetter.getBestPosition().getExplotedPosition();
+		assertTrue(""+position, position.isEquals(new Position(3, 0)));
 	}
 	
 

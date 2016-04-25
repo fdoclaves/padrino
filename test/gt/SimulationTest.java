@@ -73,7 +73,6 @@ public class SimulationTest {
 	
 	@Test
 	public void simulacion2_guns_knives_cakes() throws GameException, GameWarning {
-		IA_Manager ia_Manager = new IA_Manager(gameTable);
 		CardManagerImpl cardManager = new CardManagerImpl(){
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
@@ -110,7 +109,7 @@ public class SimulationTest {
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		for (int i = 0; i < 19; i++) {
 			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
-			play(ia_Manager, players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
+			play(players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
 			assertEquals(5, players.get(counterGamers).getCards().size());
 			assertEquals(27, cardManager.getTotalCard());
 			counterGamers = nextPlayerIndex;
@@ -120,7 +119,7 @@ public class SimulationTest {
 
 	@Test
 	public void simulacion1_knives_guns_sleeps() throws GameException, GameWarning {
-		IA_Manager ia_Manager = new IA_Manager(gameTable);
+		
 		CardManagerImpl cardManager = new CardManagerImpl(){
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
@@ -151,7 +150,7 @@ public class SimulationTest {
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		for (int i = 0; i < 19; i++) {
 			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
-			play(ia_Manager, players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
+			play(players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
 			assertEquals(5, players.get(counterGamers).getCards().size());
 			assertEquals(13, cardManager.getTotalCard());
 			counterGamers = nextPlayerIndex;
@@ -166,11 +165,12 @@ public class SimulationTest {
 		return counterGamers+1;
 	}
 
-	private void play(IA_Manager ia_Manager, Player gaming, Player next, int currentGamers, int counter)
+	private void play(Player gaming, Player next, int currentGamers, int counter)
 			throws GameException, GameWarning {
 		System.out.println("Team: "+gaming.getTeam());
 		System.out.println("Cards:"+gaming.getCards());
 		donePlays.startTurn(gaming);
+		IA_Manager ia_Manager = new IA_Manager(gameTable);
 		InfoAction whoKill = ia_Manager.whoKill(characterArray, gaming, next.getTeam(), currentGamers);//falta
 		System.out.println(whoKill.getReason());
 		Card usedcard = whoKill.getCards().get(0);
