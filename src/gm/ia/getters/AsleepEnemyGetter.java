@@ -138,6 +138,6 @@ public class AsleepEnemyGetter {
     }
 
     public int all() {
-        return others.size() + asleep.size() + withoutNext.size();
+        return others.size() + asleep.size() + withoutNext.size() + othersAttackME.size() + withoutNextAttackME.size() + asleepAttackMe.size();
     }
 }

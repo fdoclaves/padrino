@@ -171,9 +171,12 @@ public class SimulationTest {
 		System.out.println("Cards:"+gaming.getCards());
 		donePlays.startTurn(gaming);
 		IA_Manager ia_Manager = new IA_Manager(gameTable);
-		InfoAction whoKill = ia_Manager.whoKill(characterArray, gaming, next.getTeam(), currentGamers);//falta
+		InfoAction whoKill = ia_Manager.whoKill(characterArray, gaming, next.getTeam(), currentGamers);
 		System.out.println(whoKill.getReason());
 		Card usedcard = whoKill.getCards().get(0);
+		if(whoKill.getCards().size()>1){
+			System.out.println("posible Error!");
+		}
 		System.out.println("Used card: "+usedcard.getType());
 		donePlays.play(usedcard);
 		donePlays.finishTurn();

@@ -236,13 +236,19 @@ public class CakeGetterTest {
 	
 	@Test
 	public void testSimulador() {
-
+		Converter converter = new Converter(9, 3);
+		//........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
+		String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+		
 		// ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
 		String[][] playerChairs = { { "B", "VV", "R_", "VV", "VV", "VV", "B_", "BP", "VV" },
 									{ "V", "**", "**", "**", "**", "**", "**", "**", "VV" },
-									{ "V", "**", "**", "**", "**", "**", "**", "**", "VV" },
-									{ "V", "**", "**", "**", "**", "**", "**", "**", "VV" },
 									{ "R", "B_", "VV", "VV", "VV", "N_", "R_", "R_", "R_" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		gameTable = new GameTable(tableSeats);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
 		new DataCakeGetter(characterArray, gameTable, playerR, "N");
@@ -277,7 +283,7 @@ public class CakeGetterTest {
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
-		assertTrue(""+position, position.isEquals(new Position(3, 0)));
+		assertTrue(""+position, position.isEquals(new Position(4, 0)));
 	}
 	
 
