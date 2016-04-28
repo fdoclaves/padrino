@@ -1,4 +1,4 @@
-package gt.ia;
+package gt.ia.getters;
 
 import static org.junit.Assert.*;
 
@@ -193,8 +193,26 @@ public class CakeGetterTest {
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
-		assertTrue(""+position, position.isEquals(new Position(8, 1)));
+		assertTrue(""+position, position.isEquals(new Position(8, 2)));
 	}
+	
+	   @Test
+	    public void calcularNextMoveCake() {
+
+	        // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
+	        String[][] playerChairs = { { "V", "B", "R_", "VV", "VV", "VV", "VV", "B_", "VV" },
+	                                    { "V", "**", "**", "**", "**", "**", "**", "**", "RK" },
+	                                    { "B", "**", "**", "**", "**", "**", "**", "**", "R_" },
+	                                    { "V", "**", "**", "**", "**", "**", "**", "**", "VV" },
+	                                    { "R", "VV", "VV", "B_", "VV", "R_", "VV", "VV", "VV" } };
+	        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+	        new IaComponentsSetter(gameTable, characterArray, playerB, 3);
+	        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+	        CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
+	        CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
+	        Position position = cakeGetter.getBestPosition().getExplotedPosition();
+	        assertTrue(""+position, position.isEquals(new Position(8, 2)));
+	    }
 	
 	@Test
 	public void notToPutIfThereIsACakeHere() {
@@ -212,7 +230,7 @@ public class CakeGetterTest {
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
-		assertTrue(""+position, position.isEquals(new Position(0, 4)));
+		assertTrue(""+position, position.isEquals(new Position(1, 4)));
 	}
 	
 	@Test

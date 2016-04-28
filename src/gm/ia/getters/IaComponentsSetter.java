@@ -51,8 +51,9 @@ public class IaComponentsSetter {
                 Position position = new Position(x, y);
                 GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
                 TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
+                gameCharacter.setCake(false);
+                gameCharacter.setFatalCake(false);
                 if (CharacterUtils.isValid(gameCharacter)) {
-                    gameCharacter.setCake(false);
                     float businessValue = businessValueGetter.setBusinessValue(generalTeams, gameCharacter, position);
                     gameCharacter.setBusinessValue(businessValue);
                     boolean hasKnife = hasKnife(gameCharacter, tableSeat);
@@ -134,7 +135,7 @@ public class IaComponentsSetter {
         return new AttackData(knifeAttacks, gunAttack, position, hasKnife);
     }
 
-    public List<GameCharacter> getIaTeamThatCanBeAttackByThey() {
+    public List<GameCharacter> getIaTeam() {
         return iaTeam;
     }
 

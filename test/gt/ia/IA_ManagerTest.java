@@ -67,7 +67,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
 		IaComponentsSetter attackDataGetter = new IaComponentsSetter(gameTable, characterArray, playerB,3);
-		List<GameCharacter> iaTeam = attackDataGetter.getIaTeamThatCanBeAttackByThey();
+		List<GameCharacter> iaTeam = attackDataGetter.getIaTeam();
 		List<InfoAction> attactedPositions = manager.getAttactedPositions(iaTeam, "");
 		assertEquals(5, attactedPositions.size());
 	}

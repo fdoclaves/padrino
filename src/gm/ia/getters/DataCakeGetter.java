@@ -37,16 +37,19 @@ public class DataCakeGetter {
 			fillCounters(boomPositions, counter);
 			for (Position position : boomPositions) {
 				GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
-				if(CharacterUtils.isValid(character)){
-					boolean fatal = nextTeam.equals(cake.getTeam());
-					DataCake dataCake = new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine);
+				if(!character.isInvalidSeat()){
+				    boolean fatal = nextTeam.equals(cake.getTeam());
 					character.setCake(true);
-					if(character.isTeam(player.getTeam())){
-						me.add(dataCake);
-					}else{
-						enemies.add(dataCake);
+					character.setFatalCake(fatal);
+					if(!character.isEmpty()){
+					    DataCake dataCake = new DataCake(position, fatal,cake,counter.counterThem, counter.counterMine);
+					    if(character.isTeam(player.getTeam())){
+	                        me.add(dataCake);
+	                    }else{
+	                        enemies.add(dataCake);
+	                    }
+					    cake.setDataCake(dataCake);
 					}
-					cake.setDataCake(dataCake);
 				}
 			}
 		}

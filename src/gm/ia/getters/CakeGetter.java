@@ -31,7 +31,7 @@ public class CakeGetter {
 			for (int y = 0; y < characterArray.length; y++) {
 				Position posiblePosition = new Position(x, y);
 				GameCharacter cakeCharacter = CharacterUtils.getCharacterByPosition(characterArray, posiblePosition);
-				if (cakeCharacter != null && !cakeCharacter.isInvalidSeat()) {
+				if (!cakeCharacter.isInvalidSeat()) {
 					List<Position> enemies = new ArrayList<Position>();
 					int attackMe = 0;
 					float valueBusiness = 0;
@@ -56,7 +56,8 @@ public class CakeGetter {
 							valueBusiness = valueBusiness + gameCharacter.getBusinessValue();
 						}
 					}
-					float value = (attackMe*10 + valueBusiness)*enemies.size() + enemies.size()*100;
+					int moveCake_iaTeam = getIfUseMoveCakeCardCanAttackMe(posiblePosition);
+					float value = (attackMe*10 + valueBusiness)*enemies.size() + enemies.size()*100 - moveCake_iaTeam*0.5f;
 					if(!hurtMe){
 						if(hasCake){
 							if(value > bestValuePeorEsNada){
@@ -84,7 +85,22 @@ public class CakeGetter {
 		return dataCake;
 	}
 
-	public Position getPeorEsNada() {
+	private int getIfUseMoveCakeCardCanAttackMe(Position posiblePosition) {
+	    int counterMyTeam = 0;
+	    Cake cake = new Cake(posiblePosition, myTeam);
+	    List<Position> positions = cakeUtils.getValidPositions(cake, characterArray);
+	    for (Position position : positions) {
+	        GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
+            if(CharacterUtils.isValid(gameCharacter)){
+               if(gameCharacter.isTeam(myTeam)){
+                   counterMyTeam++;
+               }
+            }
+        }
+        return counterMyTeam;
+    }
+
+    public Position getPeorEsNada() {
 		if (peorEsNada == null) {
 			return null;
 		}

@@ -28,7 +28,7 @@ public class MoveCakeCard extends Card {
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException, GameWarning {
 		GameCharacter character = characters[newPosition.getY()][newPosition.getX()];
-		if (character== null || character.isEmpty()) {
+		if (character.isEmpty()) {
             throw new GameException(GameMessages.SEAT_EMPTY);
         }
 		

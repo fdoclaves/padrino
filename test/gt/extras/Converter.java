@@ -1,6 +1,7 @@
 package gt.extras;
 
 import gm.GameCharacter;
+import gm.GameCharacterEmpty;
 import gm.TableSeat;
 
 public class Converter {
@@ -28,7 +29,7 @@ public class Converter {
 		String text = "";
 		for (GameCharacter[] characters : array) {
 			for (GameCharacter character : characters) {
-				if (character == null) {
+				if (character instanceof GameCharacterEmpty) {
 					text += "V" + ",";
 				} else {
 					text += character.toString() + ",";

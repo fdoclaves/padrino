@@ -25,7 +25,7 @@ public class CakeCard extends Card {
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
 		GameCharacter gameCharacter = characters[cake.getPosition().getY()][cake.getPosition().getX()];
-		if (gameCharacter!=null && gameCharacter.isInvalidSeat()) {
+		if (gameCharacter.isInvalidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
 		}
 	}

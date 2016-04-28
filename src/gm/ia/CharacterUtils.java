@@ -14,6 +14,6 @@ public class CharacterUtils {
 	}
 	
 	public static boolean isValid(GameCharacter gameCharacter){
-	    return gameCharacter!=null && !gameCharacter.isInvalidSeat() && !gameCharacter.isEmpty();
+	    return !gameCharacter.isInvalidSeat() && !gameCharacter.isEmpty();
 	}
 }

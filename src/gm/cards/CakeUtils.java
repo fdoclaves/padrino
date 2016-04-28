@@ -75,7 +75,7 @@ public class CakeUtils {
 		int x = cake.getPosition().getX() + desplazamientoX;
 		int y = cake.getPosition().getY() + desplazamientoY;
 		GameCharacter character = CharacterUtils.getCharacterByPosition(characters, new Position(x, y));
-		while (character==null ||character.isEmpty()) {
+		while (character.isEmpty()) {
 			desplazamientoX = getX(x, y, reloj, desplazamientoX);
 			desplazamientoY = getY(x, y, reloj, desplazamientoY);
 			x = x + desplazamientoX;

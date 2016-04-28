@@ -2,6 +2,7 @@ package gm.cards;
 
 import gm.Card;
 import gm.GameCharacter;
+import gm.GameCharacterEmpty;
 import gm.exceptions.GameException;
 import gm.info.CardType;
 import gm.info.GameMessages;
@@ -21,14 +22,14 @@ public class MoveCard extends Card {
 	public void doAction(GameCharacter[][] characters) {
 		characters[attackedPosition.getY()][attackedPosition
 				.getX()] = characters[attackerPosition.getY()][attackerPosition.getX()];
-		characters[attackerPosition.getY()][attackerPosition.getX()] = null;
+		characters[attackerPosition.getY()][attackerPosition.getX()] = new GameCharacterEmpty();
 	}
 
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
 		validateAttackerCharacter(attackerPosition, characters, team);
 		GameCharacter attackedChair = getCharacterFromChair(attackedPosition, characters);
-		if (attackedChair != null && !attackedChair.isEmpty()) {
+		if (!attackedChair.isEmpty()) {
 			throw new GameException(GameMessages.OCCUPIED);
 		}
 	}

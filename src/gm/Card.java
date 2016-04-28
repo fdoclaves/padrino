@@ -45,7 +45,7 @@ public abstract class Card {
 
 		GameCharacter attackerChair = characters[attackerPosition.getY()][attackerPosition.getX()];
 		
-	    if (attackerChair==null || attackerChair.isEmpty()) {
+	    if (attackerChair.isEmpty()) {
 	            throw new GameException(GameMessages.SEAT_EMPTY);
 	    }
 
@@ -65,7 +65,7 @@ public abstract class Card {
 	protected void warnFromAttacted(Position attackedPosition, GameCharacter[][] characters, String team)
 			throws GameWarning {
 		GameCharacter attackedChair = getCharacterFromChair(attackedPosition, characters);
-		if (attackedChair == null) {
+		if (attackedChair.isEmpty()) {
 			throw new GameWarning(GameMessages.ATTACKER_SEAT_IS_EMPTY);
 		} else {
 			if (attackedChair.isTeam(team)) {

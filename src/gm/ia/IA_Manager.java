@@ -108,7 +108,7 @@ public class IA_Manager {
             }
         }
 
-        List<GameCharacter> iaTeam = componentSetter.getIaTeamThatCanBeAttackByThey();
+        List<GameCharacter> iaTeam = componentSetter.getIaTeam();
         List<InfoAction> enemiesThatIaTeamCanKill = getAttactedPositions(iaTeam, "PUEDO ATACARLO");
         if (enemiesThatIaTeamCanKill.size() > 0) {
             List<GameCharacter> enemyAttackDatas = componentSetter.getEnemyAttackDatas();

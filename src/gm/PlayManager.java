@@ -68,11 +68,8 @@ public class PlayManager {
 		this.startTurn = true;
 		for (int i = 0; i < gameTable.getMaxY(); i++) {
 			for (int j = 0; j < gameTable.getMaxX(); j++) {
-				if (characters[i][j] == null) {
-					beforeCharacters[i][j] = null;
-				} else {
 					beforeCharacters[i][j] = characters[i][j].cloneCharacters();
-				}
+
 			}
 		}
 		boomCake();
@@ -158,7 +155,7 @@ public class PlayManager {
 			for (int y = 0; y < gameTable.getMaxY(); y++) {
 				GameCharacter character = characters[y][x];
 				TableSeat valueTable = gameTable.getTableSeats()[y][x];
-				if (character != null) {
+				if (!character.isEmpty()) {
 					if (character.isTeam(team)) {
 						if (valueTable.has(RESTAUNTS)) {
 							restaunts++;
@@ -204,7 +201,7 @@ public class PlayManager {
 	private void removeZzz(String team) {
 		for (GameCharacter[] characterArray : characters) {
 			for (GameCharacter character : characterArray) {
-				if (character != null && character.isTeam(team)) {
+				if (!character.isEmpty() && character.isTeam(team)) {
 					character.wakeUp();
 				}
 			}

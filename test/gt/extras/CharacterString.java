@@ -47,7 +47,7 @@ public class CharacterString extends GameCharacter {
 
 	@Override
 	public boolean isEmpty() {
-		return value == null || value.contains(EMPTY);
+		return value.contains(EMPTY);
 	}
 
 	@Override
