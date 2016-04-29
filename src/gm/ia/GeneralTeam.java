@@ -11,8 +11,11 @@ public class GeneralTeam {
 
     private MoneyNumberGetter moneyNumberSystem;
 
+    private List<MoneyValues> totalMoneyValues;
+
     public GeneralTeam(int countCharacters, List<MoneyValues> totalMoneyValues) {
         this.countCharacters = countCharacters;
+        this.totalMoneyValues = totalMoneyValues;
         this.moneyNumberSystem = new MoneyNumberGetter(totalMoneyValues);
     }
 
@@ -22,6 +25,10 @@ public class GeneralTeam {
 
     public MoneyNumberGetter getMoneyNumberSystem() {
         return moneyNumberSystem;
+    }
+    
+    public List<MoneyValues> getTotalMoneyValues() {
+        return this.totalMoneyValues;
     }
 
 }

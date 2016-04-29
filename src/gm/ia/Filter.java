@@ -3,7 +3,7 @@ package gm.ia;
 import gm.GameCharacter;
 
 public interface Filter {
-	boolean addIfTeam(GameCharacter attackedCharacter);
+	boolean addIf(GameCharacter attackedCharacter);
 
 	boolean addAsleep();
 }

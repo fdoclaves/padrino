@@ -14,6 +14,8 @@ public abstract class GameCharacter {
 	private boolean hasCake;
 	
 	private boolean fatalCake;
+	
+	private Position position;
 
     public float getBusinessValue() {
         return this.businessValue;
@@ -32,7 +34,7 @@ public abstract class GameCharacter {
     }
     
     public Position getPosition(){
-        return this.attackData.getPosition();
+        return this.position;
     }
     
     public float getWeaponValue() {
@@ -81,6 +83,10 @@ public abstract class GameCharacter {
     
     public boolean hasFatalCake(){
         return this.fatalCake;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
 }

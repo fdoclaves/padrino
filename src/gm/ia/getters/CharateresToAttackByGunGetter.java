@@ -1,13 +1,16 @@
 package gm.ia.getters;
 
+import java.util.List;
+
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.ia.AddEmptySeat;
 import gm.ia.CharacterUtils;
 import gm.ia.Filter;
-import gm.ia.FilterOnlyTeam;
-import gm.ia.FilterSameTeam;
+import gm.ia.AddAttackToIaTeam;
+import gm.ia.AddEnemiesTeam;
 import gm.info.TableObjects;
 import gm.pojos.Position;
 
@@ -29,14 +32,19 @@ public class CharateresToAttackByGunGetter {
 	}
 
 	public Position getMyAttackPosition(GameCharacter[][] characters, Position attackerPosition, Player player) {
-		Filter filter = new FilterSameTeam(player.getTeam());
+		Filter filter = new AddEnemiesTeam(player.getTeam());
 		return buildAttackPosition(characters, attackerPosition, filter);
 	}
 
 	public Position getTheirAttackPosition(GameCharacter[][] characters, Position attackerPosition, String myTeam) {
-		Filter filter = new FilterOnlyTeam(myTeam);
+		Filter filter = new AddAttackToIaTeam(myTeam);
 		return buildAttackPosition(characters, attackerPosition, filter);
 	}
+	
+	   public Position getEmptyAttackPositions(GameCharacter[][] characters, Position attackerPosition) {
+	        Filter filter = new AddEmptySeat();
+	        return buildAttackPosition(characters, attackerPosition, filter);
+	    }
 
 	private Position buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
 		GameCharacter attackerCharacter = CharacterUtils.getCharacterByPosition(characters, attackerPosition);
@@ -77,7 +85,7 @@ public class CharateresToAttackByGunGetter {
 
 	private Position filterByTeamAndEmpty(GameCharacter[][] characterArray, Filter filter, Position attackedPosition) {
 		GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, attackedPosition);
-		if (CharacterUtils.isValid(character) && filter.addIfTeam(character)) {
+		if (!character.isInvalidSeat() && filter.addIf(character)) {
 			return attackedPosition;
 		} else {
 			return null;

@@ -36,10 +36,10 @@ public class IaComponentsSetter {
         this.currentGamers = currentGamers;
         this.maxX = gameTable.getMaxX() - 1;
         this.middle = (gameTable.getMaxY() - 1) / 2;
-        generalTeams = new HashMap<String, GeneralTeam>();
-        iaTeam = new ArrayList<GameCharacter>();
-        enemies = new ArrayList<GameCharacter>();
-        businessValueGetter = new BusinessValueGetter(characterArray, gameTable);
+        this.generalTeams = new HashMap<String, GeneralTeam>();
+        this.iaTeam = new ArrayList<GameCharacter>();
+        this.enemies = new ArrayList<GameCharacter>();
+        this.businessValueGetter = new BusinessValueGetter(characterArray, gameTable);
         fillList(gameTable, characterArray, player);
     }
 
@@ -50,9 +50,9 @@ public class IaComponentsSetter {
             for (int y = 0; y < gameTable.getMaxY(); y++) {
                 Position position = new Position(x, y);
                 GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
+                gameCharacter.setPosition(position);
+                resetValues(gameCharacter);
                 TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
-                gameCharacter.setCake(false);
-                gameCharacter.setFatalCake(false);
                 if (CharacterUtils.isValid(gameCharacter)) {
                     float businessValue = businessValueGetter.setBusinessValue(generalTeams, gameCharacter, position);
                     gameCharacter.setBusinessValue(businessValue);
@@ -73,6 +73,11 @@ public class IaComponentsSetter {
                 }
             }
         }
+    }
+
+    private void resetValues(GameCharacter gameCharacter) {
+        gameCharacter.setCake(false);
+        gameCharacter.setFatalCake(false);
     }
     
     private float getWeaponValueAndKnowIfHasKnife(Position position ,GameCharacter gameCharacter, TableSeat tableSeat, boolean hasKnife){

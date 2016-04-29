@@ -7,10 +7,11 @@ import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.ia.AddEmptySeat;
 import gm.ia.CharacterUtils;
 import gm.ia.Filter;
-import gm.ia.FilterOnlyTeam;
-import gm.ia.FilterSameTeam;
+import gm.ia.AddAttackToIaTeam;
+import gm.ia.AddEnemiesTeam;
 import gm.info.TableObjects;
 import gm.pojos.Position;
 
@@ -29,15 +30,20 @@ public class CharateresToAttackByKnifeGetter {
 	}
 
 	public List<Position> getMyAttackPositions(GameCharacter[][] characters, Position attackerPosition, Player player) {
-		Filter filter = new FilterSameTeam(player.getTeam());
+		Filter filter = new AddEnemiesTeam(player.getTeam());
 		return buildAttackPosition(characters, attackerPosition, filter);
 	}
 
 	public List<Position> getTheirAttackPositions(GameCharacter[][] characters, Position attackerPosition,
 			String myTeam) {
-		Filter filter = new FilterOnlyTeam(myTeam);
+		Filter filter = new AddAttackToIaTeam(myTeam);
 		return buildAttackPosition(characters, attackerPosition, filter);
 	}
+	
+	public List<Position> getEmptyAttackPositions(GameCharacter[][] characters, Position attackerPosition) {
+        Filter filter = new AddEmptySeat();
+        return buildAttackPosition(characters, attackerPosition, filter);
+    }
 
 	private List<Position> buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
 		if (hasWeaponAndWakeUp(attackerPosition, characters)) {
@@ -108,7 +114,7 @@ public class CharateresToAttackByKnifeGetter {
 	private void filter(GameCharacter[][] characters, Filter filter, List<Position> positions,
 			Position positionToEvaluate) {
 		GameCharacter attackedCharacter = characters[positionToEvaluate.getY()][positionToEvaluate.getX()];
-		if (CharacterUtils.isValid(attackedCharacter) && filter.addIfTeam(attackedCharacter)) {
+		if (!attackedCharacter.isInvalidSeat() && filter.addIf(attackedCharacter)) {
 			positions.add(positionToEvaluate);
 		}
 	}
