@@ -3,13 +3,13 @@ package gm.ia.getters;
 import java.util.ArrayList;
 import java.util.List;
 
+import gm.Card;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.SleepCard;
 import gm.ia.CharacterUtils;
-import gm.ia.pojos.InfoAction;
 import gm.info.TableObjects;
 import gm.pojos.Position;
 
@@ -90,7 +90,7 @@ public class AsleepEnemyGetter {
         }
     }
 
-    public InfoAction getBestSleepCard(String reason) {
+    public Card getBestSleepCard(String reason) {
         List<Position> positions = new ArrayList<Position>();
         addToListIfCan(positions, asleepAttackMe);
         addToListIfCan(positions, asleep);
@@ -101,18 +101,21 @@ public class AsleepEnemyGetter {
         return buildSleepCard(reason, positions);
     }
 
-    private InfoAction buildSleepCard(String reason, List<Position> positions) {
+    private Card buildSleepCard(String reason, List<Position> positions) {
         if (positions.size() == 1) {
             SleepCard sleepCard = new SleepCard(positions.get(0));
-            return new InfoAction(sleepCard, null, null, reason);
+            sleepCard.setReason(reason);
+            return sleepCard;
         }
         if (positions.size() == 2) {
             SleepCard sleepCard = new SleepCard(positions.get(0), positions.get(1));
-            return new InfoAction(sleepCard, null, null, reason);
+            sleepCard.setReason(reason);
+            return sleepCard;
         }
         if (positions.size() == 3) {
             SleepCard sleepCard = new SleepCard(positions.get(0), positions.get(1), positions.get(2));
-            return new InfoAction(sleepCard, null, null, reason);
+            sleepCard.setReason(reason);
+            return sleepCard;
         }
         return null;
     }

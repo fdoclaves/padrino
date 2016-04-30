@@ -21,7 +21,6 @@ public class GunCard extends Card {
 	public GunCard(Position attackerPosition, Position attackedPosition) {
 		this.attackedPosition = attackedPosition;
 		this.attackerPosition = attackerPosition;
-
 	}
 
 	@Override

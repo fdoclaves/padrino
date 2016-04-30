@@ -16,6 +16,12 @@ public class MoveCard extends Card {
 	private Position whoMove;
 	private Position whereMove;
 
+	public MoveCard(Position whoMove, Position whereMove, String reason) {
+		this.whoMove = whoMove;
+		this.whereMove = whereMove;
+		setReason(reason);
+	}
+	
 	public MoveCard(Position whoMove, Position whereMove) {
 		this.whoMove = whoMove;
 		this.whereMove = whereMove;

@@ -1,6 +1,7 @@
 package gt.ia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.Cake;
+import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.MoveCakeCard;
 import gm.ia.IA_Manager;
-import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -62,12 +63,11 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
-		assertTrue(new Position(5, 0).isEquals(card.getNewPosition()));
+		Card card = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",card.getReason());
+		assertEquals(CardType.MOVE_CAKE, card.getType());
+		MoveCakeCard moveCakeCard = (MoveCakeCard) card;
+		assertTrue(new Position(5, 0).isEquals(moveCakeCard.getNewPosition()));
 	}
 	
 	@Test
@@ -91,11 +91,10 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 0).isEquals(card.getNewPosition()));
 	}
 	
@@ -120,8 +119,8 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",attackedPositionIA.getReason());
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",usedCard.getReason());
 	}
 	
 	@Test
@@ -146,11 +145,10 @@ public class IA_ManagerMoveCakeTest {
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(5, 0), "R", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(7, 0).isEquals(card.getNewPosition()));
 	}
 	
@@ -175,11 +173,10 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("MOVE CAKE BY BUSINESS: -100.0",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("MOVE CAKE BY BUSINESS: -100.0",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 0).isEquals(card.getNewPosition()));
 	}
 	
@@ -204,11 +201,10 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("MORE ENEMIES, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("MORE ENEMIES, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(2, 4).isEquals(card.getNewPosition()));
 	}
 	
@@ -233,11 +229,10 @@ public class IA_ManagerMoveCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("MORE ENEMIES, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("MORE ENEMIES, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 0).isEquals(card.getNewPosition()));
 	}
 	
@@ -263,11 +258,10 @@ public class IA_ManagerMoveCakeTest {
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 4).isEquals(card.getNewPosition()));
 	}
 	
@@ -293,11 +287,10 @@ public class IA_ManagerMoveCakeTest {
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 4).isEquals(card.getNewPosition()));
 	}
 	
@@ -324,11 +317,10 @@ public class IA_ManagerMoveCakeTest {
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction attackedPositionIA = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("ATTACK CAKE ME, MOVE CAKE",attackedPositionIA.getReason());
-		assertEquals(1, attackedPositionIA.getCards().size());
-		assertEquals(CardType.MOVE_CAKE, attackedPositionIA.getCards().get(0).getType());
-		MoveCakeCard card = (MoveCakeCard) attackedPositionIA.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("ATTACK CAKE ME, MOVE CAKE",usedCard.getReason());
+		assertEquals(CardType.MOVE_CAKE, usedCard.getType());
+		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 4).isEquals(card.getNewPosition()));
 	}
 

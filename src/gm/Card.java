@@ -24,6 +24,8 @@ public abstract class Card {
 	protected int MIDDLE;
 
 	protected GameTable gameTable;
+	
+	private String reason;
 
 	public void inicialize(GameTable gameTable) {
 		this.gameTable = gameTable;
@@ -78,5 +80,13 @@ public abstract class Card {
 
 	protected GameCharacter getCharacterFromChair(Position position, GameCharacter[][] characters) {
 		return characters[position.getY()][position.getX()];
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 }

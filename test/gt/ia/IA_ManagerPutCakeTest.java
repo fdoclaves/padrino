@@ -1,6 +1,7 @@
 package gt.ia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.Cake;
+import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeCard;
 import gm.cards.SleepCard;
 import gm.ia.IA_Manager;
-import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -62,11 +63,10 @@ public class IA_ManagerPutCakeTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("PUT CAKE:ENEMIES:2",infoAction.getReason());
-		assertEquals(1, infoAction.getCards().size());
-		assertEquals(CardType.CAKE, infoAction.getCards().get(0).getType());
-		CakeCard cakeCard = (CakeCard) infoAction.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
+		assertEquals(CardType.CAKE, usedCard.getType());
+		CakeCard cakeCard = (CakeCard) usedCard;
 		assertTrue(""+cakeCard.getCakePosition(),new Position(1, 0).isEquals(cakeCard.getCakePosition()));
 	}
 	
@@ -90,11 +90,10 @@ public class IA_ManagerPutCakeTest {
 	        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 	        GameTable gameTable = new GameTable(tableSeats);
 	        IA_Manager manager = new IA_Manager(gameTable);
-	        InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-	        assertEquals("HAY MAS DE 3 DORMIDOS",infoAction.getReason());
-	        assertEquals(1, infoAction.getCards().size());
-	        assertEquals(CardType.SLEEP, infoAction.getCards().get(0).getType());
-	        SleepCard sleepCard = (SleepCard) infoAction.getCards().get(0);
+	        Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+	        assertEquals("HAY MAS DE 3 DORMIDOS",usedCard.getReason());
+	        assertEquals(CardType.SLEEP, usedCard.getType());
+	        SleepCard sleepCard = (SleepCard) usedCard;
 	        assertEquals(3, sleepCard.getPositionList().size());
 	    }
 	
@@ -118,11 +117,10 @@ public class IA_ManagerPutCakeTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("PUT CAKE:ENEMIES:1",infoAction.getReason());
-		assertEquals(1, infoAction.getCards().size());
-		assertEquals(CardType.CAKE, infoAction.getCards().get(0).getType());
-		CakeCard cakeCard = (CakeCard) infoAction.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("PUT CAKE:ENEMIES:1",usedCard.getReason());
+		assertEquals(CardType.CAKE, usedCard.getType());
+		CakeCard cakeCard = (CakeCard) usedCard;
 		assertTrue(""+cakeCard.getCakePosition(), new Position(8, 1).isEquals(cakeCard.getCakePosition()));
 	}
 	
@@ -147,11 +145,10 @@ public class IA_ManagerPutCakeTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(8, 3), "N", gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("PEOR ES NADA, PUT CAKE",infoAction.getReason());
-		assertEquals(1, infoAction.getCards().size());
-		assertEquals(CardType.CAKE, infoAction.getCards().get(0).getType());
-		CakeCard cakeCard = (CakeCard) infoAction.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("PEOR ES NADA, PUT CAKE",usedCard.getReason());
+		assertEquals(CardType.CAKE, usedCard.getType());
+		CakeCard cakeCard = (CakeCard) usedCard;
 		assertTrue(""+cakeCard.getCakePosition(),new Position(8, 1).isEquals(cakeCard.getCakePosition()));
 	}
 

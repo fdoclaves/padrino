@@ -10,12 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.Cake;
+import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.MoveCard;
 import gm.ia.IA_Manager;
-import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -63,11 +63,10 @@ public class IA_ManagerMoveTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(4, 4), R, gameTable));
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("MOVE, CAKE:2",infoAction.getReason());
-		assertEquals(1, infoAction.getCards().size());
-		assertEquals(CardType.MOVE, infoAction.getCards().get(0).getType());
-		MoveCard cakeCard = (MoveCard) infoAction.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("MOVE, CAKE:2",usedCard.getReason());
+		assertEquals(CardType.MOVE, usedCard.getType());
+		MoveCard cakeCard = (MoveCard) usedCard;
 		assertTrue(""+cakeCard.getWhoToMove(),new Position(4, 4).isEquals(cakeCard.getWhoToMove()));
 	}
 	
@@ -91,11 +90,10 @@ public class IA_ManagerMoveTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		IA_Manager manager = new IA_Manager(gameTable);
-		InfoAction infoAction = manager.whoKill(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("NADA MAS QUE HACER, MOVE",infoAction.getReason());
-		assertEquals(1, infoAction.getCards().size());
-		assertEquals(CardType.MOVE, infoAction.getCards().get(0).getType());
-		MoveCard cakeCard = (MoveCard) infoAction.getCards().get(0);
+		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		assertEquals("NADA MAS QUE HACER, MOVE",usedCard.getReason());
+		assertEquals(CardType.MOVE, usedCard.getType());
+		MoveCard cakeCard = (MoveCard) usedCard;
 		assertTrue(""+cakeCard.getWhoToMove(),new Position(3, 4).isEquals(cakeCard.getWhoToMove()));
 	}
 	

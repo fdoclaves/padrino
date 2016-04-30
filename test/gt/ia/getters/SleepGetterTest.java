@@ -1,6 +1,8 @@
 package gt.ia.getters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +46,15 @@ public class SleepGetterTest {
     public void normalesSleeps() {
         assertNull(sleepGetter.getBestSleepCard(""));
         others.add(new Position(0, 0));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(1, positionList.size());
         others.add(new Position(1, 1));
-        card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        card = (SleepCard) sleepGetter.getBestSleepCard("");
         positionList = card.getPositionList();
         assertEquals(2, positionList.size());
         others.add(new Position(2, 2));
-        card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        card = (SleepCard) sleepGetter.getBestSleepCard("");
         positionList = card.getPositionList();
         assertEquals(3, positionList.size());
     }
@@ -63,7 +65,7 @@ public class SleepGetterTest {
         others.add(new Position(1, 1));
         others.add(new Position(2, 2));
         withoutNext.add(new Position(3, 3));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(3, 3)));
@@ -78,7 +80,7 @@ public class SleepGetterTest {
         others.add(new Position(2, 2));
         withoutNext.add(new Position(3, 3));
         withoutNext.add(new Position(4, 4));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(3, 3)));
@@ -94,7 +96,7 @@ public class SleepGetterTest {
         withoutNext.add(new Position(3, 3));
         withoutNext.add(new Position(4, 4));
         withoutNext.add(new Position(5, 5));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(3, 3)));
@@ -111,7 +113,7 @@ public class SleepGetterTest {
         withoutNext.add(new Position(4, 4));
         withoutNext.add(new Position(5, 5));
         isSlept.add(new Position(6, 6));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(6, 6)));
@@ -129,7 +131,7 @@ public class SleepGetterTest {
         withoutNext.add(new Position(5, 5));
         isSlept.add(new Position(6, 6));
         isSlept.add(new Position(7, 7));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(6, 6)));
@@ -148,7 +150,7 @@ public class SleepGetterTest {
         isSlept.add(new Position(6, 6));
         isSlept.add(new Position(7, 7));
         isSlept.add(new Position(8, 8));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(6, 6)));
@@ -166,7 +168,7 @@ public class SleepGetterTest {
         withoutNext.add(new Position(5, 5));
         isSlept.add(new Position(7, 7));
         asleepAttackMe.add(new Position(8, 8));
-        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("").getCards().get(0);
+        SleepCard card = (SleepCard) sleepGetter.getBestSleepCard("");
         List<Position> positionList = card.getPositionList();
         assertEquals(3, positionList.size());
         assertTrue(positionList.get(0).isEquals(new Position(8, 8)));

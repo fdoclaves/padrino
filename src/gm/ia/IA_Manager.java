@@ -38,7 +38,7 @@ public class IA_Manager {
 		this.gameTable = gameTable;
 	}
 
-	public InfoAction whoKill(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
+	public Card getCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
 		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player, currentGamers);
 		DataCakeSetter dataCakeSetter = new DataCakeSetter(characterArray, gameTable, player, nextTeam);
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
@@ -50,12 +50,12 @@ public class IA_Manager {
 			int saveIndex = 2;
 			fillValueAndDataCakesArray(characterArray, player.getTeam(), nextTeam, moverCakeGetter, best, moreEnemiesIndex, saveIndex,
 					valueAndDataCakes);
-			InfoAction infoAction = buildInfoAction(saveIndex, valueAndDataCakes, "ATTACK CAKE ME, MOVE CAKE");
-			if (infoAction == null) {
-				infoAction = buildInfoAction(moreEnemiesIndex, valueAndDataCakes, "MORE ENEMIES, MOVE CAKE");
+			Card card = buildCard(saveIndex, valueAndDataCakes, "ATTACK CAKE ME, MOVE CAKE");
+			if (card == null) {
+				card = buildCard(moreEnemiesIndex, valueAndDataCakes, "MORE ENEMIES, MOVE CAKE");
 			}
-			if(infoAction != null){
-				return infoAction;
+			if(card != null){
+				return card;
 			}
 		}
 		
@@ -66,9 +66,8 @@ public class IA_Manager {
 			List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
 			Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
 			Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
-			MoveCard moveCard = new MoveCard(whoMove, whereMove);
-			return new InfoAction(moveCard, whoMove, whereMove, "MOVE, CAKE:"+dataCakeSetter.getExploitedMine().size());
-			
+			String reason= "MOVE, CAKE:"+dataCakeSetter.getExploitedMine().size();
+			return new MoveCard(whoMove, whereMove, reason);			
 		}
 		
 		AsleepEnemyGetter asleepEnemyGetter = new AsleepEnemyGetter(characterArray, player, nextTeam, gameTable);
@@ -81,8 +80,8 @@ public class IA_Manager {
 		if (player.hasCard(CardType.CAKE)) {
 			dataCakeToNewCake = cakeGetter.getBestPosition();
 			if (dataCakeToNewCake != null && dataCakeToNewCake.enemiesByCake() >= 2) {
-				Card card = new CakeCard(dataCakeToNewCake.getCake());
-				return new InfoAction(card, null, null, "PUT CAKE:ENEMIES:" + dataCakeToNewCake.enemiesByCake());
+				String reason = "PUT CAKE:ENEMIES:" + dataCakeToNewCake.enemiesByCake();
+				return new CakeCard(dataCakeToNewCake.getCake(), reason);
 			}
 		}
 
@@ -96,8 +95,7 @@ public class IA_Manager {
 					&& player.hasCard(CardType.BOOM)) {
 				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
 				if (bestCakeToBoom != null) {
-					Card card = new BoomCard(bestCakeToBoom);
-					return new InfoAction(card, null, null, "BOOM, 2 OR MORE GAMERS");
+					return new BoomCard(bestCakeToBoom, "BOOM, 2 OR MORE GAMERS");
 				}
 			}
 		}
@@ -109,48 +107,48 @@ public class IA_Manager {
 					enemiesThatIaTeamCanKill, "PUEDE ATACARME", characterArray, currentGamers, dataCakeSetter,
 					enemyAttackDatas);
 			if (enemiesThatIaTeamCanKillAndTheyCanAttackHim.size() == 1) {
-				return getOne(enemiesThatIaTeamCanKillAndTheyCanAttackHim, "GANO ATACARME");
+				return getOne(enemiesThatIaTeamCanKillAndTheyCanAttackHim, "GANO ATACARME", player);
 			}
 			List<DataInfoActionGetter> freeLetalCake = getBestValues(enemiesThatIaTeamCanKillAndTheyCanAttackHim,
 					"VER FREE LETAL PASTEL", DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE);
 			if (freeLetalCake.size() == 1) {
-				return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ");
+				return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ", player);
 			}
 			List<DataInfoActionGetter> freeCake = getBestValues(freeLetalCake, "VER FREE PASTEL",
 					DataInfoActionGetter.ENEMY_HAS_NOT_CAKE);
 			if (freeCake.size() == 1) {
-				return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ");
+				return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ", player);
 			}
 			if (enemiesThatIaTeamCanKillAndTheyCanAttackHim.size() > 1) {
 				List<DataInfoActionGetter> awake = getBestValues(freeCake, "VER DESPIERTOS",
 						DataInfoActionGetter.ENEMY_ASLEEP);
 				if (awake.size() == 1) {
-					return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
+					return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ", player);
 				}
 				List<DataInfoActionGetter> greatestThreats = getBestValues(awake, "MAS FLANCOS",
 						DataInfoActionGetter.FLANCOS);
 				if (greatestThreats.size() == 1) {
-					return getOne(greatestThreats, DataInfoActionGetter.FLANCOS, "GANO FLANCOS:");
+					return getOne(greatestThreats, DataInfoActionGetter.FLANCOS, "GANO FLANCOS:", player);
 				}
 				List<DataInfoActionGetter> moreWeapons = getBestValues(greatestThreats, "MAS ARMAS",
 						DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
 				if (moreWeapons.size() == 1) {
-					return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
+					return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:", player);
 				}
 				List<DataInfoActionGetter> greatestWeapon = getBestValues(moreWeapons, "MEJOR ARMA",
 						DataInfoActionGetter.ENEMY_HAS_KNIFE);
 				if (greatestWeapon.size() == 1) {
-					return getOne(greatestWeapon, "GANO MEJOR ARMA");
+					return getOne(greatestWeapon, "GANO MEJOR ARMA", player);
 				}
 				List<DataInfoActionGetter> moreMeWeapons = getBestValues(greatestWeapon, "TENGO MAS ARMAS",
 						DataInfoActionGetter.ME_WEAPONS_NUMBER);
 				if (moreMeWeapons.size() == 1) {
-					return getOne(moreMeWeapons, DataInfoActionGetter.ME_WEAPONS_NUMBER, "GANO TENGO MAS ARMAS:");
+					return getOne(moreMeWeapons, DataInfoActionGetter.ME_WEAPONS_NUMBER, "GANO TENGO MAS ARMAS:", player);
 				}
 				List<DataInfoActionGetter> myGreatestBusinnes = getBestValues(moreMeWeapons, "MI MEJOR BUSINESS",
 						DataInfoActionGetter.MY_BUSINESS);
 				if (myGreatestBusinnes.size() == 1) {
-					return getOne(myGreatestBusinnes, "GANO MI MEJOR BUSINESS");
+					return getOne(myGreatestBusinnes, "GANO MI MEJOR BUSINESS", player);
 				}
 				return wonWhoHasBestBusinessVsWhoHasMoreCharacter(componentSetter.getGeneralTeams(), myGreatestBusinnes,
 						asleepEnemyGetter, true, currentGamers, characterArray, player);
@@ -171,14 +169,14 @@ public class IA_Manager {
 			if (player.hasCard(CardType.BOOM) && dataCakeSetter.getExploitedEnemies().size() >= 1) {
 				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
 				if (bestCakeToBoom != null) {
-					return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
+					return new BoomCard(bestCakeToBoom, "NO PUEDO ATACAR//BEST BOOM CAKE");
 				}
 			}
 
 			if (player.hasCard(CardType.CAKE)) {
 				if (dataCakeToNewCake != null && dataCakeToNewCake.enemiesByCake() >= 1) {
-					Card card = new CakeCard(dataCakeToNewCake.getCake());
-					return new InfoAction(card, null, null, "PUT CAKE:ENEMIES:" + dataCakeToNewCake.enemiesByCake());
+					String reason = "PUT CAKE:ENEMIES:" + dataCakeToNewCake.enemiesByCake();
+					return new CakeCard(dataCakeToNewCake.getCake(), reason);
 				}
 			}
 			
@@ -199,31 +197,42 @@ public class IA_Manager {
 				List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
 				Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
 				Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
-				MoveCard moveCard = new MoveCard(whoMove, whereMove);
-				return new InfoAction(moveCard, whoMove, whereMove, "NADA MAS QUE HACER, MOVE");
+				return new MoveCard(whoMove, whereMove, "NADA MAS QUE HACER, MOVE");
 			}
 
 			if (player.hasCard(CardType.CAKE)) {
 				Position peorEsNada = cakeGetter.getPeorEsNada();
 				if (peorEsNada != null) {
-					Card card = new CakeCard(new Cake(peorEsNada, player.getTeam()));
-					return new InfoAction(card, null, null, "PEOR ES NADA, PUT CAKE");
+					return new CakeCard(new Cake(peorEsNada, player.getTeam()), "PEOR ES NADA, PUT CAKE");
 				}
 			}
 			ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);
 			ChangeCard card = changeCardGetter.get();
-			return new InfoAction(card, null, null, "NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD");
+			card.setReason("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD");
+			return card;
 		}
 	}
+	
+	private Card getCard(Player player, InfoAction infoAction) {
+		List<Card> cards = infoAction.getCards();
+		 if(cards.size() == 1){
+			 Card card = cards.get(0);
+			 card.setReason(infoAction.getReason());
+			 return card;
+		 }else{
+			 Card card = player.getCard(cards.get(1), cards.get(0));
+			 card.setReason(infoAction.getReason());
+			 return card;
+		 }
+	}
 
-	private InfoAction buildInfoAction(int index, ValueAndDataCake[] valueAndDataCakes, String reason) {
-		InfoAction moveCakeAction = null;
+	private Card buildCard(int index, ValueAndDataCake[] valueAndDataCakes, String reason) {
+		Card card = null;
 		if (valueAndDataCakes[index] != null) {
 			Position newPosition = valueAndDataCakes[index].getDataCake().getExplotedPosition();
-			MoveCakeCard moveCakeCard = new MoveCakeCard(valueAndDataCakes[index].getDataCake().getCake(), newPosition);
-			moveCakeAction = new InfoAction(moveCakeCard, null, null, reason);
+			card = new MoveCakeCard(valueAndDataCakes[index].getDataCake().getCake(), newPosition, reason);
 		}
-		return moveCakeAction;
+		return card;
 	}
 
 	private void fillValueAndDataCakesArray(GameCharacter[][] characterArray, String teamIa, String nextTeam,
@@ -259,11 +268,10 @@ public class IA_Manager {
 		return bestValorCake > newValue.getValue();
 	}
 
-	private InfoAction buildInfoActionMoveCard(ValueAndDataCake valueAndDataCake, Cake cake) {
+	private Card buildInfoActionMoveCard(ValueAndDataCake valueAndDataCake, Cake cake) {
 		String reason = "MOVE CAKE BY BUSINESS: " + valueAndDataCake.getValue();
 		Position newPosition = valueAndDataCake.getDataCake().getExplotedPosition();
-		MoveCakeCard moveCakeCard = new MoveCakeCard(cake, newPosition);
-		return new InfoAction(moveCakeCard, null, null, reason);
+		return new MoveCakeCard(cake, newPosition, reason);
 	}
 
 	private float getCakeValor(Cake cake, CakeUtils cakeUtils, String myTeam, GameCharacter[][] characterArray) {
@@ -290,7 +298,7 @@ public class IA_Manager {
 		return value;
 	}
 
-	private InfoAction moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> enemiesThatIaTeamCanKill,
+	private Card moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> enemiesThatIaTeamCanKill,
 			AsleepEnemyGetter sleepGetter, int currentGamers, GameCharacter[][] characterArray,
 			Map<String, GeneralTeam> generalTeams, Player player, DataCakeSetter boomCakeGetter,
 			List<GameCharacter> enemyAttackDatas) {
@@ -299,27 +307,27 @@ public class IA_Manager {
 		List<DataInfoActionGetter> freeLetalCake = getBestValues(infoActionUtils, "VER FREE LETAL PASTEL",
 				DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE);
 		if (freeLetalCake.size() == 1) {
-			return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ");
+			return getOne(freeLetalCake, DataInfoActionGetter.ENEMY_HAS_NOT_LETAL_CAKE, "GANO FREE FATAL CAKE: ", player);
 		}
 		List<DataInfoActionGetter> freeCake = getBestValues(freeLetalCake, "VER FREE PASTEL",
 				DataInfoActionGetter.ENEMY_HAS_NOT_CAKE);
 		if (freeCake.size() == 1) {
-			return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ");
+			return getOne(freeCake, DataInfoActionGetter.ENEMY_HAS_NOT_CAKE, "GANO FREE CAKE: ", player);
 		}
 		List<DataInfoActionGetter> awake = getBestValues(freeCake, "VER DESPIERTOS", DataInfoActionGetter.ENEMY_ASLEEP);
 		if (awake.size() == 1) {
-			return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ");
+			return getOne(awake, DataInfoActionGetter.ENEMY_ASLEEP, "GANO DESPIERTOS: ", player);
 		}
 		List<DataInfoActionGetter> moreWeapons = getBestValues(awake, "MAS ARMAS",
 				DataInfoActionGetter.ENEMY_WEAPONS_NUMBER);
 		if (moreWeapons.size() == 1) {
-			return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:");
+			return getOne(moreWeapons, DataInfoActionGetter.ENEMY_WEAPONS_NUMBER, "GANO MAS ARMAS:", player);
 		}
 		// **(MEJOR ARMA) CAKE, MOVECAKE
 		List<DataInfoActionGetter> greatestWeapon = getBestValues(moreWeapons, "MEJOR ARMA",
 				DataInfoActionGetter.ENEMY_HAS_KNIFE);
 		if (greatestWeapon.size() == 1) {
-			return getOne(greatestWeapon, "GANO MEJOR ARMA");
+			return getOne(greatestWeapon, "GANO MEJOR ARMA", player);
 		}
 		if (greatestWeapon.get(0).getValue(DataInfoActionGetter.ENEMY_WEAPONS_NUMBER) > 0
 				&& player.getNumberCard(CardType.SLEEP) >= 2 && sleepGetter.getWithoutNextNumber() >= 2
@@ -350,14 +358,14 @@ public class IA_Manager {
 		return list;
 	}
 
-	private InfoAction wonWhoHasBestBusinessVsWhoHasMoreCharacter(Map<String, GeneralTeam> generalTeams,
+	private Card wonWhoHasBestBusinessVsWhoHasMoreCharacter(Map<String, GeneralTeam> generalTeams,
 			List<DataInfoActionGetter> myGreatestBusinnes, AsleepEnemyGetter sleepGetter, boolean canAttactMe,
 			int currentGamers, GameCharacter[][] characterArray, Player player) {
 		// **(SU MEJOR BUSINESS) CAKE, MOVECAKE
 		List<DataInfoActionGetter> threirGreatestBusinnes = getBestValues(myGreatestBusinnes, "SU MEJOR BUSINESS",
 				DataInfoActionGetter.THEIR_BUSINESS);
 		if (threirGreatestBusinnes.size() == 1) {
-			return getOne(threirGreatestBusinnes, "GANO SU MEJOR BUSINESS");
+			return getOne(threirGreatestBusinnes, "GANO SU MEJOR BUSINESS", player);
 		}
 		if (thereAreSleptAttacteds(sleepGetter, currentGamers, player) && !canAttactMe
 				&& !theyHaveBusiness(threirGreatestBusinnes)) {
@@ -366,7 +374,7 @@ public class IA_Manager {
 		} else {
 			// **(MAS PERSONAJES) CAKE,MOVECAKE
 			if (currentGamers < 3) {
-				return getOne(threirGreatestBusinnes, "EL QUE SEA, < 3 JUGADORES");
+				return getOne(threirGreatestBusinnes, "EL QUE SEA, < 3 JUGADORES", player);
 			}
 			int maxCharactes = 0;
 			DataInfoActionGetter toReturn = null;
@@ -378,7 +386,7 @@ public class IA_Manager {
 				}
 			}
 			toReturn.addReason("GANO MAS PERSONAJES:" + maxCharactes);
-			return toReturn.getInfoAction();
+			return getCard(player, toReturn.getInfoAction());
 		}
 	}
 
@@ -397,17 +405,17 @@ public class IA_Manager {
 		return threirGreatestBusinnes.get(0).getValue(DataInfoActionGetter.THEIR_BUSINESS) > 0;
 	}
 
-	private InfoAction getOne(List<DataInfoActionGetter> attacksToMe, String key, String reason) {
+	private Card getOne(List<DataInfoActionGetter> attacksToMe, String key, String reason, Player player) {
 		DataInfoActionGetter attackToMe = attacksToMe.get(0);
 		InfoAction infoAction = attackToMe.getInfoAction();
 		infoAction.addReason(reason + attackToMe.getValue(key));
-		return attackToMe.getInfoAction();
+		return getCard(player, attackToMe.getInfoAction());
 	}
 
-	private InfoAction getOne(List<DataInfoActionGetter> attacksToMe, String reason) {
+	private Card getOne(List<DataInfoActionGetter> attacksToMe, String reason, Player player) {
 		InfoAction infoAction = attacksToMe.get(0).getInfoAction();
 		infoAction.addReason(reason);
-		return infoAction;
+		return getCard(player, infoAction);
 	}
 
 	private List<DataInfoActionGetter> getCharactesThatTheirCanAttacksMeAndICanKill(List<InfoAction> iaTeamInfoAction,

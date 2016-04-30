@@ -15,7 +15,6 @@ public class ChangeCard extends Card{
 
 	public ChangeCard(CardType cardType){
 		this.cardType = cardType;
-		
 	}
 
 	@Override

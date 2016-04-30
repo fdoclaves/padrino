@@ -18,6 +18,12 @@ public class MoveCakeCard extends Card {
 	
 	private Position newPosition;
 
+	public MoveCakeCard(Cake cake, Position newPosition, String reason) {
+		this.cake = cake;
+		this.newPosition = newPosition;
+		setReason(reason);
+	}
+	
 	public MoveCakeCard(Cake cake, Position newPosition) {
 		this.cake = cake;
 		this.newPosition = newPosition;

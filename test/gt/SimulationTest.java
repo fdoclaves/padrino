@@ -15,14 +15,13 @@ import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
 import gm.PlayersManager;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.ia.IA_Manager;
-import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
 import gt.extras.Converter;
 
@@ -68,9 +67,7 @@ public class SimulationTest {
 	
 	@Test
     public void QuienPierde(){
-        fail("QuienPierde");
         fail("fin juego por $");
-        fail("fin juego un solo jugador");
     }
 	
 	@Test
@@ -110,7 +107,7 @@ public class SimulationTest {
 		donePlays = new PlaysManager(characterArray, gameTable,cardManager, players);
 		int currentGamers = players.size();
 		System.out.println(converter.cToString(donePlays.getChairs()));
-		for (int i = 0; i < 19; i++) {
+		for (int i = 0; i < 19 && players.size() > 1; i++) {
 			List<Player> currentPlayer = playersManager.getCurrentPlayer();
 			play(currentPlayer.get(0), currentPlayer.get(1), currentGamers, i);
 			assertEquals(5, currentPlayer.get(0).getCards().size());
@@ -151,7 +148,7 @@ public class SimulationTest {
 		donePlays = new PlaysManager(characterArray, gameTable,cardManager, players);
 		int currentGamers = players.size();
 		System.out.println(converter.cToString(donePlays.getChairs()));
-		for (int i = 0; i < 19; i++) {
+		for (int i = 0; i < 19 && players.size() > 1; i++) {
 			List<Player> currentPlayer = playersManager.getCurrentPlayer();
 			play(currentPlayer.get(0), currentPlayer.get(1), currentGamers, i);
 			assertEquals(5, currentPlayer.get(0).getCards().size());
@@ -166,14 +163,10 @@ public class SimulationTest {
 		System.out.println("Cards:"+gaming.getCards());
 		donePlays.startTurn(gaming);
 		IA_Manager ia_Manager = new IA_Manager(gameTable);//actualizado con Zzz y muertesXpastel
-		InfoAction whoKill = ia_Manager.whoKill(characterArray, gaming, next.getTeam(), currentGamers);
-		System.out.println(whoKill.getReason());
-		Card usedcard = whoKill.getCards().get(0);
-		if(whoKill.getCards().size()>1){
-			System.out.println("posible Error!");
-		}
-		System.out.println("Used card: "+usedcard.getType());
-		donePlays.play(usedcard);
+		Card card = ia_Manager.getCard(characterArray, gaming, next.getTeam(), currentGamers);
+		System.out.println(card.getReason());
+		System.out.println("Used card: " + card.getType());
+		donePlays.play(card);
 		donePlays.finishTurn();
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		System.out.println("Money: $"+ gaming.getMoney());

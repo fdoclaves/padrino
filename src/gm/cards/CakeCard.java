@@ -15,6 +15,11 @@ public class CakeCard extends Card {
 
 	private Cake cake;
 
+	public CakeCard(Cake cake, String reason) {
+		this.cake = cake;
+		setReason(reason);
+	}
+	
 	public CakeCard(Cake cake) {
 		this.cake = cake;
 	}

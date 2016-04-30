@@ -14,6 +14,11 @@ public class BoomCard extends Card {
 
 	private Cake cake;
 
+	public BoomCard(Cake cake, String reason) {
+		this.cake = cake;
+		setReason(reason);
+	}
+	
 	public BoomCard(Cake cake) {
 		this.cake = cake;
 	}

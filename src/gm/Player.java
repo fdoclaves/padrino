@@ -77,4 +77,22 @@ public class Player {
 	public void plusCounterCharacterOne() {
 		counterCharacters++;
 	}
+
+	public Card getCard(Card cardType1, Card cardType2) {
+		int counter1 = 0;
+		int counter2 = 0;
+		for (CardType cardType : cards) {
+			if(cardType == cardType1.getType()){
+				counter1++;
+			}
+			if(cardType == cardType2.getType()){
+				counter2++;
+			}
+		}
+		if(counter2 > counter1){
+			return cardType2;
+		}else{
+			return cardType1;
+		}
+	}
 }

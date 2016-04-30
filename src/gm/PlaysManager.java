@@ -76,7 +76,7 @@ public class PlaysManager {
 		}
 	}
 
-	public void startTurn(final Player player) throws GameException {
+	public void startTurn(final Player player) {
 		this.beforeCardType = copy(player.getCards());
 		this.team = player.getTeam();
 		this.playedCardsCounter = 1;
@@ -103,7 +103,7 @@ public class PlaysManager {
 		return respaldo;
 	}
 
-	private void boomCake() throws GameException {
+	private void boomCake() {
 		List<Cake> boomCakes = new ArrayList<Cake>();
 		for (Cake cake : gameTable.getCakeList()) {
 			if (team.equals(cake.getTeam())) {
