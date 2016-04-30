@@ -167,6 +167,13 @@ public class IA_Manager {
 			if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.getAsleepNumber() >= 1) {
 				return asleepEnemyGetter.getBestSleepCard("NO PUEDO ATACAR, HAY AL MENOS UNO DORMIDO");
 			}
+			
+			if (player.hasCard(CardType.BOOM) && dataCakeSetter.getExploitedEnemies().size() >= 1) {
+				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
+				if (bestCakeToBoom != null) {
+					return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
+				}
+			}
 
 			if (player.hasCard(CardType.CAKE)) {
 				if (dataCakeToNewCake != null && dataCakeToNewCake.enemiesByCake() >= 1) {
@@ -174,16 +181,7 @@ public class IA_Manager {
 					return new InfoAction(card, null, null, "PUT CAKE:ENEMIES:" + dataCakeToNewCake.enemiesByCake());
 				}
 			}
-
-			if (player.hasCard(CardType.BOOM) && dataCakeSetter.getExploitedEnemies().size() >= 1) {
-				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
-				if (bestCakeToBoom != null) {
-					return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
-				}
-			}
-			if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.all() >= 1) {
-				return asleepEnemyGetter.getBestSleepCard("NO PUEDO ATACAR:" + asleepEnemyGetter.all());
-			}
+			
 			if (player.hasCard(CardType.MOVE_CAKE)) {
 				for (Cake cake : gameTable.getCakeList()) {
 					float currentValor = getCakeValor(cake, cakeUtils, player.getTeam(), characterArray);
@@ -191,6 +189,10 @@ public class IA_Manager {
 						return buildInfoActionMoveCard(valueAndDataCakes[best], cake);
 					}
 				}
+			}
+			
+			if (player.hasCard(CardType.SLEEP) && asleepEnemyGetter.all() >= 1) {
+				return asleepEnemyGetter.getBestSleepCard("NO PUEDO ATACAR:" + asleepEnemyGetter.all());
 			}
 			
 			if(player.getNumberCard(CardType.MOVE)==2){

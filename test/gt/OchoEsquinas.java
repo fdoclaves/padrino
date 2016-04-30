@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
@@ -24,7 +24,7 @@ import gt.extras.Converter;
 
 public class OchoEsquinas {
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	private static Player R;
 
@@ -63,7 +63,7 @@ public class OchoEsquinas {
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 	}
 
 	@Test

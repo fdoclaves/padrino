@@ -1,8 +1,11 @@
 package gm.cards;
 
+import java.util.Map;
+
 import gm.Cake;
 import gm.Card;
 import gm.GameCharacter;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.info.CardType;
 import gm.info.GameMessages;
@@ -17,7 +20,7 @@ public class CakeCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
 		cake.inicialize(gameTable);
 		gameTable.getCakeList().add(cake);
 	}

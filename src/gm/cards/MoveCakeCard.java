@@ -1,8 +1,11 @@
 package gm.cards;
 
+import java.util.Map;
+
 import gm.Cake;
 import gm.Card;
 import gm.GameCharacter;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
@@ -21,7 +24,7 @@ public class MoveCakeCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
 		this.cake.changePosition(newPosition);
 	}
 

@@ -1,12 +1,16 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.ChangeCard;
@@ -20,12 +24,9 @@ import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
-import org.junit.Before;
-import org.junit.Test;
-
 public class PlayManagerCardsTest {
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	private static final String B = "B";
 	
@@ -75,11 +76,11 @@ public class PlayManagerCardsTest {
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
 	}
 
 	@Test
 	public void deleteOneCard() throws GameException, GameWarning {
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(player1);
 		donePlays.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
 		assertEquals(4, player1.getCards().size());
@@ -90,6 +91,7 @@ public class PlayManagerCardsTest {
 
 	@Test
 	public void deleteTwoCard() throws GameException, GameWarning {
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(player1);
 		donePlays.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
 		assertEquals(4, player1.getCards().size());
@@ -100,6 +102,7 @@ public class PlayManagerCardsTest {
 
 	@Test
 	public void noTieneCarta() throws GameException, GameWarning {
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
@@ -119,7 +122,7 @@ public class PlayManagerCardsTest {
 	
 	
 	@Test
-	public void ContarDinero() throws GameException, GameWarning {
+	public void contarDinero() throws GameException, GameWarning {
 		
 		//............................ |0 |...01 |..02 |..03 |..04 |..05 |..06 ...|07 .|08|
 		String[][] TABLE_VALUES2 = { { "__", "__", "__", "1$", "__", "__", "__", "__", "__" },
@@ -137,7 +140,7 @@ public class PlayManagerCardsTest {
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
 		
 		donePlays.startTurn(player1);
 		donePlays.play(new ChangeCard(CardType.BOOM));
@@ -158,5 +161,32 @@ public class PlayManagerCardsTest {
 		donePlays.play(new ChangeCard(CardType.BOOM));
 		donePlays.finishTurn();
 		assertEquals(8, player2.getMoney());
+	}
+	
+	@Test
+	public void siMuerenTodosSusPersonajesPierde() throws GameException, GameWarning {
+
+		//............................|0....01....02...03|..04|..05|..06..|07..|08|
+		String[][] playerChairs2 = { { "V", "V", "N_", "Bk", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "B" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "V", "V", "R", "R", "V", "V" } };
+		
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.GUN);
+		cards.add(CardType.GUN);
+		Player player3 = new Player("N", cards);
+		players.add(player3);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		
+		assertEquals(3, players.size());
+		donePlays.startTurn(player1);
+		donePlays.play(new KnifeCard(new Position(3, 0), new Position(2, 0)));
+		donePlays.finishTurn();
+		assertEquals(2, players.size());
 	}
 }

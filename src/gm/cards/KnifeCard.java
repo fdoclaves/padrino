@@ -1,8 +1,11 @@
 package gm.cards;
 
+import java.util.Map;
+
 import gm.Card;
 import gm.GameCharacter;
 import gm.Killer;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
@@ -20,8 +23,8 @@ public class KnifeCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
-		Killer.kill(characters, attackedPosition);
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
+		Killer.kill(characters, attackedPosition, players);
 	}
 
 	@Override

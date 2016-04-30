@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,16 @@ import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
+import gm.PlayersManager;
 import gm.TableSeat;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gt.extras.Converter;
 import gm.ia.IA_Manager;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
+import gt.extras.Converter;
 
 public class SimulationTest {
 	
@@ -32,7 +34,7 @@ public class SimulationTest {
 	
 	private static final String J3 = "3";
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 	
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
@@ -74,6 +76,7 @@ public class SimulationTest {
 	@Test
 	public void simulacion2_guns_knives_cakes() throws GameException, GameWarning {
 		CardManagerImpl cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.SLEEP);
@@ -103,16 +106,15 @@ public class SimulationTest {
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);
-		donePlays = new PlayManager(characterArray, gameTable,cardManager, players);
+		PlayersManager playersManager = new PlayersManager(players);
+		donePlays = new PlaysManager(characterArray, gameTable,cardManager, players);
 		int currentGamers = players.size();
-		int counterGamers = 0;
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		for (int i = 0; i < 19; i++) {
-			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
-			play(players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
-			assertEquals(5, players.get(counterGamers).getCards().size());
+			List<Player> currentPlayer = playersManager.getCurrentPlayer();
+			play(currentPlayer.get(0), currentPlayer.get(1), currentGamers, i);
+			assertEquals(5, currentPlayer.get(0).getCards().size());
 			assertEquals(27, cardManager.getTotalCard());
-			counterGamers = nextPlayerIndex;
 		}
 		System.out.println("fin");
 	}
@@ -121,6 +123,7 @@ public class SimulationTest {
 	public void simulacion1_knives_guns_sleeps() throws GameException, GameWarning {
 		
 		CardManagerImpl cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.SLEEP);
@@ -144,25 +147,17 @@ public class SimulationTest {
 		players.add(player1);
 		players.add(player2);
 		players.add(player3);
-		donePlays = new PlayManager(characterArray, gameTable,cardManager, players);
+		PlayersManager playersManager = new PlayersManager(players);
+		donePlays = new PlaysManager(characterArray, gameTable,cardManager, players);
 		int currentGamers = players.size();
-		int counterGamers = 0;
 		System.out.println(converter.cToString(donePlays.getChairs()));
 		for (int i = 0; i < 19; i++) {
-			int nextPlayerIndex = getNextPlayerIndex(counterGamers);
-			play(players.get(counterGamers), players.get(nextPlayerIndex), currentGamers, i);
-			assertEquals(5, players.get(counterGamers).getCards().size());
+			List<Player> currentPlayer = playersManager.getCurrentPlayer();
+			play(currentPlayer.get(0), currentPlayer.get(1), currentGamers, i);
+			assertEquals(5, currentPlayer.get(0).getCards().size());
 			assertEquals(13, cardManager.getTotalCard());
-			counterGamers = nextPlayerIndex;
 		}
 		System.out.println("fin");
-	}
-
-	private int getNextPlayerIndex(int counterGamers) {
-		if(counterGamers==2){
-			return 0;
-		}
-		return counterGamers+1;
 	}
 
 	private void play(Player gaming, Player next, int currentGamers, int counter)

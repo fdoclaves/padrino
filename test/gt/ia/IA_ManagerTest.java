@@ -1,6 +1,8 @@
 package gt.ia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1180,7 +1182,6 @@ public class IA_ManagerTest {
 		//JUGADA SUICIDA BOOM CAKE (BOOM SI ES FIN DE JUEGO)
 		//2 policias en mano
 		// MOVE SEAT
-		// HAS TWO MOVE SEAT
 		fail();
 	}
 	

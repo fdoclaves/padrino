@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import gm.Cake;
 import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.BoomCard;
@@ -44,7 +45,7 @@ public class CakeTest {
 			{ "1K", "**", "**", "**", "**", "**", "**", "**", "2_" },
 			{ "2_", "1_", "2_", "3_", "2_", "2_", "V", "3_", "2_" } };
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	private TableSeat[][] tableSeats;
 
@@ -57,6 +58,7 @@ public class CakeTest {
 	@Before
 	public void setUp() throws Exception {
 		CardManager cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.CAKE);
@@ -79,7 +81,7 @@ public class CakeTest {
 		converter = new Converter(9, 3);
 		tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,cardManager, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,cardManager, players);
 	}
 
 	@Test
@@ -430,7 +432,7 @@ public class CakeTest {
 				{ "1K", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "3_", "2_", "2_", "V", "VV", "2_" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 
 		assertEquals(0, gameTable.getCakeList().size());
 		donePlays.startTurn(J1);
@@ -602,7 +604,7 @@ public class CakeTest {
 				{ "1K", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -635,7 +637,7 @@ public class CakeTest {
 				{ "1K", "**", "**", "**", "**", "**", "**", "**", "VV" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -668,7 +670,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(5, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -701,7 +703,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(6, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -734,7 +736,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(0, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -767,7 +769,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(0, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -800,7 +802,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(8, 0), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -833,7 +835,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(8, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -866,7 +868,7 @@ public class CakeTest {
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "2_", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(0, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -896,10 +898,10 @@ public class CakeTest {
 	public void moverPastelDesdeMachine() throws GameException, GameWarning {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "V", "1P", "2_", "1k", "1k", "1P", "1_", "V", "V" },
-				{ "4_", "**", "**", "**", "**", "**", "**", "**", "V" },
+				{ "2_", "**", "**", "**", "**", "**", "**", "**", "V" },
 				{ "V", "V", "V", "V", "V", "V", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(0, 1), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -919,7 +921,7 @@ public class CakeTest {
 		assertEquals(0, gameTable.getCakeList().size());
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] chairsExpert = { { "VV", "1P", "2_", "1k", "1k", "VV", "VV", "VV", "VV" },
-				{ "4_", "**", "**", "**", "**", "**", "**", "**", "VV" },
+				{ "2_", "**", "**", "**", "**", "**", "**", "**", "VV" },
 				{ "VV", "VV", "VV", "VV", "VV", "VV", "VV", "VV", "VV" } };
 
 		assertEquals(converter.toString(chairsExpert), converter.cToString(donePlays.getChairs()).replace("V", "VV"));
@@ -939,11 +941,11 @@ public class CakeTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs2 = { { "V", "V", "V", "V", "V", "V", "V", "V", "V" },
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
+				{ "V", "**", "**", "**", "**", "**", "**", "**", "2" },
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
-				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },
-				{ "6_", "7_", "V", "V", "V", "V", "V", "V", "V" } };
+				{ "1_", "1_", "V", "V", "V", "V", "V", "V", "V" } };
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs2), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable,players);
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(8, 1), J1.getTeam());
 		donePlays.play(new CakeCard(cake));

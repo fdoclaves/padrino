@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.junit.Test;
 import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
@@ -30,6 +31,8 @@ public class PoisonTest {
 	private static Player J1;
 
 	private static Player J2;
+	
+	private static Player J3;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
@@ -43,7 +46,7 @@ public class PoisonTest {
 
 	private Converter converter;
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	private GameTable gameTable;
 	
@@ -54,6 +57,7 @@ public class PoisonTest {
 	@Before
 	public void setUp() throws Exception {
 		cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.SLEEP);
@@ -68,13 +72,14 @@ public class PoisonTest {
         cards.add(CardType.SLEEP);
         J1 = new Player("1", cards);
         J2 = new Player("2", cards);
+        J3 = new Player("3", cards);
         players = new ArrayList<Player>();
 	    players.add(J1);
 	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager, players);
 	}
 	
 	@Test
@@ -100,10 +105,10 @@ public class PoisonTest {
 		String[][] chairsBegin = { { "1_", "1P", "2_", "1k", "1k", "1P", "1_", "1P", "1_" },
 				{ "1P", "**", "**", "**", "**", "**", "**", "**", "2Z" },
 				{ "2Z", "1_", "2_", "2Z", "VV", "2_", "2_", "2_", "2_" } };
-		donePlays = new PlayManager(converter.toCharacterArray(chairsBegin), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(chairsBegin), gameTable, players);
 
 		// duerme con vaso 2 personas (2 jugadores, 2 Turnos)
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new SleepCard(new Position(0, 2), new Position(8, 1)));
 
@@ -129,7 +134,7 @@ public class PoisonTest {
 		assertEquals(1, J2.getMoney());
 
 		// duerme con vaso 1 personas
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J2);
 		donePlays.play(new SleepCard(new Position(1, 0)));
 
@@ -157,7 +162,7 @@ public class PoisonTest {
 		}
 
 		// duerme con vaso y sin vaso
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		try {
 			donePlays.play(new SleepCard(new Position(0, 2), new Position(1, 2)));
@@ -169,7 +174,7 @@ public class PoisonTest {
 		}
 
 		// misma coordenas Zzz mismo turno
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		try {
 			donePlays.play(new SleepCard(new Position(0, 2), new Position(0, 2), new Position(5, 2)));
@@ -181,7 +186,7 @@ public class PoisonTest {
 		}
 
 		// misma coordenas Zzz mismo turno
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		try {
 			donePlays.play(new SleepCard(new Position(5, 2), new Position(0, 2), new Position(0, 2)));
@@ -209,7 +214,7 @@ public class PoisonTest {
 		}
 
 		// acuchillar
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new SleepCard(new Position(2, 0)));
 		donePlays.finishTurn();
@@ -222,7 +227,7 @@ public class PoisonTest {
 		}
 
 		// mover
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new SleepCard(new Position(2, 0)));
 		try {
@@ -235,6 +240,7 @@ public class PoisonTest {
 
 	@Test
 	public void matarConZzzUnJugador() throws GameException, GameWarning {
+		players.add(J3);
 		// Turno JUGADOR #1 (mata con 1 jugadores) (3 jugadores, 2 Turnos)
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "1_", "2P", "3_", "1C", "2C", "3P", "1_", "2P", "3_" },
@@ -246,7 +252,7 @@ public class PoisonTest {
 		// {"$$","**","**","**","**","**","**","**","GP"},
 		// {"CG","__","__","GP","G_","__","$$","__","C_"}};
 
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new SleepCard(new Position(2, 0), new Position(3, 2), new Position(1, 0)));
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08 |

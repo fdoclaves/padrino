@@ -11,6 +11,8 @@ public class Player {
 	private int money;
 	
 	private List<CardType> cards;
+	
+	private int counterCharacters;
 
 	public Player(String team, List<CardType> cards) {
 		this.team = team;
@@ -62,5 +64,17 @@ public class Player {
 	
 	public void addMoney(int money) {
 		this.money = this.money + money;
+	}
+
+	public void removeOneCharacter() {
+		counterCharacters--;
+	}
+
+	public int getCounterCharacters() {
+		return counterCharacters;
+	}
+
+	public void plusCounterCharacterOne() {
+		counterCharacters++;
 	}
 }

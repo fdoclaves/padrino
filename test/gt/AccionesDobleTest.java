@@ -12,7 +12,7 @@ import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
@@ -32,7 +32,7 @@ public class AccionesDobleTest {
 
 	private static Player J2;
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
@@ -73,7 +73,7 @@ public class AccionesDobleTest {
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
 
 	}
 
@@ -86,7 +86,7 @@ public class AccionesDobleTest {
 				}
 			}
 		};
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
 		donePlays.startTurn(J1);
 		donePlays.play(new MoveCard(new Position(3, 0), new Position(4, 2)));
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|

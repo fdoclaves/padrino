@@ -1,8 +1,11 @@
 package gm.cards;
 
+import java.util.Map;
+
 import gm.Cake;
 import gm.Card;
 import gm.GameCharacter;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
@@ -16,8 +19,8 @@ public class BoomCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
-		cake.boom(characters);
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
+		cake.boom(characters, players);
 	}
 
 	@Override

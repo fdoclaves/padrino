@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.GunCard;
@@ -25,11 +26,15 @@ import gt.extras.Converter;
 
 public class CharactersValuesTest {
 
-	private PlayManager donePlays;
+	private PlaysManager donePlays;
 
 	private static Player J1;
 
 	private static Player B;
+	
+	private static Player R;
+	
+	private static Player A;
 
 	private static Player J2;
 
@@ -65,12 +70,15 @@ public class CharactersValuesTest {
 	    players.add(J1);
 	    players.add(J2);
         B = new Player("B", cards);
+        R = new Player("R", cards);
+        A = new Player("A", cards);
         playersLetters = new ArrayList<Player>();
         playersLetters.add(B);
+        playersLetters.add(R);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,players);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,players);
 	}
 
 	@Test
@@ -128,7 +136,7 @@ public class CharactersValuesTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "B", "R", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "V" }, { "B", "R", "B", "B", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new GunCard(new Position(8, 1), new Position(0, 1)));
@@ -144,7 +152,7 @@ public class CharactersValuesTest {
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "V", "R", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "R", "B", "B", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(3, 0)));
@@ -157,10 +165,11 @@ public class CharactersValuesTest {
 	@Test
 	public void dispararDesdeEnemigo() throws GameException, GameWarning {
 
+		playersLetters.add(A);
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs = { { "R", "R", "B", "A", "R", "R", "R", "R", "R" },
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "V" }, { "B", "R", "B", "R", "B", "B", "B", "B", "B" } };
-		donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,playersLetters);
 		donePlays.startTurn(B);
 		try {
 			donePlays.play(new GunCard(new Position(3, 2), new Position(3, 0)));

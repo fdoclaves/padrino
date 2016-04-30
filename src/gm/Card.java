@@ -1,5 +1,7 @@
 package gm;
 
+import java.util.Map;
+
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.info.CardType;
@@ -30,7 +32,7 @@ public abstract class Card {
 		MIDDLE = MAX_Y_POSITION / 2;
 	}
 
-	public abstract void doAction(GameCharacter[][] characters);
+	public abstract void doAction(GameCharacter[][] characters, Map<String, Player> players);
 
 	public abstract void validateAction(GameCharacter[][] characters, String team) throws GameException, GameWarning;
 

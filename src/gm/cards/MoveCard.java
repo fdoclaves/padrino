@@ -1,8 +1,11 @@
 package gm.cards;
 
+import java.util.Map;
+
 import gm.Card;
 import gm.GameCharacter;
 import gm.GameCharacterEmpty;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.info.CardType;
 import gm.info.GameMessages;
@@ -19,7 +22,7 @@ public class MoveCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
 		characters[whereMove.getY()][whereMove
 				.getX()] = characters[whoMove.getY()][whoMove.getX()];
 		characters[whoMove.getY()][whoMove.getX()] = new GameCharacterEmpty();

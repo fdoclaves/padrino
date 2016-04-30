@@ -1,6 +1,7 @@
 package gm;
 
 import java.util.List;
+import java.util.Map;
 
 import gm.cards.CakeUtils;
 import gm.ia.DataCake;
@@ -39,9 +40,9 @@ public class Cake {
 		return team;
 	}
 
-	public void boom(GameCharacter[][] characters) {
+	public void boom(GameCharacter[][] characters, Map<String, Player> players) {
 		for (Position position : getBoomPositions(characters)) {
-			Killer.kill(characters, position);
+			Killer.kill(characters, position, players);
 		}
 		List<Cake> cakeList = gameTable.getCakeList();
 		cakeList.remove(this);

@@ -7,11 +7,12 @@ import java.util.Map;
 
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.ia.CharacterUtils;
 import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.info.TableObjects;
 
-public class PlayManager {
+public class PlaysManager {
 
 	private static final TableObjects CASINOS = TableObjects.CASINOS;
 
@@ -39,25 +40,39 @@ public class PlayManager {
 	
 	private CardManager cardManager;
 
-	private Map<String, Player> players;
+	private Map<String, Player> playersMap;
+	
+	private List<Player> playersList;
 	
 	private List<CardType> beforeCardType;
 	
 	private String team;
 
-	public PlayManager(GameCharacter[][] characters, GameTable gameTable, CardManager cardManager, List<Player> players) {
+	public PlaysManager(GameCharacter[][] characters, GameTable gameTable, CardManager cardManager, List<Player> players) {
 		this(characters, gameTable,players);
 		this.cardManager = cardManager;
 	}
 	
-	public PlayManager(GameCharacter[][] characters, GameTable gameTable, List<Player> players) {
+	public PlaysManager(GameCharacter[][] characters, GameTable gameTable, List<Player> players) {
 		this.cardManager = new CardManagerImpl();
 		this.characters = characters;
 		this.gameTable = gameTable;
 		this.beforeCharacters = new GameCharacter[gameTable.getMaxY()][gameTable.getMaxX()];
-		this.players = new HashMap<String, Player>();
+		this.playersList = players;
+		this.playersMap = new HashMap<String, Player>();
 		for(Player player : players){
-			this.players.put(player.getTeam(), player);
+			this.playersMap.put(player.getTeam(), player);
+		}
+		fillCounterCharacters(characters);
+	}
+
+	private void fillCounterCharacters(GameCharacter[][] charactersArray) {
+		for (GameCharacter[] gameCharacters : charactersArray) {
+			for (GameCharacter gameCharacter : gameCharacters) {
+				if(CharacterUtils.isValid(gameCharacter)){
+					playersMap.get(gameCharacter.getTeam()).plusCounterCharacterOne();
+				}
+			}
 		}
 	}
 
@@ -96,7 +111,7 @@ public class PlayManager {
 			}
 		}
 		for (Cake cake : boomCakes) {
-			cake.boom(characters);
+			cake.boom(characters, playersMap);
 		}
 	}
 
@@ -108,11 +123,11 @@ public class PlayManager {
 		validatePlays(cardType, playedCardsCounter);
 		card.inicialize(gameTable);
 		card.validateAction(characters, team);
-		card.doAction(characters);
-		players.get(team).removeCard(cardType);
+		card.doAction(characters, playersMap);
+		playersMap.get(team).removeCard(cardType);
 		cardManager.setCard(cardType);
 		if (playedCardsCounter == 2) {
-			players.get(team).addCard(cardManager.getCard());
+			playersMap.get(team).addCard(cardManager.getCard());
 			finishTurn();
 		} else {
 			playedCardsCounter++;
@@ -123,12 +138,12 @@ public class PlayManager {
 		characters = beforeCharacters;
 		money = 0;
 		gameTable.setCakeList(startCakeList);
-		players.get(team).setCardList(beforeCardType);
+		playersMap.get(team).setCardList(beforeCardType);
 		cardManager.removeLastCard();
 	}
 
 	private void validatePlays(CardType currentPlay, int playedCardsCounter) throws GameException {
-	    if(!players.get(team).hasCard(currentPlay)){
+	    if(!playersMap.get(team).hasCard(currentPlay)){
 	        throw new GameException(GameMessages.NO_TIENES_CARD);
 	    }
 		if (playedCardsCounter == 2) {
@@ -187,11 +202,24 @@ public class PlayManager {
 	public void finishTurn() {
 		removeZzz(team);
 		playedCardsCounter++;
-		Player player = players.get(team);
-		player.addCard(cardManager.getCard());
-		player.addMoney(getMoney());
+		Player currentPlayer = playersMap.get(team);
+		currentPlayer.addCard(cardManager.getCard());
+		currentPlayer.addMoney(getMoney());
+		removeFromListLosers();
 	}
-	
+
+	private void removeFromListLosers() {
+		List<Player> playersToDelete = new ArrayList<Player>();
+		for (Player player : playersList) {
+			if(player.getCounterCharacters() <= 0){
+				playersToDelete.add(player);
+			}
+		}
+		for (Player player : playersToDelete) {
+			playersList.remove(player);
+		}
+	}
+
 	private int getMoney() {
 		int wonMoney = money;
 		money = 0;

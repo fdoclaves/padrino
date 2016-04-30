@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlayManager;
+import gm.PlaysManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.KnifeCard;
@@ -60,7 +60,7 @@ public class MoneyTest {
 		String[][] playerChairs = { { "1_", "1P", "2_", "1k", "1k", "1P", "1_", "1P", "1_" },
 				{ "1PK", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
-		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		PlaysManager donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.play(new KnifeCard(new Position(3, 0), new Position(2, 0)));
 		donePlays.finishTurn();
@@ -85,7 +85,7 @@ public class MoneyTest {
 		String[][] playerChairs = { { "1_", "1P", "2_", "2k", "1k", "1P", "1_", "1P", "1_" },
 				{ "1PK", "**", "**", "**", "**", "**", "**", "**", "2_" },
 				{ "2_", "1_", "2_", "2_", "2_", "2_", "2_", "2_", "2_" } };
-		PlayManager donePlays = new PlayManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		PlaysManager donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		donePlays.startTurn(J1);
 		donePlays.finishTurn();
 		assertEquals(6, J1.getMoney());

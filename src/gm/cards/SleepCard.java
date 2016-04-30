@@ -2,10 +2,12 @@ package gm.cards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import gm.Card;
 import gm.GameCharacter;
 import gm.Killer;
+import gm.Player;
 import gm.exceptions.GameException;
 import gm.info.CardType;
 import gm.info.GameMessages;
@@ -38,11 +40,11 @@ public class SleepCard extends Card {
 	}
 
 	@Override
-	public void doAction(GameCharacter[][] characters) {
+	public void doAction(GameCharacter[][] characters, Map<String, Player> players) {
 		for (Position position : positionList) {
 			GameCharacter character = characters[position.getY()][position.getX()];
 			if (character.isSleeping()) {
-				Killer.kill(characters, position);
+				Killer.kill(characters, position, players);
 			} else {
 				character.sleep();
 			}
