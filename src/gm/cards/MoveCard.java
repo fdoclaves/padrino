@@ -10,25 +10,25 @@ import gm.pojos.Position;
 
 public class MoveCard extends Card {
 
-	private Position attackerPosition;
-	private Position attackedPosition;
+	private Position whoMove;
+	private Position whereMove;
 
-	public MoveCard(Position attackerPosition, Position attackedPosition) {
-		this.attackerPosition = attackerPosition;
-		this.attackedPosition = attackedPosition;
+	public MoveCard(Position whoMove, Position whereMove) {
+		this.whoMove = whoMove;
+		this.whereMove = whereMove;
 	}
 
 	@Override
 	public void doAction(GameCharacter[][] characters) {
-		characters[attackedPosition.getY()][attackedPosition
-				.getX()] = characters[attackerPosition.getY()][attackerPosition.getX()];
-		characters[attackerPosition.getY()][attackerPosition.getX()] = new GameCharacterEmpty();
+		characters[whereMove.getY()][whereMove
+				.getX()] = characters[whoMove.getY()][whoMove.getX()];
+		characters[whoMove.getY()][whoMove.getX()] = new GameCharacterEmpty();
 	}
 
 	@Override
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
-		validateAttackerCharacter(attackerPosition, characters, team);
-		GameCharacter attackedChair = getCharacterFromChair(attackedPosition, characters);
+		validateAttackerCharacter(whoMove, characters, team);
+		GameCharacter attackedChair = getCharacterFromChair(whereMove, characters);
 		if (!attackedChair.isEmpty()) {
 			throw new GameException(GameMessages.OCCUPIED);
 		}
@@ -37,6 +37,10 @@ public class MoveCard extends Card {
 	@Override
 	public CardType getType() {
 		return CardType.MOVE;
+	}
+	
+	public Position getWhoToMove(){
+		return whoMove;
 	}
 
 }

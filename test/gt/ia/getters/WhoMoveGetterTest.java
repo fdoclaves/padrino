@@ -8,7 +8,7 @@ import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeUtils;
 import gm.ia.MoverCakeGetter;
-import gm.ia.getters.DataCakeGetter;
+import gm.ia.getters.DataCakeSetter;
 import gm.ia.getters.IaComponentsSetter;
 import gm.ia.getters.WhoMoveGetter;
 import gm.info.CardType;
@@ -61,7 +61,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "VV", "VV", "BK", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -80,7 +80,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "BK", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -99,7 +99,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "BK", "B_", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -118,7 +118,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "BK", "BP", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -137,7 +137,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "BP", "B_", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -156,7 +156,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "BP", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -175,7 +175,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "VV", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -193,7 +193,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "VV", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -220,7 +220,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "VV", "VV", "B_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -247,7 +247,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "VV", "VV", "VV", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -274,7 +274,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "VV", "VV", "VV", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -301,7 +301,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "R_", "VV", "R_", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -328,7 +328,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "R_", "VV", "VV", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -355,7 +355,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "N_", "R_", "VV", "VV", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -375,7 +375,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "VV", "VV", "BK", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -395,7 +395,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "VV", "VV", "BKZ", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -415,7 +415,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "BZ", "VV", "VV", "BKZ", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
@@ -436,7 +436,7 @@ public class WhoMoveGetterTest {
                                     { "V", "V_", "VV", "B_", "VV", "VV", "BK", "VV", "VV" } };
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();

@@ -27,20 +27,20 @@ public class WhereMoveGetter {
     }
 
     public Position whereMove(GameCharacter[][] characterArray, IaComponentsSetter iaComponentsSetter,
-            String myTeam, Position beforePosition) {
+            String myTeam, Position whoMove) {
         List<Position> attackPositions = getAttackPositions(characterArray, iaComponentsSetter.getEnemyAttackDatas());
         float bestValue = -100;
         Position bestPosition = null;
         for (int x = 0; x < characterArray[0].length; x++) {
             for (int y = 0; y < characterArray.length; y++) {
                 Position position = new Position(x, y);
-                GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
-                if (gameCharacter.isEmpty() && !gameCharacter.hasCake()) {
-                    GameCharacter gameCharacterBefore = CharacterUtils.getCharacterByPosition(characterArray,
-                            beforePosition);
+                GameCharacter newSeat = CharacterUtils.getCharacterByPosition(characterArray, position);
+                if (newSeat.isEmpty() && !newSeat.hasCake()) {
+                    GameCharacter whoGameCharacter = CharacterUtils.getCharacterByPosition(characterArray,
+                    		whoMove);
                     TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
                     List<MoneyValues> moneyValues = getMoneyValuesByTeam(iaComponentsSetter, myTeam);
-                    float value = getValue(gameCharacterBefore, gameCharacter, tableSeat, attackPositions, moneyValues);
+                    float value = getValue(whoGameCharacter, newSeat, tableSeat, attackPositions, moneyValues);
                     if (value >= bestValue) {
                         bestPosition = position;
                         bestValue = value;

@@ -15,7 +15,7 @@ import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeUtils;
 import gm.ia.getters.CakeGetter;
-import gm.ia.getters.DataCakeGetter;
+import gm.ia.getters.DataCakeSetter;
 import gm.ia.getters.IaComponentsSetter;
 import gm.info.CardType;
 import gm.pojos.Position;
@@ -62,7 +62,7 @@ public class CakeGetterTest {
 									{ "V", "V_", "VV", "B_", "VV", "VV", "VV", "VV", "VV" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -80,7 +80,7 @@ public class CakeGetterTest {
 									{ "V", "V_", "VV", "B_", "VV", "VV", "VV", "VV", "VV" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -98,7 +98,7 @@ public class CakeGetterTest {
 									{ "V", "V_", "VV", "B_", "VV", "VV", "VV", "VV", "VV" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -116,7 +116,7 @@ public class CakeGetterTest {
 									{ "V", "V_", "VV", "B_", "VV", "VV", "VV", "VV", "VV" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -135,7 +135,7 @@ public class CakeGetterTest {
 									{ "V", "V_", "VV", "B_", "VV", "VV", "VV", "R_", "R_" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -153,7 +153,7 @@ public class CakeGetterTest {
 									{ "R", "RP", "VV", "B_", "VV", "VV", "VV", "R_", "R_" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -171,7 +171,7 @@ public class CakeGetterTest {
 									{ "R", "RP", "VV", "B_", "VV", "VV", "VV", "RP", "R_" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -189,7 +189,7 @@ public class CakeGetterTest {
 									{ "R", "VV", "VV", "B_", "VV", "VV", "VV", "VV", "VV" } };
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -207,7 +207,7 @@ public class CakeGetterTest {
 	                                    { "R", "VV", "VV", "B_", "VV", "R_", "VV", "VV", "VV" } };
 	        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 	        new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-	        new DataCakeGetter(characterArray, gameTable, playerB, "R");
+	        new DataCakeSetter(characterArray, gameTable, playerB, "R");
 	        CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 	        CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 	        Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -226,7 +226,7 @@ public class CakeGetterTest {
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		gameTable.add(new Cake(new Position(8, 2), "N", gameTable));
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -245,7 +245,7 @@ public class CakeGetterTest {
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		gameTable.add(new Cake(new Position(8, 2), "N", gameTable));
 		new IaComponentsSetter(gameTable, characterArray, playerB, 3);
-		new DataCakeGetter(characterArray, gameTable, playerB, "R");
+		new DataCakeSetter(characterArray, gameTable, playerB, "R");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerB.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -269,7 +269,7 @@ public class CakeGetterTest {
 		gameTable = new GameTable(tableSeats);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
-		new DataCakeGetter(characterArray, gameTable, playerR, "N");
+		new DataCakeSetter(characterArray, gameTable, playerR, "N");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -297,7 +297,7 @@ public class CakeGetterTest {
 		gameTable = new GameTable(tableSeats);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
-		new DataCakeGetter(characterArray, gameTable, playerR, "N");
+		new DataCakeSetter(characterArray, gameTable, playerR, "N");
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
 		Position position = cakeGetter.getBestPosition().getExplotedPosition();
@@ -324,7 +324,7 @@ public class CakeGetterTest {
         gameTable = new GameTable(tableSeats);
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         new IaComponentsSetter(gameTable, characterArray, playerR, 3);
-        new DataCakeGetter(characterArray, gameTable, playerR, "N");
+        new DataCakeSetter(characterArray, gameTable, playerR, "N");
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         CakeGetter cakeGetter= new CakeGetter(cakeUtils, characterArray, playerR.getTeam());
         Position position = cakeGetter.getBestPosition().getExplotedPosition();

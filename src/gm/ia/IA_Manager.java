@@ -16,14 +16,17 @@ import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.MoveCakeCard;
-import gm.ia.pojos.InfoAction;
-import gm.ia.pojos.ValueData;
+import gm.cards.MoveCard;
 import gm.ia.getters.AsleepEnemyGetter;
-import gm.ia.getters.IaComponentsSetter;
 import gm.ia.getters.BoomGetter;
 import gm.ia.getters.CakeGetter;
 import gm.ia.getters.ChangeCardGetter;
-import gm.ia.getters.DataCakeGetter;
+import gm.ia.getters.DataCakeSetter;
+import gm.ia.getters.IaComponentsSetter;
+import gm.ia.getters.WhereMoveGetter;
+import gm.ia.getters.WhoMoveGetter;
+import gm.ia.pojos.InfoAction;
+import gm.ia.pojos.ValueData;
 import gm.info.CardType;
 import gm.pojos.Position;
 
@@ -37,7 +40,7 @@ public class IA_Manager {
 
 	public InfoAction whoKill(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
 		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player, currentGamers);
-		DataCakeGetter dataCakeGetter = new DataCakeGetter(characterArray, gameTable, player, nextTeam);
+		DataCakeSetter dataCakeSetter = new DataCakeSetter(characterArray, gameTable, player, nextTeam);
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		MoverCakeGetter moverCakeGetter = new MoverCakeGetter(cakeUtils);
 		int best = 0;
@@ -54,6 +57,18 @@ public class IA_Manager {
 			if(infoAction != null){
 				return infoAction;
 			}
+		}
+		
+		List<GameCharacter> iaTeam = componentSetter.getIaTeam();
+		WhoMoveGetter whoMoveGetter = new WhoMoveGetter();
+		WhereMoveGetter whereMoveGetter = new WhereMoveGetter(gameTable);
+		if(dataCakeSetter.getExploitedMine().size() > 1 && player.getNumberCard(CardType.MOVE)==2){
+			List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
+			Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
+			Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
+			MoveCard moveCard = new MoveCard(whoMove, whereMove);
+			return new InfoAction(moveCard, whoMove, whereMove, "MOVE, CAKE:"+dataCakeSetter.getExploitedMine().size());
+			
 		}
 		
 		AsleepEnemyGetter asleepEnemyGetter = new AsleepEnemyGetter(characterArray, player, nextTeam, gameTable);
@@ -76,7 +91,7 @@ public class IA_Manager {
 		}
 
 		BoomGetter boomGetter = new BoomGetter();
-		for (DataCake dataCake : dataCakeGetter.getExploitedEnemies()) {
+		for (DataCake dataCake : dataCakeSetter.getExploitedEnemies()) {
 			if (!dataCake.isFatal() && dataCake.enemiesByCake() > 1 && dataCake.getMineByCake() == 0
 					&& player.hasCard(CardType.BOOM)) {
 				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
@@ -87,12 +102,11 @@ public class IA_Manager {
 			}
 		}
 
-		List<GameCharacter> iaTeam = componentSetter.getIaTeam();
 		List<InfoAction> enemiesThatIaTeamCanKill = getAttactedPositions(iaTeam, "PUEDO ATACARLO");
 		if (enemiesThatIaTeamCanKill.size() > 0) {
 			List<GameCharacter> enemyAttackDatas = componentSetter.getEnemyAttackDatas();
 			List<DataInfoActionGetter> enemiesThatIaTeamCanKillAndTheyCanAttackHim = getCharactesThatTheirCanAttacksMeAndICanKill(
-					enemiesThatIaTeamCanKill, "PUEDE ATACARME", characterArray, currentGamers, dataCakeGetter,
+					enemiesThatIaTeamCanKill, "PUEDE ATACARME", characterArray, currentGamers, dataCakeSetter,
 					enemyAttackDatas);
 			if (enemiesThatIaTeamCanKillAndTheyCanAttackHim.size() == 1) {
 				return getOne(enemiesThatIaTeamCanKillAndTheyCanAttackHim, "GANO ATACARME");
@@ -146,7 +160,7 @@ public class IA_Manager {
 					return asleepEnemyGetter.getBestSleepCard("PUEDO ATACARLO//NO ME ATACA//3 o MAS JUGADORES, DORMIR");
 				}
 				return moreWeaponVsBestWeaponVsBestBussines(enemiesThatIaTeamCanKill, asleepEnemyGetter, currentGamers,
-						characterArray, componentSetter.getGeneralTeams(), player, dataCakeGetter, enemyAttackDatas);
+						characterArray, componentSetter.getGeneralTeams(), player, dataCakeSetter, enemyAttackDatas);
 			}
 		} else {
 			// ** (NO PUEDO ATACAR) MOVE
@@ -161,7 +175,7 @@ public class IA_Manager {
 				}
 			}
 
-			if (player.hasCard(CardType.BOOM) && dataCakeGetter.getExploitedEnemies().size() >= 1) {
+			if (player.hasCard(CardType.BOOM) && dataCakeSetter.getExploitedEnemies().size() >= 1) {
 				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
 				if (bestCakeToBoom != null) {
 					return new InfoAction(new BoomCard(bestCakeToBoom), null, null, "NO PUEDO ATACAR//BEST BOOM CAKE");
@@ -177,6 +191,14 @@ public class IA_Manager {
 						return buildInfoActionMoveCard(valueAndDataCakes[best], cake);
 					}
 				}
+			}
+			
+			if(player.getNumberCard(CardType.MOVE)==2){
+				List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
+				Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
+				Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
+				MoveCard moveCard = new MoveCard(whoMove, whereMove);
+				return new InfoAction(moveCard, whoMove, whereMove, "NADA MAS QUE HACER, MOVE");
 			}
 
 			if (player.hasCard(CardType.CAKE)) {
@@ -268,7 +290,7 @@ public class IA_Manager {
 
 	private InfoAction moreWeaponVsBestWeaponVsBestBussines(List<InfoAction> enemiesThatIaTeamCanKill,
 			AsleepEnemyGetter sleepGetter, int currentGamers, GameCharacter[][] characterArray,
-			Map<String, GeneralTeam> generalTeams, Player player, DataCakeGetter boomCakeGetter,
+			Map<String, GeneralTeam> generalTeams, Player player, DataCakeSetter boomCakeGetter,
 			List<GameCharacter> enemyAttackDatas) {
 		List<DataInfoActionGetter> infoActionUtils = convertToAttackToMe(enemiesThatIaTeamCanKill, characterArray,
 				currentGamers, generalTeams, boomCakeGetter, enemyAttackDatas);
@@ -311,7 +333,7 @@ public class IA_Manager {
 
 	private List<DataInfoActionGetter> convertToAttackToMe(List<InfoAction> enemiesThatIaTeamCanKill,
 			GameCharacter[][] characterArray, int currentGamers, Map<String, GeneralTeam> generalTeamsMap,
-			DataCakeGetter boomCakeGetter, List<GameCharacter> enemyAttackDatas) {
+			DataCakeSetter boomCakeGetter, List<GameCharacter> enemyAttackDatas) {
 		List<DataInfoActionGetter> list = new ArrayList<DataInfoActionGetter>();
 		for (InfoAction infoAction : enemiesThatIaTeamCanKill) {
 			for (GameCharacter GameCharacter : enemyAttackDatas) {
@@ -387,7 +409,7 @@ public class IA_Manager {
 	}
 
 	private List<DataInfoActionGetter> getCharactesThatTheirCanAttacksMeAndICanKill(List<InfoAction> iaTeamInfoAction,
-			String reason, GameCharacter[][] characterArray, int currentGamers, DataCakeGetter boomCakeGetter,
+			String reason, GameCharacter[][] characterArray, int currentGamers, DataCakeSetter boomCakeGetter,
 			List<GameCharacter> enemyAttackDatas) {
 		List<DataInfoActionGetter> charactesThatTheirCanAttacksMeAndICanKill = new ArrayList<DataInfoActionGetter>();
 		for (GameCharacter gameCharacter : enemyAttackDatas) {
@@ -410,7 +432,7 @@ public class IA_Manager {
 	}
 
 	private DataInfoActionGetter buildInfoActionUtils(GameCharacter[][] characterArray, int currentGamers,
-			InfoAction infoAction, String reason, DataCakeGetter boomCakeGetter, AttackData enemyAttackData) {
+			InfoAction infoAction, String reason, DataCakeSetter boomCakeGetter, AttackData enemyAttackData) {
 		GameCharacter attackedGameCharacter = CharacterUtils.getCharacterByPosition(characterArray,
 				infoAction.getAttackedPosition());
 		GameCharacter attackerGameCharacter = CharacterUtils.getCharacterByPosition(characterArray,

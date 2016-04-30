@@ -11,7 +11,7 @@ import gm.ia.CharacterUtils;
 import gm.ia.DataCake;
 import gm.pojos.Position;
 
-public class DataCakeGetter {
+public class DataCakeSetter {
 
 	private GameTable gameTable;
 	private GameCharacter[][] characterArray;
@@ -19,7 +19,7 @@ public class DataCakeGetter {
 	private List<DataCake> me;
 	private Player player;
 
-	public DataCakeGetter(GameCharacter[][] characterArray, GameTable gameTable, Player player, String nextTeam) {
+	public DataCakeSetter(GameCharacter[][] characterArray, GameTable gameTable, Player player, String nextTeam) {
 		this.characterArray = characterArray;
 		this.gameTable = gameTable;
 		this.player = player;
