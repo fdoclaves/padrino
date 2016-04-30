@@ -1183,5 +1183,20 @@ public class IA_ManagerTest {
 		// HAS TWO MOVE SEAT
 		fail();
 	}
+	
+	@Test
+	public void mejoras() {
+		/*
+		 * WHO MOVE
+		 * *MEJOR BUSINES
+		 * *SABER SI PUEDE ATACAR AUNQUE NO TENGA CARTA
+		 * 
+		 * WHERE MOVE
+		 * *PUEDE ATACAR
+		 * *MOVE CAKE
+		 */
+		
+		fail();
+	}
 
 }
