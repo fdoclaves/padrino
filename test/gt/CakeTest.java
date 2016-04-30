@@ -13,8 +13,8 @@ import gm.Cake;
 import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.cards.BoomCard;
 import gm.cards.CakeCard;
@@ -523,7 +523,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(1, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE, e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "1,2", e.getMessage());
 		}
 	}
 
@@ -593,7 +593,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(4, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE, e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "4,2", e.getMessage());
 		}
 	}
 

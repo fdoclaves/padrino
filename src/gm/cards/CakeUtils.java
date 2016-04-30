@@ -62,7 +62,7 @@ public class CakeUtils {
 		return cakePosition.getX() == 0 || cakePosition.getX() == MAX_X_POSITION;
 	}
 
-	public List<Position> getValidPositions(Cake cake, GameCharacter[][] characters) {
+	public List<Position> getMoveCakesPositions(Cake cake, GameCharacter[][] characters) {
 		List<Position> validPositions = new ArrayList<Position>();
 		validPositions.add(getNextPosition(cake, characters, true));
 		validPositions.add(getNextPosition(cake, characters, false));

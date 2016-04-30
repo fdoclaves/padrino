@@ -49,7 +49,7 @@ private List<Position> getDangerousWeapons(List<GameCharacter> enemies) {
             List<Cake> cakeList) {
         List<Position> dangerourMoveCake = new ArrayList<Position>();
         for (Cake cake : cakeList) {
-            List<Position> validPositions = cakeUtils.getValidPositions(cake, characterArray);
+            List<Position> validPositions = cakeUtils.getMoveCakesPositions(cake, characterArray);
             for (Position position : validPositions) {
                 GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
                 if (gameCharacter.isTeam(myTeam)) {

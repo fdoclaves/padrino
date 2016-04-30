@@ -47,14 +47,14 @@ public class MoveCakeCard extends Card {
 		
 		boolean isValid = false;
 		CakeUtils cakeUtils = buildCakeUtils(characters);
-		for (Position position : cakeUtils.getValidPositions(cake, characters)) {
+		for (Position position : cakeUtils.getMoveCakesPositions(cake, characters)) {
 			if (newPosition.isEquals(position)) {
 				isValid = true;
 				return;
 			}
 		}
 		if (!isValid) {
-			throw new GameException(GameMessages.INVALID_CAKE_MOVE);
+			throw new GameException(GameMessages.INVALID_CAKE_MOVE + newPosition);
 		}
 	}
 

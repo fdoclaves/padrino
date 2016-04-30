@@ -115,6 +115,55 @@ public class SimulationTest {
 		}
 		System.out.println("fin");
 	}
+	
+	@Test
+	public void simulacion2_guns_knives_cakes_moves() throws GameException, GameWarning {
+		CardManagerImpl cardManager = new CardManagerImpl(){
+			@Override
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 9; i++) {
+					chooseCard.add(CardType.MOVE);
+				}
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.SLEEP);
+				}
+				for (int i = 1; i <= 4; i++) {
+					chooseCard.add(CardType.BOOM);
+				}
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.MOVE_CAKE);
+				}
+				for (int i = 1; i <= 8; i++) {
+					chooseCard.add(CardType.CAKE);
+				}
+				for (int i = 1; i <= 9; i++) {
+					chooseCard.add(CardType.GUN);
+				}
+				for (int i = 1; i <= 9; i++) {
+					chooseCard.add(CardType.KNIFE);
+				}
+			}
+		};
+		
+		Player player1 = new Player(J1, getCardsToStart(cardManager));
+		Player player2 = new Player(J2, getCardsToStart(cardManager));
+		Player player3 = new Player(J3, getCardsToStart(cardManager));
+		List<Player> players = new ArrayList<Player>();
+		players.add(player1);
+		players.add(player2);
+		players.add(player3);
+		PlayersManager playersManager = new PlayersManager(players);
+		donePlays = new PlaysManager(characterArray, gameTable,cardManager, players);
+		int currentGamers = players.size();
+		System.out.println(converter.cToString(donePlays.getChairs()));
+		for (int i = 0; i < 19 && players.size() > 1; i++) {
+			List<Player> currentPlayer = playersManager.getCurrentPlayer();
+			play(currentPlayer.get(0), currentPlayer.get(1), currentGamers, i);
+			assertEquals(5, currentPlayer.get(0).getCards().size());
+			assertEquals(36, cardManager.getTotalCard());
+		}
+		System.out.println("fin");
+	}
 
 	@Test
 	public void simulacion1_knives_guns_sleeps() throws GameException, GameWarning {

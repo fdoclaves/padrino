@@ -65,9 +65,13 @@ public class IA_Manager {
 		if(dataCakeSetter.getExploitedMine().size() > 1 && player.getNumberCard(CardType.MOVE)==2){
 			List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
 			Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
-			Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
-			String reason= "MOVE, CAKE:"+dataCakeSetter.getExploitedMine().size();
-			return new MoveCard(whoMove, whereMove, reason);			
+			if(whoMove != null){
+				Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
+				if(whereMove != null){
+					String reason= "MOVE, CAKE:"+dataCakeSetter.getExploitedMine().size();
+					return new MoveCard(whoMove, whereMove, reason);
+				}
+			}
 		}
 		
 		AsleepEnemyGetter asleepEnemyGetter = new AsleepEnemyGetter(characterArray, player, nextTeam, gameTable);
@@ -93,7 +97,7 @@ public class IA_Manager {
 		for (DataCake dataCake : dataCakeSetter.getExploitedEnemies()) {
 			if (!dataCake.isFatal() && dataCake.enemiesByCake() > 1 && dataCake.getMineByCake() == 0
 					&& player.hasCard(CardType.BOOM)) {
-				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
+				Cake bestCakeToBoom = boomGetter.getBestBoom(characterArray, gameTable.getCakeList(), cakeUtils, nextTeam, player.getTeam());
 				if (bestCakeToBoom != null) {
 					return new BoomCard(bestCakeToBoom, "BOOM, 2 OR MORE GAMERS");
 				}
@@ -167,7 +171,7 @@ public class IA_Manager {
 			}
 			
 			if (player.hasCard(CardType.BOOM) && dataCakeSetter.getExploitedEnemies().size() >= 1) {
-				Cake bestCakeToBoom = boomGetter.getBestBoom(gameTable.getCakeList(), characterArray, nextTeam);
+				Cake bestCakeToBoom = boomGetter.getBestBoom(characterArray, gameTable.getCakeList(), cakeUtils, nextTeam, player.getTeam());
 				if (bestCakeToBoom != null) {
 					return new BoomCard(bestCakeToBoom, "NO PUEDO ATACAR//BEST BOOM CAKE");
 				}
@@ -196,8 +200,12 @@ public class IA_Manager {
 			if(player.getNumberCard(CardType.MOVE)==2){
 				List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
 				Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
-				Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
-				return new MoveCard(whoMove, whereMove, "NADA MAS QUE HACER, MOVE");
+				if(whoMove != null){
+					Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
+					if(whereMove != null){
+						return new MoveCard(whoMove, whereMove, "NADA MAS QUE HACER, MOVE");
+					}
+				}
 			}
 
 			if (player.hasCard(CardType.CAKE)) {

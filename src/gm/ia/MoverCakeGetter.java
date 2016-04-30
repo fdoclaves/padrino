@@ -17,7 +17,7 @@ public class MoverCakeGetter {
 	}
 
 	public ValueAndDataCake getBestMoveCake(Cake cake, GameCharacter[][] characterArray, String myTeam, String nextTeam) {
-		List<Position> posiblePositions = cakeUtils.getValidPositions(cake, characterArray);
+		List<Position> posiblePositions = cakeUtils.getMoveCakesPositions(cake, characterArray);
 		ValueAndDataCake bestValueAndDataCake = null;
 		float mayorValue = -1000;
 		for (Position posiblePosition : posiblePositions) {

@@ -38,7 +38,7 @@ public class GameMessages {
 
 	public static final String ATTACKER_SEAT_IS_EMPTY = "SEAT IS EMPTY";
 
-	public static final String INVALID_CAKE_MOVE = "MUY LEJOS PASTEL";
+	public static final String INVALID_CAKE_MOVE = "MUY LEJOS PASTEL:";
 
     public static final String NO_TIENES_CARD = "NO TIENES CARD";
 }

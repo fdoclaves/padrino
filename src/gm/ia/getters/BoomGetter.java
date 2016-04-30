@@ -5,16 +5,17 @@ import java.util.List;
 
 import gm.Cake;
 import gm.GameCharacter;
+import gm.cards.CakeUtils;
 import gm.ia.CharacterUtils;
 import gm.ia.DataCake;
 import gm.pojos.Position;
 
 public class BoomGetter {
 
-	public Cake getBestBoom(List<Cake> cakes, GameCharacter[][] characters, String nextTeam) {
-		List<KillNumberOrAttackToMePojo> pojosList = new ArrayList<KillNumberOrAttackToMePojo>();
-		fillPojosList(cakes, characters, nextTeam, pojosList);
-		if(pojosList.isEmpty()){
+	public Cake getBestBoom(GameCharacter[][] characters, List<Cake> cakes, CakeUtils cakeUtils, String nextTeam,
+			String iaTeam) {
+		List<KillNumberOrAttackToMePojo> pojosList = fillPojosList(cakes, characters, nextTeam, cakeUtils, iaTeam);
+		if (pojosList.isEmpty()) {
 			return null;
 		}
 		KillNumberOrAttackToMePojo best = whichIsBestPojoToBoom(pojosList);
@@ -24,16 +25,20 @@ public class BoomGetter {
 	private KillNumberOrAttackToMePojo whichIsBestPojoToBoom(List<KillNumberOrAttackToMePojo> pojosList) {
 		KillNumberOrAttackToMePojo best = pojosList.get(0);
 		for (KillNumberOrAttackToMePojo pojo : pojosList) {
-			if (pojo.numberToKill > best.numberToKill) {
+			if(pojo.moveCake > best.moveCake) {
 				best = pojo;
-			}
-			if (pojo.numberToKill == best.numberToKill) {
-				if (pojo.attacksToMe > best.attacksToMe) {
+			}else{
+				if (pojo.numberToKill > best.numberToKill) {
 					best = pojo;
 				}
-				if (pojo.attacksToMe == best.attacksToMe) {
-					if (pojo.businessValue > best.businessValue) {
+				if (pojo.numberToKill == best.numberToKill) {
+					if (pojo.attacksToMe > best.attacksToMe) {
 						best = pojo;
+					}
+					if (pojo.attacksToMe == best.attacksToMe) {
+						if (pojo.businessValue > best.businessValue) {
+							best = pojo;
+						}
 					}
 				}
 			}
@@ -41,22 +46,37 @@ public class BoomGetter {
 		return best;
 	}
 
-	private void fillPojosList(List<Cake> cakes, GameCharacter[][] characters, String nextTeam,
-			List<KillNumberOrAttackToMePojo> list) {
+	private List<KillNumberOrAttackToMePojo> fillPojosList(List<Cake> cakes, GameCharacter[][] characters,
+			String nextTeam, CakeUtils cakeUtils, String iaTeam) {
+		List<KillNumberOrAttackToMePojo> list = new ArrayList<KillNumberOrAttackToMePojo>();
 		for (Cake cake : cakes) {
 			DataCake dataCake = cake.getDataCake();
 			if (!isFatal(nextTeam, cake) && !canHurtMe(dataCake.getMineByCake())) {
-				addToList(characters, list, cake, dataCake);
+				addToList(characters, list, cake, dataCake, cakeUtils, iaTeam);
 			}
 		}
+		return list;
 	}
 
 	private void addToList(GameCharacter[][] characters, List<KillNumberOrAttackToMePojo> list, Cake cake,
-			DataCake dataCake) {
+			DataCake dataCake, CakeUtils cakeUtils, String iaTeam) {
 		int attacksToMe = getAttacksToMeByCakeKill(dataCake, characters);
 		float businessValue = getBusinessValue(dataCake, characters);
 		int numberToKill = dataCake.enemiesByCake();
-		list.add(new KillNumberOrAttackToMePojo(cake, numberToKill, attacksToMe, businessValue));
+		int moveCake = getMoveCakeNumber(cakeUtils, characters, cake, iaTeam);
+		list.add(new KillNumberOrAttackToMePojo(cake, numberToKill, attacksToMe, businessValue, moveCake));
+	}
+
+	private int getMoveCakeNumber(CakeUtils cakeUtils, GameCharacter[][] characters, Cake cake, String iaTeam) {
+		int moveCakesPositionMe = 0;
+		List<Position> moveCakesPositions = cakeUtils.getMoveCakesPositions(cake, characters);
+		for (Position moveCakesPosition : moveCakesPositions) {
+			GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characters, moveCakesPosition);
+			if (CharacterUtils.isValid(gameCharacter) && gameCharacter.isTeam(iaTeam)) {
+				moveCakesPositionMe++;
+			}
+		}
+		return moveCakesPositionMe;
 	}
 
 	private boolean isFatal(String nextTeam, Cake cake) {
@@ -87,12 +107,7 @@ public class BoomGetter {
 
 	private class KillNumberOrAttackToMePojo {
 
-		public KillNumberOrAttackToMePojo(Cake cake, int numberToKill, int attacksToMe, float businessValue) {
-			this.cake = cake;
-			this.numberToKill = numberToKill;
-			this.attacksToMe = attacksToMe;
-			this.businessValue = businessValue;
-		}
+		private int moveCake;
 
 		public Cake cake;
 
@@ -101,5 +116,15 @@ public class BoomGetter {
 		int attacksToMe = 0;
 
 		float businessValue = 0;
+
+		public KillNumberOrAttackToMePojo(Cake cake, int numberToKill, int attacksToMe, float businessValue,
+				int moveCake) {
+			this.cake = cake;
+			this.numberToKill = numberToKill;
+			this.attacksToMe = attacksToMe;
+			this.businessValue = businessValue;
+			this.moveCake = moveCake;
+		}
+
 	}
 }

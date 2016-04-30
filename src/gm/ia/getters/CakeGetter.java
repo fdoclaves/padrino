@@ -88,7 +88,7 @@ public class CakeGetter {
 	private int getIfUseMoveCakeCardCanAttackMe(Position posiblePosition) {
 	    int counterMyTeam = 0;
 	    Cake cake = new Cake(posiblePosition, myTeam);
-	    List<Position> positions = cakeUtils.getValidPositions(cake, characterArray);
+	    List<Position> positions = cakeUtils.getMoveCakesPositions(cake, characterArray);
 	    for (Position position : positions) {
 	        GameCharacter gameCharacter = CharacterUtils.getCharacterByPosition(characterArray, position);
             if(CharacterUtils.isValid(gameCharacter)){
