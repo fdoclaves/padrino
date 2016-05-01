@@ -15,13 +15,16 @@ public class Player {
 	
 	private int counterCharacters;
 
+	private boolean human;
+
 	public Player(String team, List<CardType> cards) {
 		this.team = team;
 		this.cards = cards;
 	}
 	
-	public Player(String team) {
+	public Player(String team, boolean human) {
 		this.team = team;
+		this.human = human;
 		this.cards = new ArrayList<CardType>();
 	}
 
@@ -100,5 +103,13 @@ public class Player {
 		}else{
 			return cardType1;
 		}
+	}
+	
+	public boolean isHuman() {
+		return human;
+	}
+	
+	public void setHuman(boolean human){
+		this.human = human;
 	}
 }

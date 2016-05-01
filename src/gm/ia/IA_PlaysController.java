@@ -30,16 +30,18 @@ import gm.ia.pojos.ValueData;
 import gm.info.CardType;
 import gm.pojos.Position;
 
-public class IaCardsManager {
+public class IA_PlaysController implements PlaysController {
 
 	private GameTable gameTable;
 
-	public IaCardsManager(GameTable gameTable) {
+	public IA_PlaysController(GameTable gameTable) {
 		this.gameTable = gameTable;
 	}
 	
+
+	@Override
 	public MoveCard get2ndCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers, Card firstAction) {
-		if (canDoTwoActions(firstAction, player.getNumberCard(CardType.MOVE))) {
+		if (player.hasCard(CardType.MOVE)) {
 			return addActionIfConviene(characterArray, player, nextTeam, currentGamers);
 		}
 		return null;
@@ -67,20 +69,7 @@ public class IaCardsManager {
 				componentSetter.getIaTeam(), componentSetter.getEnemyAttackDatas(), gameTable);
 	}
 
-	private boolean canDoTwoActions(Card firstAction, int numberMoveCard) {
-		boolean canDoTwoActions = false;
-		if(firstAction instanceof MoveCard){
-			if(numberMoveCard >= 2){
-				canDoTwoActions = true;
-			}
-		} else{
-			if(numberMoveCard >= 1){
-				canDoTwoActions = true;
-			}
-		}
-		return canDoTwoActions;
-	}
-
+	@Override
 	public Card get1stCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
 		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player, currentGamers);
 		DataCakeSetter dataCakeSetter = new DataCakeSetter(characterArray, gameTable, player, nextTeam);

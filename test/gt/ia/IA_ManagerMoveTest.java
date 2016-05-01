@@ -15,7 +15,8 @@ import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.MoveCard;
-import gm.ia.IaCardsManager;
+import gm.ia.IA_PlaysController;
+import gm.ia.PlaysController;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -64,7 +65,7 @@ public class IA_ManagerMoveTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(4, 4), R, gameTable));
-		IaCardsManager manager = new IaCardsManager(gameTable);
+		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("MOVE, CAKE:2",usedCard.getReason());
 		assertEquals(CardType.MOVE, usedCard.getType());
@@ -91,7 +92,7 @@ public class IA_ManagerMoveTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
-		IaCardsManager manager = new IaCardsManager(gameTable);
+		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("NADA MAS QUE HACER, MOVE",usedCard.getReason());
 		assertEquals(CardType.MOVE, usedCard.getType());

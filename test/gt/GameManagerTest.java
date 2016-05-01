@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import gm.CardManagerImpl;
@@ -18,7 +19,7 @@ import gt.extras.Converter;
 
 public class GameManagerTest {
 	
-	private static final int TOTAL_MONEY = 1000;
+	private static final int TOTAL_MONEY = 100;
 
 	private Player J1;
 
@@ -34,9 +35,9 @@ public class GameManagerTest {
 	public void setUp() throws Exception {
 		converter = new Converter(9, 3);
 		teams = new ArrayList<Player>();
-		J1 = new Player("1");
-		J2 = new Player("2");
-		J3 = new Player("3");
+		J1 = new Player("1", false);
+		J2 = new Player("2", false);
+		J3 = new Player("3", false);
 		teams.add(J1);
 		teams.add(J2);
 		teams.add(J3);
@@ -188,7 +189,27 @@ public class GameManagerTest {
 		List<Player> winners = gameManager.whoWin();
 		assertEquals(1, gameManager.whoWin().size());
 		assertEquals(J2.getTeam(), winners.get(0).getTeam());
+	}
+	
+	@Ignore
+	@Test
+	public void simulacion() {		
+		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+		String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+		// ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+		String[][] playerChairs = { { "VV", "VV", "3P", "1kP", "VV", "3k", "VV", "VV", "VV" },
+									{ "VV", "**", "**", "**", "**", "**", "**", "**", "VV" },
+									{ "2_", "VV", "VV", "2P", "VV", "VV", "1Pk", "VV", "VV" } };
 		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+		J1.setHuman(true);
+		GameManager gameManager = new GameManager(teams, characterArray, tableSeats, TOTAL_MONEY);
+		gameManager.start();
+		System.out.println(converter.cToString(characterArray));
 	}
 
 }

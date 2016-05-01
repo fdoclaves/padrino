@@ -379,4 +379,58 @@ private Converter converter;
         Position position = whereMoveGetter.whereMove(characterArray, iaComponentsSetter,playerB.getTeam(),new Position(3, 4));
         assertTrue(""+position, position.isEquals(new Position(2, 0)));
     }
+    
+    @Test
+    public void isHasGunBestNotSide() {
+      //........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
+        String[][] TABLE_VALUES2 ={ { "__", "__", "__", "__", "__", "__", "__", "__", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "1$" },
+                                    { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+        
+        // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
+        String[][] playerChairs = { { "N", "N_", "VV", "R_", "R_", "Nk", "VV", "B_", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "N_", "R_", "BP", "R_", "N_", "BK", "B_", "VV" } };
+        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+        IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
+        CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
+        new MoverCakeGetter(cakeUtils);
+        WhereMoveGetter whereMoveGetter = new WhereMoveGetter(gameTable);
+        Position position = whereMoveGetter.whereMove(characterArray, iaComponentsSetter,playerB.getTeam(),new Position(3, 4));
+        assertTrue(""+position, position.isEquals(new Position(2, 0)));
+    }
+    
+    @Test
+    public void isHasKnifeBestNotSide() {
+      //........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
+        String[][] TABLE_VALUES2 ={ { "__", "__", "__", "__", "__", "__", "__", "__", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+                                    { "__", "**", "**", "**", "**", "**", "**", "**", "1$" },
+                                    { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+        
+        // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
+        String[][] playerChairs = { { "N", "N_", "VV", "R_", "R_", "Nk", "VV", "B_", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "**", "**", "**", "**", "**", "**", "**", "B_" },
+                                    { "N", "N_", "R_", "Bk", "R_", "N_", "BK", "B_", "VV" } };
+        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+        IaComponentsSetter iaComponentsSetter = new IaComponentsSetter(gameTable, characterArray, playerB, 3);
+        new DataCakeSetter(characterArray, gameTable, playerB, "R");
+        CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
+        new MoverCakeGetter(cakeUtils);
+        WhereMoveGetter whereMoveGetter = new WhereMoveGetter(gameTable);
+        Position position = whereMoveGetter.whereMove(characterArray, iaComponentsSetter,playerB.getTeam(),new Position(3, 4));
+        assertTrue(""+position, position.isEquals(new Position(8, 4)));
+    }
 }

@@ -36,11 +36,11 @@ public class WhereMoveGetter {
                 Position position = new Position(x, y);
                 GameCharacter newSeat = CharacterUtils.getCharacterByPosition(characterArray, position);
                 if (newSeat.isEmpty() && !newSeat.hasCake()) {
-                    GameCharacter whoGameCharacter = CharacterUtils.getCharacterByPosition(characterArray,
+                    GameCharacter whoToMove= CharacterUtils.getCharacterByPosition(characterArray,
                     		whoMove);
                     TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
                     List<MoneyValues> moneyValues = getMoneyValuesByTeam(iaComponentsSetter, myTeam);
-                    float value = getValue(whoGameCharacter, newSeat, tableSeat, attackPositions, moneyValues);
+                    float value = getValue(whoToMove, newSeat, tableSeat, attackPositions, moneyValues);
                     if (value >= bestValue) {
                         bestPosition = position;
                         bestValue = value;
@@ -70,30 +70,44 @@ public class WhereMoveGetter {
         return attackPositions;
     }
 
-    private float getValue(GameCharacter gameCharacterBefore, GameCharacter gameCharacter, TableSeat tableSeat,
+    private float getValue(GameCharacter whoToMove, GameCharacter newSeat, TableSeat tableSeat,
             List<Position> attackPositions, List<MoneyValues> moneyValues) {
         MoneyValues moneyValue = getMoneyValues(tableSeat);
         float value = 0;
         for (Position attackPosition : attackPositions) {
-            if(attackPosition.isEquals(gameCharacter.getPosition())){
+            if(attackPosition.isEquals(newSeat.getPosition())){
                 value = value - 10;
             }
         }
         if (moneyValue != MoneyValues.NOTTHING) {
-            value++;
+            value=value+5;
         }
         value = value + getValueBusiness(moneyValue, moneyValues);
         if (tableSeat.has(TableObjects.GLASS)) {
             value--;
         }
-        if (tableSeat.has(TableObjects.KNIFE) && !gameCharacterBefore.hasKnife()) {
-            value = value + 0.5f;
+        
+        boolean isOnSide = isOnSide(newSeat.getPosition().getX());
+		if (isOnSide && (whoToMove.hasKnife() || tableSeat.has(TableObjects.KNIFE))) {
+            value++;
+        }else{
+        	if (tableSeat.has(TableObjects.KNIFE) && !whoToMove.hasKnife()) {
+                value = value + 0.5f;
+            }
         }
-        if (tableSeat.has(TableObjects.GUN) && !gameCharacterBefore.hasGun()) {
-            value = value + 0.5f;
-        }
+		if(isOnSide && (whoToMove.hasGun())){
+			value--;
+		}else{
+			if (tableSeat.has(TableObjects.GUN) && !whoToMove.hasGun()) {
+	            value = value + 0.5f;
+	        }
+		}
         return value;
     }
+
+	private boolean isOnSide(int x) {
+		return x == 0 || x == (gameTable.getMaxX() - 1);
+	}
 
     private float getValueBusiness(MoneyValues moneyValue, List<MoneyValues> moneyValues) {
         if (moneyValues.contains(moneyValue)) {

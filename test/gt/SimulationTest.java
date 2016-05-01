@@ -18,7 +18,8 @@ import gm.TableSeat;
 import gm.TurnsManager;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gm.ia.IaCardsManager;
+import gm.ia.IA_PlaysController;
+import gm.ia.PlaysController;
 import gm.info.CardType;
 import gt.extras.Converter;
 
@@ -194,7 +195,7 @@ public class SimulationTest {
 		System.out.println("Cards:"+gaming.getCards());
 		donePlays.startTurn(gaming);
 		System.out.println(converter.cToString(donePlays.getChairs()));
-		IaCardsManager ia_Manager = new IaCardsManager(gameTable);//actualizado con Zzz y muertesXpastel
+		PlaysController ia_Manager = new IA_PlaysController(gameTable);//actualizado con Zzz y muertesXpastel
 		Card card = ia_Manager.get1stCard(characterArray, gaming, next.getTeam(), currentGamers);
 		System.out.println(card.getReason());
 		System.out.println("Used card: " + card.getType());

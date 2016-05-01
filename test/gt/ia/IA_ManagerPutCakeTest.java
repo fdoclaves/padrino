@@ -16,7 +16,8 @@ import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeCard;
 import gm.cards.SleepCard;
-import gm.ia.IaCardsManager;
+import gm.ia.IA_PlaysController;
+import gm.ia.PlaysController;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -64,7 +65,7 @@ public class IA_ManagerPutCakeTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
-		IaCardsManager manager = new IaCardsManager(gameTable);
+		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
@@ -91,7 +92,7 @@ public class IA_ManagerPutCakeTest {
 
 	        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 	        GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
-	        IaCardsManager manager = new IaCardsManager(gameTable);
+	        PlaysController manager = new IA_PlaysController(gameTable);
 	        Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 	        assertEquals("HAY MAS DE 3 DORMIDOS",usedCard.getReason());
 	        assertEquals(CardType.SLEEP, usedCard.getType());
@@ -118,7 +119,7 @@ public class IA_ManagerPutCakeTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
-		IaCardsManager manager = new IaCardsManager(gameTable);
+		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:1",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
@@ -146,12 +147,42 @@ public class IA_ManagerPutCakeTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(8, 3), "N", gameTable));
-		IaCardsManager manager = new IaCardsManager(gameTable);
+		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PEOR ES NADA, PUT CAKE",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
 		CakeCard cakeCard = (CakeCard) usedCard;
 		assertTrue(""+cakeCard.getCakePosition(),new Position(8, 1).isEquals(cakeCard.getCakePosition()));
+	}
+	
+	@Test
+	public void simulacion_correcto() {
+
+		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+		String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									 { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									 { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+		// ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+		String[][] playerChairs2 = { { "VV", "VV", "3P", "1kP", "VV", "3k", "VV", "VV", "VV" },
+									 { "1Pk", "**", "**", "**", "**", "**", "**", "**", "VV" },
+									 { "V", "VV", "VV", "V", "VV", "VV", "2_", "VV", "VV" } };
+
+		TableSeat[][] tableSeats = new Converter(9, 3).to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+		PlaysController manager = new IA_PlaysController(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.BOOM);
+		cards.add(CardType.MOVE_CAKE);
+		cards.add(CardType.CAKE);
+		Player player1 = new Player("2", cards);
+		Card usedCard = manager.get1stCard(new Converter(9, 3).toCharacterArray(playerChairs2), player1, "3", 3);
+		assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
+		assertEquals(CardType.CAKE, usedCard.getType());
+		CakeCard cakeCard = (CakeCard) usedCard;
+		assertTrue(""+cakeCard.getCakePosition(),new Position(2, 0).isEquals(cakeCard.getCakePosition()));
 	}
 
 }
