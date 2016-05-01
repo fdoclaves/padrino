@@ -10,6 +10,7 @@ import gm.cards.KnifeCard;
 import gm.cards.MoveCakeCard;
 import gm.cards.MoveCard;
 import gm.cards.SleepCard;
+import gm.exceptions.HumanException;
 import gm.ia.PlaysController;
 import gm.info.CardType;
 import gm.pojos.Position;
@@ -78,8 +79,7 @@ public class Human_PlaysController implements PlaysController {
 				return cake;
 			}
 		}
-		System.out.println("NO EXIST CAKE");
-		return null;
+		throw new HumanException("NO EXIST CAKE");
 	}
 
 	private Card playKnifeCard() {

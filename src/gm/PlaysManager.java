@@ -134,7 +134,6 @@ public class PlaysManager {
 		playersMap.get(team).removeCard(cardType);
 		cardManager.setCard(cardType);
 		if (playedCardsCounter == 2) {
-			playersMap.get(team).addCard(cardManager.getCard());
 			finishTurn();
 		} else {
 			playedCardsCounter++;
@@ -217,7 +216,9 @@ public class PlaysManager {
 		removeZzz(team);
 		playedCardsCounter++;
 		Player currentPlayer = playersMap.get(team);
-		currentPlayer.addCard(cardManager.getCard());
+		while(currentPlayer.getCards().size() < 5){
+			currentPlayer.addCard(cardManager.getCard());
+		}
 		currentPlayer.addMoney(getMoney());
 		removeFromListLosers();
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import gm.cards.ChangeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
+import gm.exceptions.HumanException;
 import gm.ia.IA_PlaysController;
 import gm.ia.PlaysController;
 import gm.info.CardType;
@@ -21,12 +22,9 @@ public class GameManager {
 
 	private GameTable gameTable;
 
-	private GameCharacter[][] characterArray;
-
 	public GameManager(List<Player> players, CardManager cardManager, GameCharacter[][] characterArray,
 			TableSeat[][] tableSeats, Integer totalMoney) {
 		this.players = players;
-		this.characterArray = characterArray;
 		for (Player team : players) {
 			addCardsToPlayerToStart(team, cardManager);
 		}
@@ -53,10 +51,12 @@ public class GameManager {
 			String nextTeam = currentPlayer.get(1).getTeam();
 			System.out.println("-------------" + nowPlayer.getTeam() + "-----------------");
 			playsManager.startTurn(nowPlayer);
-			if(nowPlayer.isHuman()){
-				humanPlays(nowPlayer, nextTeam);
-			}else{
-				iaPlays(nowPlayer, nextTeam);
+			if(sigueVivo(nowPlayer)){
+				if(nowPlayer.isHuman()){
+					humanPlays(nowPlayer, nextTeam);
+				}else{
+					iaPlays(nowPlayer, nextTeam);
+				}
 			}
 			playsManager.finishTurn();
 			System.out.println(new Converter(8, 3).cToString(playsManager.getChairs()));
@@ -65,20 +65,28 @@ public class GameManager {
 			}
 		}
 	}
+
+	private boolean sigueVivo(Player nowPlayer) {
+		return nowPlayer.getCounterCharacters() > 0;
+	}
 	
 	private void humanPlays(Player iaPlayer, String nextTeam) {
 		PlaysController iaCardManager = new Human_PlaysController(gameTable);
-		Card firstCard = iaCardManager.get1stCard(characterArray, iaPlayer, nextTeam, players.size());
-		Card secondCard = null;
 		try {
+		Card firstCard = iaCardManager.get1stCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size());
+		Card secondCard = null;
 			if(firstCard != null){
 				playsManager.play(firstCard);
 			}
-			secondCard = iaCardManager.get2ndCard(characterArray, iaPlayer, nextTeam, players.size(),
+			secondCard = iaCardManager.get2ndCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size(),
 					firstCard);
 			if (secondCard != null) {
 				playsManager.play(secondCard);
 			}
+		} catch (HumanException e) {
+			e.printStackTrace();
+			playsManager.resert();
+			humanPlays(iaPlayer, nextTeam);
 		} catch (GameException e) {
 			e.printStackTrace();
 			playsManager.resert();
@@ -91,12 +99,13 @@ public class GameManager {
 
 	private void iaPlays(Player iaPlayer, String nextTeam) {
 		PlaysController iaCardManager = new IA_PlaysController(gameTable);
-		Card firstCard = iaCardManager.get1stCard(characterArray, iaPlayer, nextTeam, players.size());
+		Card firstCard = null;
 		try {
+			firstCard = iaCardManager.get1stCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size());	
 			if (!waitForBestAction(firstCard)) {
 				playsManager.play(firstCard);
 			}
-			Card secondCard = iaCardManager.get2ndCard(characterArray, iaPlayer, nextTeam, players.size(),
+			Card secondCard = iaCardManager.get2ndCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size(),
 					firstCard);
 			if (secondCard == null) {
 				if (waitForBestAction(firstCard)) {
