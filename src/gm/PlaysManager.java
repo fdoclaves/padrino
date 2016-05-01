@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gm.cards.ChangeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
 import gm.ia.CharacterUtils;
@@ -47,6 +48,8 @@ public class PlaysManager {
 	private List<CardType> beforeCardType;
 	
 	private String team;
+	
+	private boolean useChangeCard;
 
 	public PlaysManager(GameCharacter[][] characters, GameTable gameTable, CardManager cardManager, List<Player> players) {
 		this(characters, gameTable,players);
@@ -77,6 +80,7 @@ public class PlaysManager {
 	}
 
 	public void startTurn(final Player player) {
+		this.useChangeCard = false;
 		this.beforeCardType = copy(player.getCards());
 		this.team = player.getTeam();
 		this.playedCardsCounter = 1;
@@ -124,6 +128,9 @@ public class PlaysManager {
 		card.inicialize(gameTable);
 		card.validateAction(characters, team);
 		card.doAction(characters, playersMap);
+		if(card instanceof ChangeCard){
+			useChangeCard = true;
+		}
 		playersMap.get(team).removeCard(cardType);
 		cardManager.setCard(cardType);
 		if (playedCardsCounter == 2) {
@@ -147,6 +154,9 @@ public class PlaysManager {
 	        throw new GameException(GameMessages.NO_TIENES_CARD);
 	    }
 		if (playedCardsCounter == 2) {
+			if (useChangeCard) {
+				throw new GameException(GameMessages.CHANGE_CARD_BEFORE);
+			}
 			if (currentPlay != CardType.MOVE) {
 				throw new GameException(GameMessages.TWO_ATTACK_ACTIONS);
 			}
@@ -216,6 +226,8 @@ public class PlaysManager {
 			}
 		}
 		for (Player player : playersToDelete) {
+			cardManager.setCards(player.getCards());
+			player.setCardList(new ArrayList<CardType>());
 			playersList.remove(player);
 		}
 	}

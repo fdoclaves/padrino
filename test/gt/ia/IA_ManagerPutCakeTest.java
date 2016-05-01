@@ -16,7 +16,7 @@ import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeCard;
 import gm.cards.SleepCard;
-import gm.ia.IA_Manager;
+import gm.ia.IaCardsManager;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -62,8 +62,8 @@ public class IA_ManagerPutCakeTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
 		CakeCard cakeCard = (CakeCard) usedCard;
@@ -89,8 +89,8 @@ public class IA_ManagerPutCakeTest {
 
 	        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 	        GameTable gameTable = new GameTable(tableSeats);
-	        IA_Manager manager = new IA_Manager(gameTable);
-	        Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+	        IaCardsManager manager = new IaCardsManager(gameTable);
+	        Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 	        assertEquals("HAY MAS DE 3 DORMIDOS",usedCard.getReason());
 	        assertEquals(CardType.SLEEP, usedCard.getType());
 	        SleepCard sleepCard = (SleepCard) usedCard;
@@ -116,8 +116,8 @@ public class IA_ManagerPutCakeTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:1",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
 		CakeCard cakeCard = (CakeCard) usedCard;
@@ -144,8 +144,8 @@ public class IA_ManagerPutCakeTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(8, 3), "N", gameTable));
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PEOR ES NADA, PUT CAKE",usedCard.getReason());
 		assertEquals(CardType.CAKE, usedCard.getType());
 		CakeCard cakeCard = (CakeCard) usedCard;

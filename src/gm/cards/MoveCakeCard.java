@@ -15,7 +15,7 @@ import gm.pojos.Position;
 public class MoveCakeCard extends Card {
 
 	private Cake cake;
-	
+
 	private Position newPosition;
 
 	public MoveCakeCard(Cake cake, Position newPosition, String reason) {
@@ -72,6 +72,10 @@ public class MoveCakeCard extends Card {
 
 	public Position getNewPosition() {
 		return newPosition;
+	}
+	
+	public Cake getCake() {
+		return cake;
 	}
 
 }

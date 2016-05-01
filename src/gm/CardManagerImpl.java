@@ -79,4 +79,9 @@ public class CardManagerImpl implements CardManager {
 		temporalCards.remove(temporalCards.size()-1);
 	}
 
+	@Override
+	public void setCards(List<CardType> cards) {
+		temporalCards.addAll(cards);
+	}
+
 }

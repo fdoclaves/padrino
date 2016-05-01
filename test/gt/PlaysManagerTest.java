@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.cards.ChangeCard;
 import gm.cards.GunCard;
@@ -24,9 +24,9 @@ import gm.info.GameMessages;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
-public class PlayManagerCardsTest {
+public class PlaysManagerTest {
 
-	private PlaysManager donePlays;
+	private PlaysManager playsManager;
 
 	private static final String B = "B";
 	
@@ -80,29 +80,29 @@ public class PlayManagerCardsTest {
 
 	@Test
 	public void deleteOneCard() throws GameException, GameWarning {
-		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
-		donePlays.startTurn(player1);
-		donePlays.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		playsManager.startTurn(player1);
+		playsManager.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
 		assertEquals(4, player1.getCards().size());
 		assertEquals(0, player1.getNumberCard(CardType.KNIFE));
-		donePlays.finishTurn();
+		playsManager.finishTurn();
 		assertEquals(5, player1.getCards().size());
 	}
 
 	@Test
 	public void deleteTwoCard() throws GameException, GameWarning {
-		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
-		donePlays.startTurn(player1);
-		donePlays.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		playsManager.startTurn(player1);
+		playsManager.play(new KnifeCard(new Position(0, 4), new Position(1, 4)));
 		assertEquals(4, player1.getCards().size());
 		assertEquals(0, player1.getNumberCard(CardType.KNIFE));
-		donePlays.play(new MoveCard(new Position(0, 4), new Position(1, 4)));
+		playsManager.play(new MoveCard(new Position(0, 4), new Position(1, 4)));
 		assertEquals(5, player1.getCards().size());
 	}
 
 	@Test
 	public void noTieneCarta() throws GameException, GameWarning {
-		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
@@ -110,9 +110,9 @@ public class PlayManagerCardsTest {
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
 		Player player = new Player(B, cards);
-		donePlays.startTurn(player);
+		playsManager.startTurn(player);
 		try {
-			donePlays.play(new GunCard(new Position(8, 2), new Position(0, 2)));
+			playsManager.play(new GunCard(new Position(8, 2), new Position(0, 2)));
 			fail();
 		} catch (GameException e) {
 			assertEquals(GameMessages.NO_TIENES_CARD, e.getMessage());
@@ -140,26 +140,26 @@ public class PlayManagerCardsTest {
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		gameTable = new GameTable(tableSeats);
-		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
 		
-		donePlays.startTurn(player1);
-		donePlays.play(new ChangeCard(CardType.BOOM));
-		donePlays.finishTurn();
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
 		assertEquals(2, player1.getMoney());
 		
-		donePlays.startTurn(player2);
-		donePlays.play(new ChangeCard(CardType.BOOM));
-		donePlays.finishTurn();
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
 		assertEquals(4, player2.getMoney());
 		
-		donePlays.startTurn(player1);
-		donePlays.play(new ChangeCard(CardType.BOOM));
-		donePlays.finishTurn();
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
 		assertEquals(4, player1.getMoney());
 		
-		donePlays.startTurn(player2);
-		donePlays.play(new ChangeCard(CardType.BOOM));
-		donePlays.finishTurn();
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
 		assertEquals(8, player2.getMoney());
 	}
 	
@@ -181,12 +181,13 @@ public class PlayManagerCardsTest {
 		cards.add(CardType.GUN);
 		Player player3 = new Player("N", cards);
 		players.add(player3);
-		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
 		
 		assertEquals(3, players.size());
-		donePlays.startTurn(player1);
-		donePlays.play(new KnifeCard(new Position(3, 0), new Position(2, 0)));
-		donePlays.finishTurn();
+		playsManager.startTurn(player1);
+		playsManager.play(new KnifeCard(new Position(3, 0), new Position(2, 0)));
+		playsManager.finishTurn();
 		assertEquals(2, players.size());
+		assertEquals(0, player3.getCards().size());
 	}
 }

@@ -3,7 +3,7 @@ package gm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayersManager {
+public class TurnsManager {
 
 	private List<Player> players;
 
@@ -11,7 +11,7 @@ public class PlayersManager {
 
 	private Player[] allPlayers;
 
-	public PlayersManager(List<Player> gamers) {
+	public TurnsManager(List<Player> gamers) {
 		this.players = gamers;
 		this.allPlayers = new Player[gamers.size()];
 		for (int i = 0; i < allPlayers.length; i++) {

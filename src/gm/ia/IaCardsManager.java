@@ -30,15 +30,58 @@ import gm.ia.pojos.ValueData;
 import gm.info.CardType;
 import gm.pojos.Position;
 
-public class IA_Manager {
+public class IaCardsManager {
 
 	private GameTable gameTable;
 
-	public IA_Manager(GameTable gameTable) {
+	public IaCardsManager(GameTable gameTable) {
 		this.gameTable = gameTable;
 	}
+	
+	public MoveCard get2ndCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers, Card firstAction) {
+		if (canDoTwoActions(firstAction, player.getNumberCard(CardType.MOVE))) {
+			return addActionIfConviene(characterArray, player, nextTeam, currentGamers);
+		}
+		return null;
+	}
 
-	public Card getCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
+	private MoveCard addActionIfConviene(GameCharacter[][] characterArray, Player player, String nextTeam,
+			int currentGamers) {
+		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player,
+				currentGamers);
+		new DataCakeSetter(characterArray, gameTable, player, nextTeam);
+		Position whoMove = whoMove(characterArray, player, componentSetter);
+		if (whoMove != null) {
+			Position whereMove = new WhereMoveGetter(gameTable).whereMove(characterArray, componentSetter,
+					player.getTeam(), whoMove);
+			if (whereMove != null) {
+				return new MoveCard(whoMove, whereMove, "2nd Action");
+			}
+		}
+		return null;
+	}
+
+	private Position whoMove(GameCharacter[][] characterArray, Player player, IaComponentsSetter componentSetter) {
+		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
+		return new WhoMoveGetter().whoMove(characterArray, player.getTeam(), cakeUtils,
+				componentSetter.getIaTeam(), componentSetter.getEnemyAttackDatas(), gameTable);
+	}
+
+	private boolean canDoTwoActions(Card firstAction, int numberMoveCard) {
+		boolean canDoTwoActions = false;
+		if(firstAction instanceof MoveCard){
+			if(numberMoveCard >= 2){
+				canDoTwoActions = true;
+			}
+		} else{
+			if(numberMoveCard >= 1){
+				canDoTwoActions = true;
+			}
+		}
+		return canDoTwoActions;
+	}
+
+	public Card get1stCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers) {
 		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player, currentGamers);
 		DataCakeSetter dataCakeSetter = new DataCakeSetter(characterArray, gameTable, player, nextTeam);
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());

@@ -15,7 +15,7 @@ import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.MoveCard;
-import gm.ia.IA_Manager;
+import gm.ia.IaCardsManager;
 import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
@@ -62,8 +62,8 @@ public class IA_ManagerMoveTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(4, 4), R, gameTable));
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("MOVE, CAKE:2",usedCard.getReason());
 		assertEquals(CardType.MOVE, usedCard.getType());
 		MoveCard cakeCard = (MoveCard) usedCard;
@@ -89,8 +89,8 @@ public class IA_ManagerMoveTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("NADA MAS QUE HACER, MOVE",usedCard.getReason());
 		assertEquals(CardType.MOVE, usedCard.getType());
 		MoveCard cakeCard = (MoveCard) usedCard;

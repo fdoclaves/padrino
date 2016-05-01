@@ -1,5 +1,6 @@
 package gm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gm.info.CardType;
@@ -17,6 +18,11 @@ public class Player {
 	public Player(String team, List<CardType> cards) {
 		this.team = team;
 		this.cards = cards;
+	}
+	
+	public Player(String team) {
+		this.team = team;
+		this.cards = new ArrayList<CardType>();
 	}
 
 	public String getTeam() {

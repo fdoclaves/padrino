@@ -9,15 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gm.Player;
-import gm.PlayersManager;
+import gm.TurnsManager;
 import gm.info.CardType;
 
-public class PlayerManagerTest {
+public class TurnsManagerTest {
 	
 	private static final int C = 2;
 	private static final int B = 1;
 	private static final int A = 0;
-	private PlayersManager playerManager;
+	private TurnsManager playerManager;
 	private List<Player> players;
 
 	@Before
@@ -26,7 +26,7 @@ public class PlayerManagerTest {
 		players.add(new Player("A", new ArrayList<CardType>()));
 		players.add(new Player("B", new ArrayList<CardType>()));
 		players.add(new Player("C", new ArrayList<CardType>()));
-		playerManager = new PlayersManager(players);
+		playerManager = new TurnsManager(players);
 	}
 
 	@Test

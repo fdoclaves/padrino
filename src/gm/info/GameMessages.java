@@ -41,4 +41,6 @@ public class GameMessages {
 	public static final String INVALID_CAKE_MOVE = "MUY LEJOS PASTEL:";
 
     public static final String NO_TIENES_CARD = "NO TIENES CARD";
+
+	public static final String CHANGE_CARD_BEFORE = "CHANGE CARD BEFORE";
 }

@@ -21,7 +21,7 @@ import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.SleepCard;
-import gm.ia.IA_Manager;
+import gm.ia.IaCardsManager;
 import gm.ia.getters.IaComponentsSetter;
 import gm.ia.pojos.InfoAction;
 import gm.info.CardType;
@@ -67,7 +67,7 @@ public class IA_ManagerTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		IaComponentsSetter attackDataGetter = new IaComponentsSetter(gameTable, characterArray, playerB,3);
 		List<GameCharacter> iaTeam = attackDataGetter.getIaTeam();
 		List<InfoAction> attactedPositions = manager.getAttactedPositions(iaTeam, "");
@@ -84,8 +84,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//GANO DESPIERTOS: 1.0",
 				usedCard.getReason());
 		//fer
@@ -116,7 +116,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -124,7 +124,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("BOOM, 2 OR MORE GAMERS",usedCard.getReason());
 		assertTrue(usedCard instanceof BoomCard);
 		BoomCard boomCard = (BoomCard) usedCard;
@@ -152,7 +152,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cakeA = new Cake(new Position(8, 2), "R", gameTable);
 		gameTable.add(cakeA);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.GUN);
@@ -160,7 +160,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//GANO FREE FATAL CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -190,7 +190,7 @@ public class IA_ManagerTest {
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
 		gameTable.add(cakeN);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.GUN);
 		cards.add(CardType.KNIFE);
@@ -198,7 +198,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("BOOM, 2 OR MORE GAMERS",usedCard.getReason());;
 		assertTrue(usedCard instanceof BoomCard);
 		BoomCard boomCard = (BoomCard) usedCard;
@@ -228,7 +228,7 @@ public class IA_ManagerTest {
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
 		gameTable.add(cakeN);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
@@ -236,7 +236,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("NO PUEDO ATACAR//BEST BOOM CAKE",usedCard.getReason());
 		assertTrue(usedCard instanceof BoomCard);
 		BoomCard boomCard = (BoomCard) usedCard;
@@ -266,7 +266,7 @@ public class IA_ManagerTest {
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "R", gameTable);
 		gameTable.add(cakeN);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
@@ -274,7 +274,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("NO PUEDO ATACAR//BEST BOOM CAKE",usedCard.getReason());
 		assertTrue(usedCard instanceof BoomCard);
 		BoomCard boomCard = (BoomCard) usedCard;
@@ -302,7 +302,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.BOOM);
@@ -310,7 +310,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("BOOM, 2 OR MORE GAMERS",usedCard.getReason());
 		assertTrue(usedCard instanceof BoomCard);
 	}
@@ -336,7 +336,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -344,7 +344,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.BOOM);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//GANO FREE CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 	}
@@ -370,7 +370,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -378,7 +378,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//GANO FREE CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -408,7 +408,7 @@ public class IA_ManagerTest {
 		gameTable.add(cakeA);
 		Cake cakeR = new Cake(new Position(3, 0), "R", gameTable);
 		gameTable.add(cakeR);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -416,7 +416,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//GANO FREE FATAL CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -446,7 +446,7 @@ public class IA_ManagerTest {
 		gameTable.add(cakeA);
 		Cake cakeR = new Cake(new Position(3, 0), "R", gameTable);
 		gameTable.add(cakeR);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -454,7 +454,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 3);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//GANO FREE FATAL CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -482,7 +482,7 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		Cake cake = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cake);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
@@ -490,7 +490,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//GANO FREE CAKE: 1.0",usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -516,7 +516,7 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.MOVE);
@@ -524,7 +524,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
 		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",usedCard.getReason());
 		assertTrue(usedCard instanceof ChangeCard);
 		assertEquals(CardType.BOOM, usedCard.getType());
@@ -549,7 +549,7 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.MOVE);
@@ -557,7 +557,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
 		assertEquals("NO PUEDO ATACAR:1",usedCard.getReason());
 		assertTrue(usedCard instanceof SleepCard);
 		SleepCard card = (SleepCard) usedCard;
@@ -576,7 +576,7 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
 		cards.add(CardType.KNIFE);
@@ -584,7 +584,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.KNIFE);
 		Player playerBWithoutGun = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//GANO ATACARME",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof KnifeCard);
@@ -598,8 +598,8 @@ public class IA_ManagerTest {
 	public void AtacadoPorDiferentesFlanco2_MasArmas() {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
@@ -625,8 +625,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("HAY MAS DE 2 DORMIDOS", usedCard.getReason());
 		assertTrue(usedCard instanceof SleepCard);
 		SleepCard card = (SleepCard) usedCard;
@@ -655,8 +655,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
@@ -677,9 +677,9 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//GANO MEJOR ARMA",
 				usedCard.getReason());
@@ -701,9 +701,9 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//GANO MAS ARMAS:1.5",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
@@ -724,9 +724,9 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//GANO MI MEJOR BUSINESS",
 				usedCard.getReason());
@@ -748,9 +748,9 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO SU MEJOR BUSINESS",
 				usedCard.getReason());
@@ -772,8 +772,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
 				usedCard.getReason());
@@ -797,8 +797,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//GANO TENGO MAS ARMAS:2.0",
 				usedCard.getReason());
@@ -821,8 +821,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//EL QUE SEA, < 3 JUGADORES",
 				usedCard.getReason());
@@ -846,8 +846,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
 		assertEquals(
 				"PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//MAS ARMAS//MEJOR ARMA//TENGO MAS ARMAS//MI MEJOR BUSINESS//SU MEJOR BUSINESS//GANO MAS PERSONAJES:10",
 				usedCard.getReason());
@@ -874,7 +874,7 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.SLEEP);
 		cards.add(CardType.SLEEP);
@@ -882,7 +882,7 @@ public class IA_ManagerTest {
 		cards.add(CardType.KNIFE);
 		cards.add(CardType.GUN);
 		Player playerWithTwoSleepCard = new Player(B, cards);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerWithTwoSleepCard, R, 4);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerWithTwoSleepCard, R, 4);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//3 o MAS JUGADORES, DORMIR", usedCard.getReason());
 		assertTrue(usedCard instanceof SleepCard);
 	}
@@ -904,8 +904,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//GANO MAS ARMAS:1.0", usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
 		GunCard gunCard = (GunCard) usedCard;
@@ -930,8 +930,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//GANO MEJOR ARMA",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
@@ -957,8 +957,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//GANO SU MEJOR BUSINESS",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof KnifeCard);
@@ -984,8 +984,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//EL QUE SEA, < 3 JUGADORES",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof KnifeCard);
@@ -1011,8 +1011,8 @@ public class IA_ManagerTest {
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//GANO MAS PERSONAJES:3",
 				usedCard.getReason());
 		assertTrue(usedCard instanceof GunCard);
@@ -1043,8 +1043,8 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("BOOM, 2 OR MORE GAMERS",usedCard.getReason());
 		assertEquals(CardType.BOOM, usedCard.getType());
 		BoomCard card = (BoomCard) usedCard;
@@ -1072,8 +1072,8 @@ public class IA_ManagerTest {
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));		
-		IA_Manager manager = new IA_Manager(gameTable);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		IaCardsManager manager = new IaCardsManager(gameTable);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("BOOM, 2 OR MORE GAMERS",usedCard.getReason());
 		assertEquals(CardType.BOOM, usedCard.getType());
 		BoomCard card = (BoomCard) usedCard;
@@ -1098,9 +1098,9 @@ public class IA_ManagerTest {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
 		GameTable gameTable = new GameTable(tableSeats);
 		gameTable.add(new Cake(new Position(1, 2), "N", gameTable));
-		IA_Manager manager = new IA_Manager(gameTable);
+		IaCardsManager manager = new IaCardsManager(gameTable);
 		playerB.removeCard(CardType.GUN);
-		Card usedCard = manager.getCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("NO PUEDO ATACAR:4",usedCard.getReason());
 		assertEquals(CardType.SLEEP, usedCard.getType());
 	}
@@ -1126,6 +1126,10 @@ public class IA_ManagerTest {
 		 * WHERE MOVE
 		 * *PUEDE ATACAR
 		 * *MOVE CAKE
+		 * 
+		 * 
+		 * 
+		 * SI PIEDE A UN ENEMIGO QUE TENGA CAKE FATAL, DEJA SE TENER VIDA EL CAKE
 		 */
 		
 		fail();

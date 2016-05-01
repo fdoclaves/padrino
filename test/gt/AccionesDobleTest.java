@@ -1,6 +1,9 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +15,10 @@ import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
+import gm.cards.ChangeCard;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
 import gm.cards.MoveCard;
@@ -53,20 +57,27 @@ public class AccionesDobleTest {
 	@Before
 	public void setUp() throws Exception {
 		CardManager cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.SLEEP);
 				}
 			}
 		};
-	    List<CardType> cards = new ArrayList<CardType>();
-	    cards.add(CardType.KNIFE);
-	    cards.add(CardType.GUN);
-	    cards.add(CardType.MOVE);
-	    cards.add(CardType.MOVE);
-	    cards.add(CardType.KNIFE);
-	    J1 = new Player("1", cards);
-	    J2 = new Player("2", cards);
+	    List<CardType> cards1 = new ArrayList<CardType>();
+	    cards1.add(CardType.KNIFE);
+	    cards1.add(CardType.GUN);
+	    cards1.add(CardType.MOVE);
+	    cards1.add(CardType.MOVE);
+	    cards1.add(CardType.KNIFE);
+	    J1 = new Player("1", cards1);
+	    List<CardType> cards2 = new ArrayList<CardType>();
+	    cards2.add(CardType.KNIFE);
+	    cards2.add(CardType.GUN);
+	    cards2.add(CardType.MOVE);
+	    cards2.add(CardType.MOVE);
+	    cards2.add(CardType.KNIFE);
+	    J2 = new Player("2", cards2);
 	    players = new ArrayList<Player>();
 	    players.add(J1);
 	    players.add(J2);
@@ -80,6 +91,7 @@ public class AccionesDobleTest {
 	@Test
 	public void moverseYAccion() throws GameException, GameWarning {
 		CardManagerImpl cardManager = new CardManagerImpl(){
+			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
 					chooseCard.add(CardType.POLICE);
@@ -108,6 +120,36 @@ public class AccionesDobleTest {
 			assertEquals(5,J1.getCards().size());
 			assertTrue(J1.hasCard(CardType.KNIFE));
 			assertFalse(J1.hasCard(CardType.POLICE));
+			assertEquals(6, cardManager.getTotalCard());
+		}
+	}
+	
+	@Test
+	public void changeYAccion() throws GameException, GameWarning {
+		CardManagerImpl cardManager = new CardManagerImpl(){
+			@Override
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 6; i++) {
+					chooseCard.add(CardType.POLICE);
+				}
+			}
+		};
+		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
+		donePlays.startTurn(J2);
+		donePlays.play(new ChangeCard(CardType.GUN));
+		assertEquals(converter.toString(playerChairs), converter.cToString(donePlays.getChairs()));
+
+		try {
+			donePlays.play(new MoveCard(new Position(5, 2), new Position(4, 2)));
+			fail();
+		} catch (GameException e) {
+			donePlays.resert();
+			assertEquals(GameMessages.CHANGE_CARD_BEFORE, e.getMessage());
+			assertEquals(converter.toString(playerChairs), converter.cToString(donePlays.getChairs()));
+			assertEquals(0, J2.getMoney());
+			assertEquals(5,J2.getCards().size());
+			assertTrue(J2.hasCard(CardType.GUN));
+			assertFalse(J2.hasCard(CardType.POLICE));
 			assertEquals(6, cardManager.getTotalCard());
 		}
 	}

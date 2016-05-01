@@ -1,5 +1,7 @@
 package gm;
 
+import java.util.List;
+
 import gm.info.CardType;
 
 public interface CardManager {
@@ -9,5 +11,7 @@ public interface CardManager {
 	void setCard(CardType cardType);
 
 	void removeLastCard();
+
+	void setCards(List<CardType> cards);
 
 }
