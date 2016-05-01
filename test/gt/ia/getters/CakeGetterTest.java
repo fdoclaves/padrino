@@ -1,6 +1,6 @@
 package gt.ia.getters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,8 @@ import gt.extras.Converter;
 
 public class CakeGetterTest {
 	
+	private static final int TOTAL_MONEY = 100;
+
 	private Converter converter;
 	
 	private GameTable gameTable;
@@ -47,7 +49,7 @@ public class CakeGetterTest {
 									{ "k_", "**", "**", "**", "**", "**", "**", "**", "k_" },
 									{ "k_", "__", "__", "P_", "__", "_k", "__", "__", "k_" } };
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		
 	}
 
@@ -266,7 +268,7 @@ public class CakeGetterTest {
 									{ "R", "B_", "VV", "VV", "VV", "N_", "R_", "R_", "R_" } };
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
 		new DataCakeSetter(characterArray, gameTable, playerR, "N");
@@ -294,7 +296,7 @@ public class CakeGetterTest {
 									{ "R_", "B_", "VV", "VV", "VV", "N_", "R_", "R", "R_" } };
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		new IaComponentsSetter(gameTable, characterArray, playerR, 3);
 		new DataCakeSetter(characterArray, gameTable, playerR, "N");
@@ -321,7 +323,7 @@ public class CakeGetterTest {
                                     { "B", "B_", "VV", "R_", "VV", "N_", "VV", "VV", "R_" } };
         
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
         new IaComponentsSetter(gameTable, characterArray, playerR, 3);
         new DataCakeSetter(characterArray, gameTable, playerR, "N");

@@ -29,6 +29,8 @@ import gt.extras.Converter;
 
 public class CakeTest {
 
+	private static final int TOTAL_MONEY = 100;
+
 	private static Player J1;
 
 	private static Player J2;
@@ -80,7 +82,7 @@ public class CakeTest {
 	    players.add(J3);
 		converter = new Converter(9, 3);
 		tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable,cardManager, players);
 	}
 
@@ -937,7 +939,7 @@ public class CakeTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "__", "k_" } };
 		converter = new Converter(9, 5);
 		tableSeats = converter.to(TABLE_VALUES2);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		// |0 |01 |02 |03 |04 |05 |06 |07 |08|
 		String[][] playerChairs2 = { { "V", "V", "V", "V", "V", "V", "V", "V", "V" },
 				{ "V", "**", "**", "**", "**", "**", "**", "**", "V" },

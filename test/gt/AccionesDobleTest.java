@@ -32,6 +32,8 @@ import gt.extras.Converter;
 
 public class AccionesDobleTest {
 
+	private static final int TOTAL_MONEY = 100;
+
 	private static Player J1;
 
 	private static Player J2;
@@ -83,7 +85,7 @@ public class AccionesDobleTest {
 	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager,players);
 
 	}

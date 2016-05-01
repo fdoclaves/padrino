@@ -1,6 +1,6 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.cards.KnifeCard;
 import gm.exceptions.GameException;
@@ -21,6 +21,8 @@ import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class MoneyTest {
+
+	private static final int TOTAL_MONEY = 100;
 
 	private static Player J1;
 
@@ -51,7 +53,7 @@ public class MoneyTest {
 	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 	}
 
 	@Test

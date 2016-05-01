@@ -75,7 +75,7 @@ public class PlaysManagerTest {
 		players.add(player2);
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, 20);
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class PlaysManagerTest {
 									 { "V", "V", "V", "V", "V", "R", "R", "V", "V" } };
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, 20);
 		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
 		
 		playsManager.startTurn(player1);
@@ -189,5 +189,99 @@ public class PlaysManagerTest {
 		playsManager.finishTurn();
 		assertEquals(2, players.size());
 		assertEquals(0, player3.getCards().size());
+	}
+	
+	@Test
+	public void dineroIlimitado() throws GameException, GameWarning {
+		
+		//............................ |0 |...01 |..02 |..03 |..04 |..05 |..06 ...|07 .|08|
+		String[][] TABLE_VALUES2 = { { "__", "__", "__", "1$", "__", "__", "__", "__", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "M_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "__", "__", "__", "__", "3$", "3$", "__", "__" } };
+
+		//............................|0....01....02...03|..04|..05|..06..|07..|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "B", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "B" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "V", "V", "R", "R", "V", "V" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		gameTable = new GameTable(tableSeats, 12);
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(2, player1.getMoney());
+		
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(4, player2.getMoney());
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(4, player1.getMoney());
+		
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(8, player2.getMoney());
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(4, player1.getMoney());
+	}
+	
+	@Test
+	public void dineroIlimitado2() throws GameException, GameWarning {
+		
+		//............................ |0 |...01 |..02 |..03 |..04 |..05 |..06 ...|07 .|08|
+		String[][] TABLE_VALUES2 = { { "__", "__", "__", "1$", "__", "__", "__", "__", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "M_" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
+									 { "__", "__", "__", "__", "__", "3$", "3$", "__", "__" } };
+
+		//............................|0....01....02...03|..04|..05|..06..|07..|08|
+		String[][] playerChairs2 = { { "V", "V", "V", "B", "V", "V", "V", "V", "V" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "B" },
+									 { "V", "*", "*", "*", "*", "*", "*", "*", "V" }, 
+									 { "V", "V", "V", "V", "V", "R", "R", "V", "V" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		gameTable = new GameTable(tableSeats, 13);
+		playsManager = new PlaysManager(converter.toCharacterArray(playerChairs2), gameTable, players);
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(2, player1.getMoney());
+		
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(4, player2.getMoney());
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(4, player1.getMoney());
+		
+		playsManager.startTurn(player2);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(8, player2.getMoney());
+		
+		playsManager.startTurn(player1);
+		playsManager.play(new ChangeCard(CardType.BOOM));
+		playsManager.finishTurn();
+		assertEquals(5, player1.getMoney());
 	}
 }

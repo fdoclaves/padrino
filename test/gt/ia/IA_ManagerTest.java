@@ -30,6 +30,8 @@ import gt.extras.Converter;
 
 public class IA_ManagerTest {
 
+	private static final int TOTAL_MONEY = 100;
+
 	private static final String B = "B";
 
 	private static final String R = "R";
@@ -66,7 +68,7 @@ public class IA_ManagerTest {
 	public void getAttactedPositionsTest() {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		IaComponentsSetter attackDataGetter = new IaComponentsSetter(gameTable, characterArray, playerB,3);
 		List<GameCharacter> iaTeam = attackDataGetter.getIaTeam();
@@ -83,7 +85,7 @@ public class IA_ManagerTest {
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//GANO DESPIERTOS: 1.0",
@@ -113,7 +115,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -149,7 +151,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "R", gameTable);
 		gameTable.add(cakeA);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -185,7 +187,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
@@ -223,7 +225,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "B", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "N", gameTable);
@@ -261,7 +263,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		Cake cakeN = new Cake(new Position(3, 0), "R", gameTable);
@@ -299,7 +301,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -333,7 +335,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -367,7 +369,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -403,7 +405,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		Cake cakeR = new Cake(new Position(3, 0), "R", gameTable);
@@ -441,7 +443,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cakeA = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cakeA);
 		Cake cakeR = new Cake(new Position(3, 0), "R", gameTable);
@@ -479,7 +481,7 @@ public class IA_ManagerTest {
 									 { "V", "V", "V", "B", "V", "V", "V", "V", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		Cake cake = new Cake(new Position(8, 2), "A", gameTable);
 		gameTable.add(cake);
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -515,7 +517,7 @@ public class IA_ManagerTest {
 									 { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
@@ -548,7 +550,7 @@ public class IA_ManagerTest {
 									 { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
@@ -575,7 +577,7 @@ public class IA_ManagerTest {
 									 { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.BOOM);
@@ -597,7 +599,7 @@ public class IA_ManagerTest {
 	@Test
 	public void AtacadoPorDiferentesFlanco2_MasArmas() {
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
@@ -624,7 +626,7 @@ public class IA_ManagerTest {
 				{ "R", "*", "*", "*", "*", "*", "*", "*", "B" }, { "B", "R", "B", "B", "B", "B", "B", "B", "RZ" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("HAY MAS DE 2 DORMIDOS", usedCard.getReason());
@@ -654,7 +656,7 @@ public class IA_ManagerTest {
 				                     { "B", "R", "B", "B", "B", "B", "B", "B", "R" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//PUEDE ATACARME//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS FLANCOS//GANO FLANCOS:2.0",
@@ -676,7 +678,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
@@ -700,7 +702,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
@@ -723,7 +725,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
@@ -747,7 +749,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
@@ -771,7 +773,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
@@ -796,7 +798,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "k_", "3$", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals(
@@ -820,7 +822,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 2);
 		assertEquals(
@@ -845,7 +847,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs), playerB, R, 3);
 		assertEquals(
@@ -873,7 +875,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "k_", "3$", "_G", "_G", "_G", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.SLEEP);
@@ -903,7 +905,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "k_", "3$", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//GANO MAS ARMAS:1.0", usedCard.getReason());
@@ -929,7 +931,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "k_", "3$", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//GANO MEJOR ARMA",
@@ -956,7 +958,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//GANO SU MEJOR BUSINESS",
@@ -983,7 +985,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 2);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//EL QUE SEA, < 3 JUGADORES",
@@ -1010,7 +1012,7 @@ public class IA_ManagerTest {
 				{ "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUEDO ATACARLO//NO ME ATACA//VER FREE LETAL PASTEL//VER FREE PASTEL//VER DESPIERTOS//MAS ARMAS//MEJOR ARMA//SU MEJOR BUSINESS//GANO MAS PERSONAJES:3",
@@ -1040,7 +1042,7 @@ public class IA_ManagerTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -1069,7 +1071,7 @@ public class IA_ManagerTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));		
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -1096,7 +1098,7 @@ public class IA_ManagerTest {
 									 { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(1, 2), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		playerB.removeCard(CardType.GUN);
@@ -1111,8 +1113,8 @@ public class IA_ManagerTest {
 		//JUGADA SUICIDA CAKE (PONER CAKE Y MOVERSE)
 		//JUGADA SUICIDA MOVECAKE (MOVER CAKE Y MOVERSE)
 		//JUGADA SUICIDA BOOM CAKE (BOOM SI ES FIN DE JUEGO)
+		//POLICIAS
 		//2 policias en mano
-		// MOVE SEAT
 		fail();
 	}
 	
@@ -1127,11 +1129,10 @@ public class IA_ManagerTest {
 		 * *PUEDE ATACAR
 		 * *MOVE CAKE
 		 * 
-		 * 
+		 * dormir si tn cake y no es fatal
 		 * 
 		 * SI PIEDE A UN ENEMIGO QUE TENGA CAKE FATAL, DEJA SE TENER VIDA EL CAKE
 		 */
-		
 		fail();
 	}
 

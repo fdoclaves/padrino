@@ -1,6 +1,7 @@
 package gt.ia.getters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class CharateresToAttackByGunGetterTest {
+
+	private static final int TOTAL_MONEY = 100;
 
 	private String B = "B";
 
@@ -46,7 +49,7 @@ public class CharateresToAttackByGunGetterTest {
 	public void setUp() throws Exception {
 		converter = new Converter(9, 5);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		getter = new CharateresToAttackByGunGetter(gameTable);
 		playerB = new Player(B, new ArrayList<CardType>());
 		playerR = new Player(R, new ArrayList<CardType>());
@@ -103,7 +106,7 @@ public class CharateresToAttackByGunGetterTest {
 				{ "k_", "__", "2$", "P_", "3$", "__", "1$", "_k", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		getter = new CharateresToAttackByGunGetter(gameTable);
 		assertNull(getter.getMyAttackPosition(converter.toCharacterArray(playerChairs2), new Position(8, 2), playerR));
 	}

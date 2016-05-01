@@ -47,7 +47,7 @@ private Converter converter;
 									{ "__", "**", "**", "**", "**", "**", "**", "**", "__" },
 									{ "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, 100);
 		
 	}
 

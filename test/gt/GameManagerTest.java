@@ -17,6 +17,8 @@ import gm.info.CardType;
 import gt.extras.Converter;
 
 public class GameManagerTest {
+	
+	private static final int TOTAL_MONEY = 1000;
 
 	private Player J1;
 
@@ -41,7 +43,7 @@ public class GameManagerTest {
 	}
 
 	@Test
-	public void whoWin() {
+	public void whoWinOneTeam() {
 		CardManagerImpl cardManager = new CardManagerImpl() {
 			@Override
 			protected void fillCards(List<CardType> chooseCard) {
@@ -63,12 +65,79 @@ public class GameManagerTest {
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
-		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats);
+		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, TOTAL_MONEY);
 		gameManager.start();
 		//System.out.println(converter.cToString(characterArray));
-		assertEquals(J2.getTeam(), gameManager.whoWin());
+		List<Player> winners = gameManager.whoWin();
+		assertEquals(1, gameManager.whoWin().size());
+		assertEquals(J2.getTeam(), winners.get(0).getTeam());
 		assertEquals(0, J1.getCards().size());
 		assertEquals(0, J3.getCards().size());
+	}
+	
+	@Test
+	public void whoWinByMoney() {
+		CardManagerImpl cardManager = new CardManagerImpl() {
+			@Override
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 16; i++) {
+					chooseCard.add(CardType.GUN);
+				}
+			}
+		};
+		
+		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+		String[][] TABLE_VALUES = { { "__", "__", "__", "1$", "__", "__", "3$", "__", "__" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "M_" },
+									{ "__", "__", "__", "1$", "__", "__", "3$", "__", "__" } };
+
+		// ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+		String[][] playerChairs = { { "VV", "VV", "VV", "1k", "VV", "VV", "3P", "VV", "VV" },
+									{ "2k", "**", "**", "**", "**", "**", "**", "**", "3k" },
+									{ "VV", "VV", "VV", "1P", "VV", "VV", "3K", "VV", "VV" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, 30);
+		gameManager.start();
+		//System.out.println(converter.cToString(characterArray));
+		List<Player> winners = gameManager.whoWin();
+		assertEquals(1, gameManager.whoWin().size());
+		assertEquals(J3.getTeam(), winners.get(0).getTeam());
+		assertEquals(5, J1.getCards().size());
+		assertEquals(5, J3.getCards().size());
+	}
+	
+	@Test
+	public void empateWinByMoney() {
+		CardManagerImpl cardManager = new CardManagerImpl() {
+			@Override
+			protected void fillCards(List<CardType> chooseCard) {
+				for (int i = 1; i <= 16; i++) {
+					chooseCard.add(CardType.GUN);
+				}
+			}
+		};
+		
+		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+		String[][] TABLE_VALUES = { { "__", "__", "__", "1$", "__", "__", "3$", "__", "__" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "M_" },
+									{ "__", "__", "__", "1$", "__", "__", "3$", "__", "__" } };
+
+		// ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+		String[][] playerChairs = { { "VV", "VV", "VV", "1k", "VV", "VV", "3P", "VV", "VV" },
+									{ "2k", "**", "**", "**", "**", "**", "**", "**", "VV" },
+									{ "VV", "VV", "VV", "1P", "VV", "VV", "3K", "VV", "VV" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, 27);
+		gameManager.start();
+		//System.out.println(converter.cToString(characterArray));
+		List<Player> winners = gameManager.whoWin();
+		assertEquals(2, gameManager.whoWin().size());
+		assertEquals(J1.getTeam(), winners.get(0).getTeam());
+		assertEquals(J3.getTeam(), winners.get(1).getTeam());
 	}
 	
 	@Test
@@ -113,10 +182,12 @@ public class GameManagerTest {
 		
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
-		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats);
+		GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, TOTAL_MONEY);
 		gameManager.start();
 		//System.out.println(converter.cToString(characterArray));
-		assertEquals(J2.getTeam(), gameManager.whoWin());
+		List<Player> winners = gameManager.whoWin();
+		assertEquals(1, gameManager.whoWin().size());
+		assertEquals(J2.getTeam(), winners.get(0).getTeam());
 		
 	}
 

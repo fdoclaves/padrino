@@ -12,8 +12,8 @@ import org.junit.Test;
 import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
@@ -27,6 +27,8 @@ import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class PoisonTest {
+
+	private static final int TOTAL_MONEY = 100;
 
 	private static Player J1;
 
@@ -78,7 +80,7 @@ public class PoisonTest {
 	    players.add(J2);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, cardManager, players);
 	}
 	

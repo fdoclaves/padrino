@@ -22,6 +22,8 @@ import gt.extras.Converter;
 
 public class IA_ManagerMoveCakeTest {
 
+	private static final int TOTAL_MONEY = 100;
+
 	private static final String B = "B";
 
 	private static final String R = "R";
@@ -60,7 +62,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card card = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -88,7 +90,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -116,7 +118,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -141,7 +143,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(5, 0), "R", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -170,7 +172,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -198,7 +200,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -226,7 +228,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
@@ -254,7 +256,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -283,7 +285,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -313,7 +315,7 @@ public class IA_ManagerMoveCakeTest {
 									 { "k_", "__", "2$", "__", "__", "__", "1$", "Pk", "k_" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(6, 0), "N", gameTable));
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
@@ -339,7 +341,7 @@ public class IA_ManagerMoveCakeTest {
 
 		Converter converter = new Converter(8, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(1, 0), "2", gameTable));
 		gameTable.add(new Cake(new Position(0, 2), "3", gameTable));
 		List<CardType> cards = new ArrayList<CardType>();

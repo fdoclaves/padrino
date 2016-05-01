@@ -206,6 +206,10 @@ public class PlaysManager {
 		if (hasMachine) {
 			money = money * 2;
 		}
+		gameTable.setTotalMoney(gameTable.getTotalMoney() - money);
+		if(gameTable.getTotalMoney() < 0){
+			money = money + gameTable.getTotalMoney();
+		}
 		return money;
 	}
 

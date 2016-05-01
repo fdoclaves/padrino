@@ -1,7 +1,5 @@
 package gt;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +24,8 @@ import gt.extras.Converter;
 
 public class SimulationTest {
 	
+	private static final int TOTAL_MONEY = 100;
+
 	private static final String J1 = "1";
 
 	private static final String J2 = "2";
@@ -54,20 +54,9 @@ public class SimulationTest {
 	public void setUp() throws Exception {
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		characterArray = converter.toCharacterArray(playerChairs);
-		
 	}
-	
-	@Test
-    public void moneyLimitado(){
-        fail("money limitado");
-    }
-	
-	@Test
-    public void QuienPierde(){
-        fail("fin juego por $");
-    }
 	
 	@Test
 	public void simulacion2_guns_knives_cakes() throws GameException, GameWarning {

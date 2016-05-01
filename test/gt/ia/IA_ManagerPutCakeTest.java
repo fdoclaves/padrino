@@ -23,6 +23,8 @@ import gt.extras.Converter;
 
 public class IA_ManagerPutCakeTest {
 
+	private static final int TOTAL_MONEY = 100;
+
 	private static final String B = "B";
 
 	private static final String R = "R";
@@ -61,7 +63,7 @@ public class IA_ManagerPutCakeTest {
 									 { "__", "__", "2$", "__", "__", "__", "__", "__", "__" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
@@ -88,7 +90,7 @@ public class IA_ManagerPutCakeTest {
 	                                     { "__", "__", "2$", "__", "__", "__", "__", "__", "__" } };
 
 	        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-	        GameTable gameTable = new GameTable(tableSeats);
+	        GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 	        IaCardsManager manager = new IaCardsManager(gameTable);
 	        Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 	        assertEquals("HAY MAS DE 3 DORMIDOS",usedCard.getReason());
@@ -115,7 +117,7 @@ public class IA_ManagerPutCakeTest {
 									 { "__", "__", "2$", "__", "__", "__", "__", "__", "__" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
 		assertEquals("PUT CAKE:ENEMIES:1",usedCard.getReason());
@@ -142,7 +144,7 @@ public class IA_ManagerPutCakeTest {
 									 { "__", "__", "2$", "__", "__", "__", "__", "__", "__" } };
 
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-		GameTable gameTable = new GameTable(tableSeats);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		gameTable.add(new Cake(new Position(8, 3), "N", gameTable));
 		IaCardsManager manager = new IaCardsManager(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);

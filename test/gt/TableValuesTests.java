@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import gm.GameTable;
-import gm.PlaysManager;
 import gm.Player;
+import gm.PlaysManager;
 import gm.TableSeat;
 import gm.cards.GunCard;
 import gm.cards.KnifeCard;
@@ -58,7 +59,7 @@ public class TableValuesTests {
 		players.add(R);
 		converter = new Converter(9, 3);
 		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats,100);
 		donePlays = new PlaysManager(converter.toCharacterArray(playerChairs), gameTable, players);
 	}
 

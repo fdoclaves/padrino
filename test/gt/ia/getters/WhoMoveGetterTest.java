@@ -1,6 +1,14 @@
 package gt.ia.getters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import gm.Cake;
 import gm.GameCharacter;
 import gm.GameTable;
@@ -15,16 +23,12 @@ import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 
 public class WhoMoveGetterTest {
 
-    private Converter converter;
+    private static final int TOTAL_MONEY = 100;
+
+	private Converter converter;
     
     private GameTable gameTable;
     
@@ -46,7 +50,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
     }
 
 
@@ -210,7 +214,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "Rk", "BK", "VV", "VV" },
@@ -237,7 +241,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "VV", "B_", "VV", "VV" },
@@ -264,7 +268,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "VV", "B_", "VV", "VV" },
@@ -291,7 +295,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "VV", "B_", "VV", "VV" },
@@ -318,7 +322,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "VV", "B_", "VV", "VV" },
@@ -345,7 +349,7 @@ public class WhoMoveGetterTest {
                                     { "__", "**", "**", "**", "**", "**", "**", "**", "__" },
                                     { "__", "__", "__", "__", "__", "__", "__", "__", "__" } };
         TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
-        gameTable = new GameTable(tableSeats);
+        gameTable = new GameTable(tableSeats, TOTAL_MONEY);
         
         // ..........................|.0 ..|01.. |02.. |03.. |04 ..|05.. |06.. |07.. |08|
         String[][] playerChairs = { { "V", "V_", "VV", "R_", "B_", "VV", "B_", "VV", "VV" },

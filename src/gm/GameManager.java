@@ -1,5 +1,6 @@
 package gm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gm.cards.ChangeCard;
@@ -23,14 +24,14 @@ public class GameManager {
 	private GameCharacter[][] characterArray;
 
 	public GameManager(List<Player> players, CardManager cardManager, GameCharacter[][] characterArray,
-			TableSeat[][] tableSeats) {
+			TableSeat[][] tableSeats, Integer totalMoney) {
 		this.players = players;
 		this.characterArray = characterArray;
 		for (Player team : players) {
 			addCardsToPlayerToStart(team, cardManager);
 		}
 		turnsManager = new TurnsManager(players);
-		gameTable = new GameTable(tableSeats);
+		gameTable = new GameTable(tableSeats, totalMoney);
 		playsManager = new PlaysManager(characterArray, gameTable, cardManager, players);
 	}
 
@@ -41,7 +42,7 @@ public class GameManager {
 	}
 
 	public void start() {
-		while (players.size() > 1) {
+		while (players.size() > 1 && gameTable.getTotalMoney() > 0) {
 			List<Player> currentPlayer = turnsManager.getCurrentPlayer();
 			Player iaPlayer = currentPlayer.get(0);
 			String nextTeam = currentPlayer.get(1).getTeam();
@@ -93,8 +94,30 @@ public class GameManager {
 		}
 	}
 
-	public String whoWin() {
-		return players.get(0).getTeam();
+	public List<Player> whoWin() {
+		List<Player> wonPlayer = new ArrayList<Player>();
+		if(players.size() > 1){
+			int moreMoney = getMoreMoney();
+			for (Player player : players) {
+				if(player.getMoney() == moreMoney){
+					wonPlayer.add(player);
+				}
+			}
+			
+		}else{
+			wonPlayer.add(players.get(0));
+		}
+			return wonPlayer;
+	}
+
+	private int getMoreMoney() {
+		int moreMoney = -100;
+		for (Player player : players) {
+			if(player.getMoney() > moreMoney){
+				moreMoney = player.getMoney();
+			}
+		}
+		return moreMoney;
 	}
 
 }

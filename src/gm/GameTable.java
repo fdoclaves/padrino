@@ -14,9 +14,12 @@ public class GameTable {
 	private final int maxX;
 
 	private final int maxY;
+	
+	private int totalMoney;
 
-	public GameTable(TableSeat[][] tableSeats) {
+	public GameTable(TableSeat[][] tableSeats, int totalMoney) {
 		this.tableSeats = tableSeats;
+		this.totalMoney = totalMoney;
 		this.maxX = tableSeats[0].length;
 		this.maxY = tableSeats.length;
 		this.cakeList = new ArrayList<Cake>();
@@ -48,5 +51,13 @@ public class GameTable {
 
 	public void add(Cake cake) {
 		this.cakeList.add(cake);
+	}
+
+	public int getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(int totalMoney) {
+		this.totalMoney = totalMoney;
 	}
 }
