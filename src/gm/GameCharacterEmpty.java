@@ -14,7 +14,7 @@ public class GameCharacterEmpty extends GameCharacter{
     }
 
     @Override
-    public boolean isInvalidSeat() {
+    public boolean isValidSeat() {
         return true;
     }
 

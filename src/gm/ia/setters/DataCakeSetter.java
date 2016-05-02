@@ -1,4 +1,4 @@
-package gm.ia.getters;
+package gm.ia.setters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class DataCakeSetter {
 			fillCounters(boomPositions, counter);
 			for (Position position : boomPositions) {
 				GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
-				if(!character.isInvalidSeat()){
+				if(character.isValidSeat()){
 				    boolean fatal = nextTeam.equals(cake.getTeam());
 					character.setCake(true);
 					character.setFatalCake(fatal);

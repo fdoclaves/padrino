@@ -8,6 +8,7 @@ import gm.GameTable;
 import gm.TableSeat;
 import gm.ia.CharacterUtils;
 import gm.ia.GeneralTeam;
+import gm.ia.setters.IaComponentsSetter;
 import gm.info.MoneyValues;
 import gm.info.TableObjects;
 import gm.pojos.Position;

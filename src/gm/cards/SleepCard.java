@@ -57,7 +57,7 @@ public class SleepCard extends Card {
 			if (!gameTable.getTableSeatByPosition(position).has(GLASS_ON_TABLE)) {
 				throw new GameException(GameMessages.THERE_ISNT_GLASS);
 			}
-			if (characters[position.getY()][position.getX()].isInvalidSeat()) {
+			if (!characters[position.getY()][position.getX()].isValidSeat()) {
 				throw new GameException(GameMessages.IT_ISNT_SEAT);
 			}
 		}

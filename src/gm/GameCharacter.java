@@ -49,7 +49,7 @@ public abstract class GameCharacter {
 
     abstract public boolean isTeam(String team);
 
-    abstract public boolean isInvalidSeat();
+    abstract public boolean isValidSeat();
 
     abstract public boolean hasGun();
 

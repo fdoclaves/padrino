@@ -83,7 +83,7 @@ public class CharateresToAttackByGunGetter {
 
 	private Position filterByTeamAndEmpty(GameCharacter[][] characterArray, Filter filter, Position attackedPosition) {
 		GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, attackedPosition);
-		if (!character.isInvalidSeat() && filter.addIf(character)) {
+		if (character.isValidSeat() && filter.addIf(character)) {
 			return attackedPosition;
 		} else {
 			return null;

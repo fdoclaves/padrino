@@ -31,8 +31,8 @@ public class CharacterString extends GameCharacter {
 	}
 
 	@Override
-	public boolean isInvalidSeat() {
-		return value.contains("*");
+	public boolean isValidSeat() {
+		return !value.contains("*");
 	}
 
 	@Override

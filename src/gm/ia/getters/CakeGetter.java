@@ -31,7 +31,7 @@ public class CakeGetter {
 			for (int y = 0; y < characterArray.length; y++) {
 				Position posiblePosition = new Position(x, y);
 				GameCharacter cakeCharacter = CharacterUtils.getCharacterByPosition(characterArray, posiblePosition);
-				if (!cakeCharacter.isInvalidSeat()) {
+				if (cakeCharacter.isValidSeat()) {
 					List<Position> enemies = new ArrayList<Position>();
 					int attackMe = 0;
 					float valueBusiness = 0;

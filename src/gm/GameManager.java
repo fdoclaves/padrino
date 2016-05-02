@@ -10,6 +10,7 @@ import gm.exceptions.HumanException;
 import gm.ia.IA_PlaysController;
 import gm.ia.PlaysController;
 import gm.info.CardType;
+import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class GameManager {
@@ -163,6 +164,10 @@ public class GameManager {
 			}
 		}
 		return moreMoney;
+	}
+
+	public void addCake(Position position, String team) {
+		gameTable.add(new Cake(position, team, gameTable));
 	}
 
 }

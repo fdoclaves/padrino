@@ -113,7 +113,7 @@ public class CharateresToAttackByKnifeGetter {
 	private void filter(GameCharacter[][] characters, Filter filter, List<Position> positions,
 			Position positionToEvaluate) {
 		GameCharacter attackedCharacter = characters[positionToEvaluate.getY()][positionToEvaluate.getX()];
-		if (!attackedCharacter.isInvalidSeat() && filter.addIf(attackedCharacter)) {
+		if (attackedCharacter.isValidSeat() && filter.addIf(attackedCharacter)) {
 			positions.add(positionToEvaluate);
 		}
 	}

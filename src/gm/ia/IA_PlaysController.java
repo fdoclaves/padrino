@@ -21,12 +21,12 @@ import gm.ia.getters.AsleepEnemyGetter;
 import gm.ia.getters.BoomGetter;
 import gm.ia.getters.CakeGetter;
 import gm.ia.getters.ChangeCardGetter;
-import gm.ia.getters.DataCakeSetter;
-import gm.ia.getters.IaComponentsSetter;
 import gm.ia.getters.WhereMoveGetter;
 import gm.ia.getters.WhoMoveGetter;
 import gm.ia.pojos.InfoAction;
 import gm.ia.pojos.ValueData;
+import gm.ia.setters.DataCakeSetter;
+import gm.ia.setters.IaComponentsSetter;
 import gm.info.CardType;
 import gm.pojos.Position;
 
@@ -37,7 +37,6 @@ public class IA_PlaysController implements PlaysController {
 	public IA_PlaysController(GameTable gameTable) {
 		this.gameTable = gameTable;
 	}
-	
 
 	@Override
 	public MoveCard get2ndCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers, Card firstAction) {

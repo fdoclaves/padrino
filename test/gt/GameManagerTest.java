@@ -15,6 +15,7 @@ import gm.GameManager;
 import gm.Player;
 import gm.TableSeat;
 import gm.info.CardType;
+import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class GameManagerTest {
@@ -208,6 +209,35 @@ public class GameManagerTest {
 		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
 		J1.setHuman(true);
 		GameManager gameManager = new GameManager(teams, characterArray, tableSeats, TOTAL_MONEY);
+		gameManager.start();
+		System.out.println(converter.cToString(characterArray));
+	}
+	
+	@Ignore
+	@Test
+	public void actualizandoDados() {		
+		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+		String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+									{ "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+									{ "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+		// ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+		String[][] playerChairs = { { "VV", "VV", "V", "1kP", "VV", "V", "VV", "VV", "VV" },
+									{ "2_", "**", "**", "**", "**", "**", "**", "**", "VV" },
+									{ "V", "VV", "VV", "V", "VV", "VV", "1_", "1Pk", "VV" } };
+		
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+		GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+		J1.setHuman(true);
+		J1.addCard(CardType.CAKE);
+		J2.addCard(CardType.MOVE);
+		J2.addCard(CardType.MOVE);
+		J2.addCard(CardType.MOVE_CAKE);
+		List<Player> teams = new ArrayList<Player>();
+		teams.add(J1);
+		teams.add(J2);
+		GameManager gameManager = new GameManager(teams, characterArray, tableSeats, TOTAL_MONEY);
+		gameManager.addCake(new Position(3, 0), "2");
 		gameManager.start();
 		System.out.println(converter.cToString(characterArray));
 	}

@@ -41,7 +41,7 @@ public class MoveCakeCard extends Card {
             throw new GameException(GameMessages.SEAT_EMPTY);
         }
 		
-		if (character.isInvalidSeat()) {
+		if (!character.isValidSeat()) {
 			throw new GameException(GameMessages.IT_ISNT_SEAT);
 		}
 		

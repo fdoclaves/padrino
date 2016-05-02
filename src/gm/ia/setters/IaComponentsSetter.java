@@ -1,4 +1,4 @@
-package gm.ia.getters;
+package gm.ia.setters;
 
 import gm.GameCharacter;
 import gm.GameTable;
@@ -7,6 +7,9 @@ import gm.TableSeat;
 import gm.ia.AttackData;
 import gm.ia.CharacterUtils;
 import gm.ia.GeneralTeam;
+import gm.ia.getters.BusinessValueGetter;
+import gm.ia.getters.CharateresToAttackByGunGetter;
+import gm.ia.getters.CharateresToAttackByKnifeGetter;
 import gm.info.CardType;
 import gm.info.TableObjects;
 import gm.pojos.Position;
