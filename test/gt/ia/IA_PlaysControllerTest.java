@@ -29,7 +29,7 @@ import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
-public class IA_ManagerTest {
+public class IA_PlaysControllerTest {
 
 	private static final int TOTAL_MONEY = 100;
 

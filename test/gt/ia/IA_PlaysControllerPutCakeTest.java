@@ -22,7 +22,7 @@ import gm.info.CardType;
 import gm.pojos.Position;
 import gt.extras.Converter;
 
-public class IA_ManagerPutCakeTest {
+public class IA_PlaysControllerPutCakeTest {
 
 	private static final int TOTAL_MONEY = 100;
 
