@@ -1,6 +1,6 @@
 package gt.ia.getters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +89,12 @@ public class ChangeCardGetterTest {
 		List<CardType> cards = new ArrayList<CardType>();
 		cards.add(CardType.MOVE);
 		cards.add(CardType.CAKE);
-		cards.add(CardType.POLICE);
+		cards.add(CardType.BOOM);
 		cards.add(CardType.CAKE);
 		cards.add(CardType.MOVE_CAKE);
 		ChangeCardGetter changeCardGetter = new ChangeCardGetter(cards, 2);
 		ChangeCard changeCard = changeCardGetter.get();
-		assertEquals(CardType.POLICE, changeCard.getType());
+		assertEquals(CardType.BOOM, changeCard.getType());
 	}
 	
 	@Test

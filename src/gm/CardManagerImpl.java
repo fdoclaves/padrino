@@ -27,9 +27,6 @@ public class CardManagerImpl implements CardManager {
 		for (int i = 1; i <= 16; i++) {
 			chooseCard.add(CardType.MOVE);
 		}
-		for (int i = 1; i <= 2; i++) {
-			chooseCard.add(CardType.POLICE);
-		}
 		for (int i = 1; i <= 6; i++) {
 			chooseCard.add(CardType.SLEEP);
 		}

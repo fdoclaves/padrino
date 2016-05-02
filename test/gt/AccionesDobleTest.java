@@ -96,7 +96,7 @@ public class AccionesDobleTest {
 			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
-					chooseCard.add(CardType.POLICE);
+					chooseCard.add(CardType.MOVE_CAKE);
 				}
 			}
 		};
@@ -121,7 +121,7 @@ public class AccionesDobleTest {
 			assertEquals(0, J1.getMoney());
 			assertEquals(5,J1.getCards().size());
 			assertTrue(J1.hasCard(CardType.KNIFE));
-			assertFalse(J1.hasCard(CardType.POLICE));
+			assertFalse(J1.hasCard(CardType.MOVE_CAKE));
 			assertEquals(6, cardManager.getTotalCard());
 		}
 	}
@@ -132,7 +132,7 @@ public class AccionesDobleTest {
 			@Override
 			protected void fillCards(List<CardType> chooseCard) {
 				for (int i = 1; i <= 6; i++) {
-					chooseCard.add(CardType.POLICE);
+					chooseCard.add(CardType.MOVE_CAKE);
 				}
 			}
 		};
@@ -151,7 +151,7 @@ public class AccionesDobleTest {
 			assertEquals(0, J2.getMoney());
 			assertEquals(5,J2.getCards().size());
 			assertTrue(J2.hasCard(CardType.GUN));
-			assertFalse(J2.hasCard(CardType.POLICE));
+			assertFalse(J2.hasCard(CardType.MOVE_CAKE));
 			assertEquals(6, cardManager.getTotalCard());
 		}
 	}

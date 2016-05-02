@@ -1,6 +1,7 @@
 package gt;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +30,9 @@ public class CardManagerTest {
 			assertNotNull(cardType);
 		}
 		assertEquals(0, cardManager.getTotalCard());
-		cardManager.setCard(CardType.POLICE);
+		cardManager.setCard(CardType.MOVE_CAKE);
 		CardType cardType = cardManager.getCard(); 
-		assertEquals(CardType.POLICE, cardType);
+		assertEquals(CardType.MOVE_CAKE, cardType);
 	}
 
 }

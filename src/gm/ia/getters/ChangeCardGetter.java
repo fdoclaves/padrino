@@ -15,8 +15,6 @@ public class ChangeCardGetter {
 
 	private int gunCards = 0;
 
-	private int policeCards = 0;
-
 	private int cakeCards = 0;
 
 	private int moveCakeCards = 0;
@@ -39,10 +37,6 @@ public class ChangeCardGetter {
 			}
 			if (cardType == CardType.BOOM) {
 				boomCards++;
-			}
-
-			if (cardType == CardType.POLICE) {
-				policeCards++;
 			}
 			if (cardType == CardType.MOVE_CAKE) {
 				moveCakeCards++;
@@ -82,9 +76,6 @@ public class ChangeCardGetter {
 		if (gunCards >= 4) {
 			return CardType.GUN;
 		}
-		if (policeCards >= 2) {
-			return CardType.POLICE;
-		}
 		if (cakeCards >= 4) {
 			return CardType.CAKE;
 		}
@@ -101,7 +92,6 @@ public class ChangeCardGetter {
 		if (sleepCards == 0) {
 			if (gunCards == 0) {
 				if (knifeCards == 0) {
-					if (policeCards == 0) {
 						if (boomCards == 0) {
 							if (moveCakeCards == 0) {
 								if (moveCards == 0) {
@@ -112,8 +102,6 @@ public class ChangeCardGetter {
 							return CardType.MOVE_CAKE;
 						}
 						return CardType.BOOM;
-					}
-					return CardType.POLICE;
 				}
 				return CardType.KNIFE;
 			}
