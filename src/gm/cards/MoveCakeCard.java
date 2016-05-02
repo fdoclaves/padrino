@@ -54,7 +54,7 @@ public class MoveCakeCard extends Card {
 			}
 		}
 		if (!isValid) {
-			throw new GameException(GameMessages.INVALID_CAKE_MOVE + newPosition);
+			throw new GameException(GameMessages.INVALID_CAKE_MOVE + newPosition + ":" + cake.getPosition());
 		}
 	}
 

@@ -525,7 +525,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(1, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE + "1,2", e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "1,2:3,2", e.getMessage());
 		}
 	}
 
@@ -595,7 +595,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(4, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE + "4,2", e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "4,2:7,2", e.getMessage());
 		}
 	}
 

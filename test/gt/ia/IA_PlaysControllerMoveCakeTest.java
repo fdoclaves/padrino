@@ -123,7 +123,7 @@ public class IA_PlaysControllerMoveCakeTest {
 		gameTable.add(new Cake(new Position(2, 0), "N", gameTable));
 		PlaysController manager = new IA_PlaysController(gameTable);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerB, R, 3);
-		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",usedCard.getReason());
+		assertEquals("NO PUEDO ATACAR//CHANGE CARD",usedCard.getReason());
 	}
 	
 	@Test

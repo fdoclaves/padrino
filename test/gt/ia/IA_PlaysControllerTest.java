@@ -528,9 +528,85 @@ public class IA_PlaysControllerTest {
 		cards.add(CardType.MOVE);
 		Player playerBWithoutGun = new Player(B, cards);
 		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
-		assertEquals("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD",usedCard.getReason());
+		assertEquals("NO PUEDO ATACAR//CHANGE CARD",usedCard.getReason());
 		assertTrue(usedCard instanceof ChangeCard);
 		assertEquals(CardType.BOOM, usedCard.getType());
+	}
+	
+	@Test
+	public void dormirSiTnCake() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "PG", "kPG", "k_", "1$", "__", "2$", "P_", "Pk", "P_" },
+									 { "_G", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "MG", "**", "**", "**", "**", "**", "**", "**", "PG" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "A", "R", "B", "RP", "R", "R", "R", "RZ", "B" },
+									 { "R", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+									 { "R", "*", "*", "*", "*", "*", "*", "*", "RK" },
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+									 { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+		gameTable.add(new Cake(new Position(0, 1), "N", gameTable));
+		PlaysController manager = new IA_PlaysController(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.MOVE);
+		Player playerBWithoutGun = new Player(B, cards);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		assertEquals("NO PUEDO ATACAR:5",usedCard.getReason());
+		assertTrue(usedCard instanceof SleepCard);
+		SleepCard sleepCard = (SleepCard) usedCard;
+		List<Position> positionList = sleepCard.getPositionList();
+		assertTrue(new Position(0, 0).isEquals(positionList.get(0)));
+		assertTrue(new Position(0, 1).isEquals(positionList.get(1)));
+		assertTrue(new Position(0, 2).isEquals(positionList.get(2)));
+	}
+	
+	@Test
+	public void noDormirSiTnCakeFatal() {
+		
+		//........................... |0 ...|01 ..|02 ..|03 ..|04 ..|05 |.06 |...07 ..|08|
+		String[][] TABLE_VALUES2 = { { "PG", "kPG", "k_", "1$", "__", "2$", "P_", "Pk", "P_" },
+									 { "_G", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "MG", "**", "**", "**", "**", "**", "**", "**", "PG" },
+									 { "__", "**", "**", "**", "**", "**", "**", "**", "P_" },
+									 { "k_", "__", "2$", "P_", "3$", "__", "1$", "P_", "k_" } };
+
+									// |0 ..|01 |.02 |.03 ..|04 |05 |..06 ..|07 .|08|
+		String[][] playerChairs2 = { { "A", "R", "B", "RP", "R", "R", "R", "RZ", "B" },
+									 { "R", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+									 { "R", "*", "*", "*", "*", "*", "*", "*", "RK" },
+									 { "B", "*", "*", "*", "*", "*", "*", "*", "B" }, 
+									 { "B", "R", "B", "B", "B", "B", "B", "B", "V" } };
+
+		TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+		gameTable.add(new Cake(new Position(0, 1), "R", gameTable));
+		PlaysController manager = new IA_PlaysController(gameTable);
+		List<CardType> cards = new ArrayList<CardType>();
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.MOVE);
+		cards.add(CardType.SLEEP);
+		cards.add(CardType.MOVE);
+		Player playerBWithoutGun = new Player(B, cards);
+		Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), playerBWithoutGun, R, 2);
+		assertEquals("NO PUEDO ATACAR:2",usedCard.getReason());
+		assertTrue(usedCard instanceof SleepCard);
+		SleepCard sleepCard = (SleepCard) usedCard;
+		List<Position> positionList = sleepCard.getPositionList();
+		assertEquals(2, positionList.size());
+		assertTrue(new Position(1, 0).isEquals(positionList.get(0)));
+		assertTrue(new Position(8, 2).isEquals(positionList.get(1)));
 	}
 	
 	@Test
@@ -1128,9 +1204,7 @@ public class IA_PlaysControllerTest {
 		 * *PUEDE ATACAR
 		 * *MOVE CAKE
 		 * 
-		 * dormir si tn cake y no es fatal
-		 * 
-		 * SI PIEDE A UN ENEMIGO QUE TENGA CAKE FATAL, DEJA SE TENER VIDA EL CAKE
+		 * (SI PIEDE A UN ENEMIGO QUE TENGA CAKE FATAL, DEJA SE TENER VIDA EL CAKE)
 		 */
 		fail();
 	}

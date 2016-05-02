@@ -28,6 +28,10 @@ public class AsleepEnemyGetter {
     private List<Position> withoutNextAttackME;
 
     private List<Position> asleepAttackMe;
+    
+    private List<Position> cakeAttackMe;
+
+    private List<Position> cakeOther;
 
     public AsleepEnemyGetter(GameCharacter[][] characterArray, Player player, String nextTeam, GameTable gameTable) {
         this.gameTable = gameTable;
@@ -42,6 +46,8 @@ public class AsleepEnemyGetter {
         this.othersAttackME = othersAttackME;
         this.withoutNextAttackME = withoutNextAttackME;
         this.asleepAttackMe = asleepAttackMe;
+        this.cakeAttackMe = new ArrayList<Position>();
+        this.cakeOther = new ArrayList<Position>();
     }
 
     public int getWithoutNextNumber() {
@@ -55,34 +61,45 @@ public class AsleepEnemyGetter {
         withoutNextAttackME = new ArrayList<Position>();
         othersAttackME = new ArrayList<Position>();
         asleepAttackMe = new ArrayList<Position>();
+        cakeAttackMe = new ArrayList<Position>();
+        cakeOther = new ArrayList<Position>();
+        asleepAttackMe = new ArrayList<Position>();
         for (int x = 0; x < gameTable.getMaxX(); x++) {
             for (int y = 0; y < gameTable.getMaxY(); y++) {
                 Position position = new Position(x, y);
                 TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
                 if (tableSeat.has(TableObjects.GLASS)) {
                     GameCharacter character = CharacterUtils.getCharacterByPosition(characterArray, position);
-                    if (CharacterUtils.isValid(character) && !character.isTeam(myTeam)) {
+                    if (CharacterUtils.isValid(character) && !character.isTeam(myTeam) && !character.hasFatalCake()) {
                         if (character.isSleeping()) {
                             if (character.getAttackData().canAttack()) {
                                 asleepAttackMe.add(position);
                             } else {
                                 asleep.add(position);
                             }
-                        } else {
-                            if (!character.isTeam(nextTeam)) {
-                                if (character.getAttackData().canAttack()) {
-                                    withoutNextAttackME.add(position);
-                                } else {
-                                    withoutNext.add(position);
-                                }
+						} else {
+							if (character.hasCake()) {
+								if (character.getAttackData().canAttack()) {
+									cakeAttackMe.add(position);
+								} else {
+									cakeOther.add(position);
+								}
+							} else {
+								if (!character.isTeam(nextTeam)) {
+									if (character.getAttackData().canAttack()) {
+										withoutNextAttackME.add(position);
+									} else {
+										withoutNext.add(position);
+									}
 
-                            } else {
-                                if (character.getAttackData().canAttack()) {
-                                    othersAttackME.add(position);
-                                } else {
-                                    others.add(position);
-                                }
-                            }
+								} else {
+									if (character.getAttackData().canAttack()) {
+										othersAttackME.add(position);
+									} else {
+										others.add(position);
+									}
+								}
+							}
                         }
                     }
                 }
@@ -94,6 +111,8 @@ public class AsleepEnemyGetter {
         List<Position> positions = new ArrayList<Position>();
         addToListIfCan(positions, asleepAttackMe);
         addToListIfCan(positions, asleep);
+        addToListIfCan(positions, cakeAttackMe);
+        addToListIfCan(positions, cakeOther);
         addToListIfCan(positions, withoutNextAttackME);
         addToListIfCan(positions, othersAttackME);
         addToListIfCan(positions, withoutNext);
@@ -141,6 +160,8 @@ public class AsleepEnemyGetter {
     }
 
     public int all() {
-        return others.size() + asleep.size() + withoutNext.size() + othersAttackME.size() + withoutNextAttackME.size() + asleepAttackMe.size();
+        return others.size() + asleep.size() + withoutNext.size() 
+        + othersAttackME.size() + withoutNextAttackME.size() 
+        + asleepAttackMe.size() + cakeAttackMe.size() + cakeOther.size();
     }
 }

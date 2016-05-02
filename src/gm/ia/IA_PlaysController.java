@@ -247,7 +247,7 @@ public class IA_PlaysController implements PlaysController {
 			}
 			ChangeCardGetter changeCardGetter = new ChangeCardGetter(player.getCards(), currentGamers);
 			ChangeCard card = changeCardGetter.get();
-			card.setReason("NO PUEDO ATACAR//I DONT HAVE SLEEPCARD//CHANGE CARD");
+			card.setReason("NO PUEDO ATACAR//CHANGE CARD");
 			return card;
 		}
 	}
