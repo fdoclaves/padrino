@@ -20,12 +20,12 @@ public class CardManagerTest {
 
 	@Test
 	public void test() {
-		for (int i = 1; i <= 60; i++) {
+		for (int i = 1; i <= 58; i++) {
 			CardType cardType = cardManager.getCard();
 			cardManager.setCard(cardType);
 			assertNotNull(cardType);
 		}
-		for (int i = 1; i <= 60; i++) {
+		for (int i = 1; i <= 58; i++) {
 			CardType cardType = cardManager.getCard();
 			assertNotNull(cardType);
 		}
