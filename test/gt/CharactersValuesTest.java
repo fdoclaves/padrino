@@ -144,7 +144,7 @@ public class CharactersValuesTest {
 			donePlays.play(new GunCard(new Position(8, 1), new Position(0, 1)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.SEAT_EMPTY, e.getMessage());
+			assertEquals(GameMessages.SEAT_EMPTY + ", ", e.getMessage());
 		}
 	}
 
@@ -160,7 +160,7 @@ public class CharactersValuesTest {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.SEAT_EMPTY, e.getMessage());
+			assertEquals(GameMessages.SEAT_EMPTY + ", ", e.getMessage());
 		}
 	}
 
@@ -177,13 +177,13 @@ public class CharactersValuesTest {
 			donePlays.play(new GunCard(new Position(3, 2), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.NOT_SAME_TEAM, e.getMessage());
+			assertEquals(GameMessages.NOT_SAME_TEAM + ", ", e.getMessage());
 		}
 		try {
 			donePlays.play(new MoveCard(new Position(3, 0), new Position(8, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.NOT_SAME_TEAM, e.getMessage());
+			assertEquals(GameMessages.NOT_SAME_TEAM + ", ", e.getMessage());
 		}
 	}
 }

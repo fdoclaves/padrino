@@ -33,18 +33,18 @@ public class GunCard extends Card {
 		validateAttackerCharacter(attackerPosition, characters, team);
 		if (!gameTable.getTableSeatByPosition(attackerPosition).has(GUN_ON_TABLE)
 				&& !getCharacterFromChair(attackerPosition, characters).hasGun()) {
-			throw new GameException(GameMessages.YOU_HAS_NOT_GUN);
+			throw new GameException(GameMessages.YOU_HAS_NOT_GUN + ", " + getReason());
 		}
 		if (isConer(attackerPosition, attackedPosition)) {
-			throw new GameException(GameMessages.ESQUINA_NO_PUEDE_DISPARAR);
+			throw new GameException(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", " + getReason());
 		}
 		if (isMiddle(attackerPosition.getY())) {
 			if (attackerPosition.getY() != attackedPosition.getY()) {
-				throw new GameException(GameMessages.NO_ESTA_ENFRENTE);
+				throw new GameException(GameMessages.NO_ESTA_ENFRENTE + ", " + getReason());
 			}
 		} else {
 			if (attackerPosition.getX() != attackedPosition.getX()) {
-				throw new GameException(GameMessages.NO_ESTA_ENFRENTE);
+				throw new GameException(GameMessages.NO_ESTA_ENFRENTE + ", " + getReason());
 			}
 		}
 		warnFromAttacted(attackedPosition, characters, team);

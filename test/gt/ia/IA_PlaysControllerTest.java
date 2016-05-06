@@ -1201,10 +1201,13 @@ public class IA_PlaysControllerTest {
 		 * *SABER SI PUEDE ATACAR AUNQUE NO TENGA CARTA
 		 * 
 		 * WHERE MOVE
-		 * *PUEDE ATACAR
 		 * *MOVE CAKE
 		 * 
 		 * (SI PIEDE A UN ENEMIGO QUE TENGA CAKE FATAL, DEJA SE TENER VIDA EL CAKE)
+		 * 
+		 * put cake en enemigos q pueden atarcame (2enemies Vs 2 enemies), pero si los mios
+		 *  tn cake y no los puedo mover, entoces donde alla mejor business
+		 * 
 		 */
 		fail();
 	}

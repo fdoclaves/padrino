@@ -38,11 +38,11 @@ public class MoveCakeCard extends Card {
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException, GameWarning {
 		GameCharacter character = characters[newPosition.getY()][newPosition.getX()];
 		if (character.isEmpty()) {
-            throw new GameException(GameMessages.SEAT_EMPTY);
+            throw new GameException(GameMessages.SEAT_EMPTY + ", " + getReason());
         }
 		
 		if (!character.isValidSeat()) {
-			throw new GameException(GameMessages.IT_ISNT_SEAT);
+			throw new GameException(GameMessages.IT_ISNT_SEAT + ", " + getReason());
 		}
 		
 		boolean isValid = false;
@@ -54,7 +54,7 @@ public class MoveCakeCard extends Card {
 			}
 		}
 		if (!isValid) {
-			throw new GameException(GameMessages.INVALID_CAKE_MOVE + newPosition + ":" + cake.getPosition());
+			throw new GameException(GameMessages.INVALID_CAKE_MOVE + newPosition + ":" + cake.getPosition() + "; " + getReason());
 		}
 	}
 

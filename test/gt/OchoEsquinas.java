@@ -111,7 +111,7 @@ public class OchoEsquinas {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(4, 4)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 	}
 
@@ -122,7 +122,7 @@ public class OchoEsquinas {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(4, 4)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		donePlays.startTurn(B);
@@ -130,7 +130,7 @@ public class OchoEsquinas {
 			donePlays.play(new KnifeCard(new Position(0, 2), new Position(0, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 	}
 
@@ -142,21 +142,21 @@ public class OchoEsquinas {
 			donePlays.play(new KnifeCard(new Position(0, 4), new Position(0, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		try {
 			donePlays.play(new KnifeCard(new Position(0, 4), new Position(0, 1)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		try {
 			donePlays.play(new KnifeCard(new Position(0, 4), new Position(0, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		donePlays.play(new KnifeCard(new Position(0, 2), new Position(0, 3)));
@@ -176,28 +176,28 @@ public class OchoEsquinas {
 			donePlays.play(new KnifeCard(new Position(8, 4), new Position(8, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		try {
 			donePlays.play(new KnifeCard(new Position(8, 4), new Position(8, 1)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		try {
 			donePlays.play(new KnifeCard(new Position(8, 4), new Position(8, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		try {
 			donePlays.play(new KnifeCard(new Position(8, 4), new Position(0, 3)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		donePlays.play(new KnifeCard(new Position(8, 4), new Position(8, 3)));
@@ -225,7 +225,7 @@ public class OchoEsquinas {
 			donePlays.play(new GunCard(new Position(8, 1), new Position(0, 1)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR, e.getMessage());
+			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", ", e.getMessage());
 		}
 
 		// DISPARAR EN EQUINAS INCIO
@@ -234,7 +234,7 @@ public class OchoEsquinas {
 			donePlays.play(new GunCard(new Position(0, 0), new Position(8, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR, e.getMessage());
+			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", ", e.getMessage());
 		}
 
 		// DISPARAR EN EQUINAS FINALES
@@ -243,7 +243,7 @@ public class OchoEsquinas {
 			donePlays.play(new GunCard(new Position(0, 3), new Position(0, 4)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR, e.getMessage());
+			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", ", e.getMessage());
 		}
 	}
 

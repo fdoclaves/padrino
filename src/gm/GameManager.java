@@ -10,7 +10,6 @@ import gm.exceptions.HumanException;
 import gm.ia.IA_PlaysController;
 import gm.ia.PlaysController;
 import gm.info.CardType;
-import gm.pojos.Position;
 import gt.extras.Converter;
 
 public class GameManager {
@@ -22,6 +21,8 @@ public class GameManager {
 	private PlaysManager playsManager;
 
 	private GameTable gameTable;
+	
+	private int cycles;
 
 	public GameManager(List<Player> players, CardManager cardManager, GameCharacter[][] characterArray,
 			TableSeat[][] tableSeats, Integer totalMoney) {
@@ -32,6 +33,7 @@ public class GameManager {
 		turnsManager = new TurnsManager(players);
 		gameTable = new GameTable(tableSeats, totalMoney);
 		playsManager = new PlaysManager(characterArray, gameTable, cardManager, players);
+		cycles = 0;
 	}
 	
 	public GameManager(List<Player> players, GameCharacter[][] characterArray,
@@ -46,98 +48,130 @@ public class GameManager {
 	}
 
 	public void start() {
-		while (players.size() > 1 && gameTable.getTotalMoney() > 0) {
+		while (canKeepPlaying(players, gameTable.getTotalMoney())) {
 			List<Player> currentPlayer = turnsManager.getCurrentPlayer();
 			Player nowPlayer = currentPlayer.get(0);
 			String nextTeam = currentPlayer.get(1).getTeam();
 			System.out.println("-------------" + nowPlayer.getTeam() + "-----------------");
 			playsManager.startTurn(nowPlayer);
 			if(sigueVivo(nowPlayer)){
-				if(nowPlayer.isHuman()){
-					humanPlays(nowPlayer, nextTeam);
-				}else{
-					iaPlays(nowPlayer, nextTeam);
-				}
+			    playCards(nowPlayer, nextTeam);
 			}
 			playsManager.finishTurn();
 			System.out.println(new Converter(8, 3).cToString(playsManager.getChairs()));
 			for (Cake cake : gameTable.getCakeList()) {
 				System.out.print("cake:" + cake.getPosition()+", team:"+cake.getTeam() + " ");
 			}
+			cycles++;
 		}
 	}
+
+    protected boolean canKeepPlaying(List<Player> players, int totalMoney) {
+        return players.size() > 1 && totalMoney > 0;
+    }
 
 	private boolean sigueVivo(Player nowPlayer) {
 		return nowPlayer.getCounterCharacters() > 0;
 	}
 	
-	private void humanPlays(Player iaPlayer, String nextTeam) {
-		PlaysController iaCardManager = new Human_PlaysController(gameTable);
+	private void playCards(Player player, String nextTeam) {
 		try {
-		Card firstCard = iaCardManager.get1stCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size());
-		Card secondCard = null;
-			if(firstCard != null){
-				playsManager.play(firstCard);
-			}
-			secondCard = iaCardManager.get2ndCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size(),
-					firstCard);
-			if (secondCard != null) {
-				playsManager.play(secondCard);
-			}
+		    PlaysController playsController = getPlayController(player);
+            play(player, nextTeam, playsController);
 		} catch (HumanException e) {
 			e.printStackTrace();
 			playsManager.resert();
-			humanPlays(iaPlayer, nextTeam);
+			playCards(player, nextTeam);
 		} catch (GameException e) {
 			e.printStackTrace();
-			playsManager.resert();
-			humanPlays(iaPlayer, nextTeam);
+			getManagerException(player, nextTeam).managerGameExceptionException();
 		} catch (GameWarning e) {
 			System.out.println("Warning!");
 			e.printStackTrace();
 		}
 	}
+	
+    private ManagerExceptions getManagerException(Player nowPlayer, String nextTeam) {
+        ManagerExceptions managerExceptions;
+        if(nowPlayer.isHuman()){
+            managerExceptions = new ManagerExceptionsHuman(nowPlayer, nextTeam);
+        }else{
+            managerExceptions = new ManagerExceptionsIA(nowPlayer.getCards());
+        }
+        return managerExceptions;
+    }
 
-	private void iaPlays(Player iaPlayer, String nextTeam) {
-		PlaysController iaCardManager = new IA_PlaysController(gameTable);
-		Card firstCard = null;
-		try {
-			firstCard = iaCardManager.get1stCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size());	
-			if (!waitForBestAction(firstCard)) {
-				playsManager.play(firstCard);
-			}
-			Card secondCard = iaCardManager.get2ndCard(playsManager.getChairs(), iaPlayer, nextTeam, players.size(),
+    private PlaysController getPlayController(Player nowPlayer) {
+        PlaysController playsController;
+        if(nowPlayer.isHuman()){
+            playsController = new Human_PlaysController(gameTable);
+        }else{
+            playsController = new IA_PlaysController(gameTable);
+        }
+        return playsController;
+    }
+
+    private class ManagerExceptionsHuman implements ManagerExceptions {
+
+        private Player iaPlayer;
+
+        private String nextTeam;
+
+        public ManagerExceptionsHuman(Player iaPlayer, String nextTeam) {
+            this.iaPlayer = iaPlayer;
+            this.nextTeam = nextTeam;
+        }
+
+        @Override
+        public void managerGameExceptionException() {
+            playsManager.resert();
+            playCards(iaPlayer, nextTeam);
+        }
+
+    }
+
+    private class ManagerExceptionsIA implements ManagerExceptions {
+
+        private List<CardType> cardList;
+
+        public ManagerExceptionsIA(List<CardType> cardList) {
+            this.cardList = cardList;
+        }
+
+        @Override
+        public void managerGameExceptionException() {
+            try {
+                playsManager.play(new ChangeCard(cardList.get(0)));
+            } catch (GameException e1) {
+                System.out.println("Se salvo!");
+                e1.printStackTrace();
+            } catch (GameWarning e1) {
+
+            }
+        }
+
+    }
+
+    private void play(Player player, String nextTeam, PlaysController playsController) throws GameException,
+            GameWarning {
+        Card firstCard = playsController.get1stCard(playsManager.getChairs(), player, nextTeam, players.size());
+		if (!waitForBestAction(firstCard)) {
+            playsManager.play(firstCard);
+        }
+		Card secondCard = playsController.get2ndCard(playsManager.getChairs(), player, nextTeam, players.size(),
 					firstCard);
-			if (secondCard == null) {
-				if (waitForBestAction(firstCard)) {
-					playsManager.play(firstCard);
-				}
-			} else {
-				playsManager.play(secondCard);
-			}
-			System.out.println("1st: "  + firstCard + ", 2nd: " + secondCard);
-		} catch (GameException e) {
-			e.printStackTrace();
-			managerException(firstCard.getType());
-		} catch (GameWarning e) {
-			System.out.println("Warning!");
-			e.printStackTrace();
-		}
-	}
+		if (secondCard == null) {
+            if (waitForBestAction(firstCard)) {
+                playsManager.play(firstCard);
+            }
+        } else {
+            playsManager.play(secondCard);
+        }
+		System.out.println("1st: "  + firstCard + ", 2nd: " + secondCard);
+    }
 
 	private boolean waitForBestAction(Card firstCard) {
 		return firstCard instanceof ChangeCard;
-	}
-
-	private void managerException(CardType card) {
-		try {
-			playsManager.play(new ChangeCard(card));
-		} catch (GameException e1) {
-			System.out.println("Se salvo!");
-			e1.printStackTrace();
-		} catch (GameWarning e1) {
-
-		}
 	}
 
 	public List<Player> whoWin() {
@@ -166,8 +200,12 @@ public class GameManager {
 		return moreMoney;
 	}
 
-	public void addCake(Position position, String team) {
-		gameTable.add(new Cake(position, team, gameTable));
+	public GameTable getGameTable() {
+		return gameTable;
+	}
+	
+	public int getCycles(){
+	    return cycles;
 	}
 
 }

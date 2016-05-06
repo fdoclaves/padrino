@@ -8,10 +8,10 @@ import java.util.Map;
 import gm.cards.ChangeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gm.ia.CharacterUtils;
 import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.info.TableObjects;
+import gm.pojos.Position;
 
 public class PlaysManager {
 
@@ -94,7 +94,8 @@ public class PlaysManager {
 		boomCake();
 		startCakeList = new ArrayList<Cake>();
 		for (Cake cake : gameTable.getCakeList()) {
-			this.startCakeList.add(cake);
+		    Position position = new Position(cake.getPosition().getX(), cake.getPosition().getY());
+			this.startCakeList.add(new Cake(position, cake.getTeam(), gameTable));
 		}
 		this.money = getMoney(player.getTeam());
 	}

@@ -25,7 +25,7 @@ public abstract class Card {
 
 	protected GameTable gameTable;
 	
-	private String reason;
+	private String reason = "";
 
 	public void inicialize(GameTable gameTable) {
 		this.gameTable = gameTable;
@@ -44,25 +44,25 @@ public abstract class Card {
 			throws GameException {
 
 		if (attackerPosition == null) {
-			throw new GameException(GameMessages.ATTACKER_NULL);
+			throw new GameException(GameMessages.ATTACKER_NULL + ", " + reason);
 		}
 
 		GameCharacter attackerChair = characters[attackerPosition.getY()][attackerPosition.getX()];
 		
 	    if (attackerChair.isEmpty()) {
-	            throw new GameException(GameMessages.SEAT_EMPTY);
+	            throw new GameException(GameMessages.SEAT_EMPTY + ", " + reason);
 	    }
 
 		if (attackerChair.isSleeping()) {
-			throw new GameException(GameMessages.ESTA_DORMIDO);
+			throw new GameException(GameMessages.ESTA_DORMIDO + ", " + reason);
 		}
 
 		if (!attackerChair.isValidSeat()) {
-			throw new GameException(GameMessages.IT_ISNT_SEAT);
+			throw new GameException(GameMessages.IT_ISNT_SEAT + ", " + reason);
 		}
 
 		if (!attackerChair.isTeam(team)) {
-			throw new GameException(GameMessages.NOT_SAME_TEAM);
+			throw new GameException(GameMessages.NOT_SAME_TEAM + ", " + reason);
 		}
 	}
 

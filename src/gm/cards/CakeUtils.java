@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gm.Cake;
+import gm.CharacterUtils;
 import gm.GameCharacter;
-import gm.ia.CharacterUtils;
 import gm.pojos.Position;
 
 public class CakeUtils {
@@ -178,4 +178,12 @@ public class CakeUtils {
 		}
 		return actualDesplamiento;
 	}
+
+    public static List<Position> getCharacterByTeam(List<Cake> cakeList) {
+        List<Position> cakePositions = new ArrayList<Position>();
+        for (Cake cake : cakeList) {
+            cakePositions.add(cake.getPosition());
+        }
+        return cakePositions;
+    }
 }

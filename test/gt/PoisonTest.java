@@ -158,7 +158,7 @@ public class PoisonTest {
 			donePlays.play(new SleepCard(new Position(3, 0), new Position(4, 0), new Position(5, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.THERE_ISNT_GLASS, e.getMessage());
+			assertEquals(GameMessages.THERE_ISNT_GLASS + ", ", e.getMessage());
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
 		}
@@ -170,7 +170,7 @@ public class PoisonTest {
 			donePlays.play(new SleepCard(new Position(0, 2), new Position(1, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.THERE_ISNT_GLASS, e.getMessage());
+			assertEquals(GameMessages.THERE_ISNT_GLASS + ", ", e.getMessage());
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
 		}
@@ -182,7 +182,7 @@ public class PoisonTest {
 			donePlays.play(new SleepCard(new Position(0, 2), new Position(0, 2), new Position(5, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.SAME_POSITIONS, e.getMessage());
+			assertEquals(GameMessages.SAME_POSITIONS + ", ", e.getMessage());
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
 		}
@@ -196,7 +196,7 @@ public class PoisonTest {
 		} catch (GameException e) {
 			assertEquals(converter.toString(playerChairs).replace("V", "VV"),
 					converter.cToString(donePlays.getChairs()).replace("V", "VV"));
-			assertEquals(GameMessages.SAME_POSITIONS, e.getMessage());
+			assertEquals(GameMessages.SAME_POSITIONS + ", ", e.getMessage());
 		}
 	}
 
@@ -212,7 +212,7 @@ public class PoisonTest {
 			donePlays.play(new GunCard(new Position(3, 2), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_DORMIDO, e.getMessage());
+			assertEquals(GameMessages.ESTA_DORMIDO + ", ", e.getMessage());
 		}
 
 		// acuchillar
@@ -225,7 +225,7 @@ public class PoisonTest {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_DORMIDO, e.getMessage());
+			assertEquals(GameMessages.ESTA_DORMIDO + ", ", e.getMessage());
 		}
 
 		// mover
@@ -236,7 +236,7 @@ public class PoisonTest {
 			donePlays.play(new MoveCard(new Position(2, 0), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_DORMIDO, e.getMessage());
+			assertEquals(GameMessages.ESTA_DORMIDO + ", ", e.getMessage());
 		}
 	}
 

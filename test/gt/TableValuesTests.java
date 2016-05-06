@@ -130,7 +130,7 @@ public class TableValuesTests {
 			donePlays.play(new MoveCard(new Position(2, 0), new Position(3, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.OCCUPIED, e.getMessage());
+			assertEquals(GameMessages.OCCUPIED + ", ", e.getMessage());
 		}
 
 		// acuchillar a otro que no esta alado y se tiene el cuchillo
@@ -138,7 +138,7 @@ public class TableValuesTests {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(0, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		// acuchillar a otro que no esta alado y se tiene el cuchillo
@@ -146,7 +146,7 @@ public class TableValuesTests {
 			donePlays.play(new KnifeCard(new Position(2, 0), new Position(4, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		// acuchillar a otro que no esta alado y se tiene el cuchillo //ESQUINA
@@ -155,7 +155,7 @@ public class TableValuesTests {
 			donePlays.play(new KnifeCard(new Position(0, 2), new Position(0, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		// acuchillar a otro que no esta alado y se tiene el cuchillo //ESQUINA
@@ -164,7 +164,7 @@ public class TableValuesTests {
 			donePlays.play(new KnifeCard(new Position(8, 2), new Position(8, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESTA_LEJOS, e.getMessage());
+			assertEquals(GameMessages.ESTA_LEJOS + ", ", e.getMessage());
 		}
 
 		// |0 |01 |02 |03 |04|05 |06 |07 |08|
@@ -178,7 +178,7 @@ public class TableValuesTests {
 			donePlays.play(new GunCard(new Position(5, 0), new Position(5, 2)));
 			fail("DISPARAR SIN ARMA");
 		} catch (GameException e) {
-			assertEquals(GameMessages.YOU_HAS_NOT_GUN, e.getMessage());
+			assertEquals(GameMessages.YOU_HAS_NOT_GUN + ", ", e.getMessage());
 		}
 
 		// DISPARAR A OTRO QUE NO ESTE ENFRENTE
@@ -186,7 +186,7 @@ public class TableValuesTests {
 			donePlays.play(new GunCard(new Position(6, 0), new Position(5, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.NO_ESTA_ENFRENTE, e.getMessage());
+			assertEquals(GameMessages.NO_ESTA_ENFRENTE + ", ", e.getMessage());
 		}
 
 		// DISPARAR EN EQUINAS INCIO
@@ -194,7 +194,7 @@ public class TableValuesTests {
 			donePlays.play(new GunCard(new Position(0, 0), new Position(0, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR, e.getMessage());
+			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", ", e.getMessage());
 		}
 
 		// DISPARAR EN EQUINAS FINALES
@@ -202,7 +202,7 @@ public class TableValuesTests {
 			donePlays.play(new GunCard(new Position(8, 0), new Position(8, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR, e.getMessage());
+			assertEquals(GameMessages.ESQUINA_NO_PUEDE_DISPARAR + ", ", e.getMessage());
 		}
 
 		// acuchillar sin arma
@@ -210,7 +210,7 @@ public class TableValuesTests {
 			donePlays.play(new KnifeCard(new Position(1, 0), new Position(2, 0)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.YOU_HAS_NOT_KNIFE, e.getMessage());
+			assertEquals(GameMessages.YOU_HAS_NOT_KNIFE + ", ", e.getMessage());
 		}
 	}
 

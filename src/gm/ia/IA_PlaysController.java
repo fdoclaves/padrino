@@ -6,6 +6,7 @@ import java.util.Map;
 
 import gm.Cake;
 import gm.Card;
+import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -21,6 +22,7 @@ import gm.ia.getters.AsleepEnemyGetter;
 import gm.ia.getters.BoomGetter;
 import gm.ia.getters.CakeGetter;
 import gm.ia.getters.ChangeCardGetter;
+import gm.ia.getters.MoverCakeGetter;
 import gm.ia.getters.WhereMoveGetter;
 import gm.ia.getters.WhoMoveGetter;
 import gm.ia.pojos.InfoAction;
@@ -41,18 +43,18 @@ public class IA_PlaysController implements PlaysController {
 	@Override
 	public MoveCard get2ndCard(GameCharacter[][] characterArray, Player player, String nextTeam, int currentGamers, Card firstAction) {
 		if (player.hasCard(CardType.MOVE)) {
-			return addActionIfConviene(characterArray, player, nextTeam, currentGamers);
+			return addActionIfConviene(characterArray, player, nextTeam, currentGamers, firstAction);
 		}
 		return null;
 	}
 
 	private MoveCard addActionIfConviene(GameCharacter[][] characterArray, Player player, String nextTeam,
-			int currentGamers) {
+			int currentGamers, Card firstAction) {
 		IaComponentsSetter componentSetter = new IaComponentsSetter(gameTable, characterArray, player,
 				currentGamers);
 		new DataCakeSetter(characterArray, gameTable, player, nextTeam);
-		Position whoMove = whoMove(characterArray, player, componentSetter);
-		if (whoMove != null) {
+		Position whoMove = whoMove(characterArray, player, componentSetter, nextTeam);
+		if (whoMove != null && !isSameCharacterToMove(firstAction, whoMove)) {
 			Position whereMove = new WhereMoveGetter(gameTable).whereMove(characterArray, componentSetter,
 					player.getTeam(), whoMove);
 			if (whereMove != null) {
@@ -62,10 +64,22 @@ public class IA_PlaysController implements PlaysController {
 		return null;
 	}
 
-	private Position whoMove(GameCharacter[][] characterArray, Player player, IaComponentsSetter componentSetter) {
+	private boolean isSameCharacterToMove(Card firstAction, Position whoMove) {
+        boolean sameCharacter = false;
+        if(firstAction instanceof MoveCard){
+            MoveCard moveCard = (MoveCard) firstAction;
+            Position whereMove = moveCard.getWhereMove();
+            if(whereMove.isEquals(whoMove)){
+                sameCharacter = true;
+            }
+        }
+        return sameCharacter;
+    }
+
+    private Position whoMove(GameCharacter[][] characterArray, Player player, IaComponentsSetter componentSetter, String nextTeam) {
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		return new WhoMoveGetter().whoMove(characterArray, player.getTeam(), cakeUtils,
-				componentSetter.getIaTeam(), componentSetter.getEnemyAttackDatas(), gameTable);
+				componentSetter.getIaTeam(), componentSetter.getEnemyAttackDatas(), gameTable, nextTeam);
 	}
 
 	@Override
@@ -74,12 +88,12 @@ public class IA_PlaysController implements PlaysController {
 		DataCakeSetter dataCakeSetter = new DataCakeSetter(characterArray, gameTable, player, nextTeam);
 		CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
 		MoverCakeGetter moverCakeGetter = new MoverCakeGetter(cakeUtils);
-		int best = 0;
+		int menosPeor = 0;
 		ValueAndDataCake[] valueAndDataCakes = new ValueAndDataCake[3];
 		if (player.hasCard(CardType.MOVE_CAKE)) {
 			int moreEnemiesIndex = 1;
 			int saveIndex = 2;
-			fillValueAndDataCakesArray(characterArray, player.getTeam(), nextTeam, moverCakeGetter, best, moreEnemiesIndex, saveIndex,
+			fillValueAndDataCakesArray(characterArray, player.getTeam(), nextTeam, moverCakeGetter, menosPeor, moreEnemiesIndex, saveIndex,
 					valueAndDataCakes);
 			Card card = buildCard(saveIndex, valueAndDataCakes, "ATTACK CAKE ME, MOVE CAKE");
 			if (card == null) {
@@ -95,7 +109,7 @@ public class IA_PlaysController implements PlaysController {
 		WhereMoveGetter whereMoveGetter = new WhereMoveGetter(gameTable);
 		if(dataCakeSetter.getExploitedMine().size() > 1 && player.getNumberCard(CardType.MOVE)==2){
 			List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
-			Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
+			Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable, nextTeam);
 			if(whoMove != null){
 				Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
 				if(whereMove != null){
@@ -216,11 +230,15 @@ public class IA_PlaysController implements PlaysController {
 			}
 			
 			if (player.hasCard(CardType.MOVE_CAKE)) {
-				for (Cake cake : gameTable.getCakeList()) {
-					float currentValor = getCakeValor(cake, cakeUtils, player.getTeam(), characterArray);
-					if (valueAndDataCakes[best] != null && valueAndDataCakes[best].getValue() > currentValor) {
-						return buildInfoActionMoveCard(valueAndDataCakes[best], cake);
-					}
+			    ValueAndDataCake valueAndDataCakeMenosPeor = valueAndDataCakes[menosPeor];
+				if(valueAndDataCakeMenosPeor != null && valueAndDataCakeMenosPeor.getDataCake().getMineByCake() > 0){
+				    //muere menos poderoso (mismoNumero Vs mismoNumero)
+				    for (Cake cake : gameTable.getCakeList()) {
+	                    float currentValor = getCakeValor(cake, cakeUtils, player.getTeam(), characterArray);
+	                    if (currentValor < valueAndDataCakeMenosPeor.getValue()) {
+	                        return buildInfoActionMoveCard(valueAndDataCakeMenosPeor);
+	                    }
+	                }
 				}
 			}
 			
@@ -230,7 +248,7 @@ public class IA_PlaysController implements PlaysController {
 			
 			if(player.getNumberCard(CardType.MOVE)==2){
 				List<GameCharacter> enemies = componentSetter.getEnemyAttackDatas();
-				Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable);
+				Position whoMove = whoMoveGetter.whoMove(characterArray, player.getTeam(), cakeUtils, iaTeam, enemies, gameTable, nextTeam);
 				if(whoMove != null){
 					Position whereMove = whereMoveGetter.whereMove(characterArray, componentSetter, player.getTeam(), whoMove);
 					if(whereMove != null){
@@ -275,7 +293,7 @@ public class IA_PlaysController implements PlaysController {
 	}
 
 	private void fillValueAndDataCakesArray(GameCharacter[][] characterArray, String teamIa, String nextTeam,
-			MoverCakeGetter moverCakeGetter, int best, int moreEnemies, int save,
+			MoverCakeGetter moverCakeGetter, int peorEsNada, int moreEnemies, int save,
 			ValueAndDataCake[] valueAndDataCakes) {
 		for (Cake cake : gameTable.getCakeList()) {
 			DataCake oldPosition = cake.getDataCake();
@@ -292,8 +310,8 @@ public class IA_PlaysController implements PlaysController {
 						valueAndDataCakes[moreEnemies] = valueAndDataCake;
 					}
 				} else {
-					if (bestValueFrom(valueAndDataCake.getValue(), valueAndDataCakes[best])) {
-						valueAndDataCakes[best] = valueAndDataCake;
+					if (bestValueFrom(valueAndDataCake.getValue(), valueAndDataCakes[peorEsNada])) {
+						valueAndDataCakes[peorEsNada] = valueAndDataCake;
 					}
 				}
 			}
@@ -307,10 +325,10 @@ public class IA_PlaysController implements PlaysController {
 		return bestValorCake > newValue.getValue();
 	}
 
-	private Card buildInfoActionMoveCard(ValueAndDataCake valueAndDataCake, Cake cake) {
+	private Card buildInfoActionMoveCard(ValueAndDataCake valueAndDataCake) {
 		String reason = "MOVE CAKE BY BUSINESS: " + valueAndDataCake.getValue();
 		Position newPosition = valueAndDataCake.getDataCake().getExplotedPosition();
-		return new MoveCakeCard(cake, newPosition, reason);
+		return new MoveCakeCard(valueAndDataCake.getDataCake().getCake(), newPosition, reason);
 	}
 
 	private float getCakeValor(Cake cake, CakeUtils cakeUtils, String myTeam, GameCharacter[][] characterArray) {

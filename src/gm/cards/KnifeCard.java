@@ -32,14 +32,14 @@ public class KnifeCard extends Card {
 		validateAttackerCharacter(attackerPosition, characters, team);
 		if (!gameTable.getTableSeatByPosition(attackerPosition).has(KNIFE_ON_TABLE)
 				&& !getCharacterFromChair(attackerPosition, characters).hasKnife()) {
-			throw new GameException(GameMessages.YOU_HAS_NOT_KNIFE);
+			throw new GameException(GameMessages.YOU_HAS_NOT_KNIFE + ", " + getReason());
 		}
 		if (thereIsOnTheSide(attackerPosition.getX())) {
 			validateSides(attackerPosition, attackedPosition);
 		} else {
 			if (!((attackedPosition.getX() == attackerPosition.getX() + 1)
 					|| (attackedPosition.getX() == attackerPosition.getX() - 1))) {
-				throw new GameException(GameMessages.ESTA_LEJOS);
+				throw new GameException(GameMessages.ESTA_LEJOS + ", " + getReason());
 			}
 		}
 		warnFromAttacted(attackedPosition, characters, team);
@@ -65,7 +65,7 @@ public class KnifeCard extends Card {
 		if (attackerPosition.getY() != 0 && attackerPosition.getY() != MAX_Y_POSITION) {
 			if (!((attackedPosition.getY() == attackerPosition.getY() + 1)
 					|| (attackedPosition.getY() == attackerPosition.getY() - 1))) {
-				throw new GameException(GameMessages.ESTA_LEJOS);
+				throw new GameException(GameMessages.ESTA_LEJOS + ", " + getReason());
 			}
 		}
 	}
@@ -75,16 +75,16 @@ public class KnifeCard extends Card {
 		if (attackedPosition.getX() == attackerPosition.getX()) {
 			if (attackerPosition.getY() == 0) {
 				if (attackedPosition.getY() != 1) {
-					throw new GameException(GameMessages.ESTA_LEJOS);
+					throw new GameException(GameMessages.ESTA_LEJOS + ", " + getReason());
 				}
 			} else {
 				if (attackedPosition.getY() != MAX_Y_POSITION - 1) {
-					throw new GameException(GameMessages.ESTA_LEJOS);
+					throw new GameException(GameMessages.ESTA_LEJOS + ", " + getReason());
 				}
 			}
 		} else {
 			if (attackedPosition.getX() != attackerPosition.getX() + positionSide) {
-				throw new GameException(GameMessages.ESTA_LEJOS);
+				throw new GameException(GameMessages.ESTA_LEJOS + ", " + getReason());
 			}
 		}
 	}

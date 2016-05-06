@@ -6,6 +6,7 @@ import java.util.Map;
 import gm.ia.pojos.InfoAction;
 import gm.ia.pojos.ValueData;
 import gm.pojos.Position;
+import gm.CharacterUtils;
 import gm.GameCharacter;
 
 public class DataInfoActionGetter {

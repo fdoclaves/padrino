@@ -30,22 +30,30 @@ public class CharateresToAttackByKnifeGetter {
 
 	public List<Position> getMyAttackPositions(GameCharacter[][] characters, Position attackerPosition, Player player) {
 		Filter filter = new AddEnemiesTeam(player.getTeam());
-		return buildAttackPosition(characters, attackerPosition, filter);
+		GameCharacter character = characters[attackerPosition.getY()][attackerPosition.getX()];
+		return buildAttackPosition(characters, attackerPosition, filter, character);
 	}
 
 	public List<Position> getTheirAttackPositions(GameCharacter[][] characters, Position attackerPosition,
 			String myTeam) {
 		Filter filter = new AddAttackToIaTeam(myTeam);
-		return buildAttackPosition(characters, attackerPosition, filter);
+		GameCharacter character = characters[attackerPosition.getY()][attackerPosition.getX()];
+		return buildAttackPosition(characters, attackerPosition, filter, character);
 	}
 	
 	public List<Position> getEmptyAttackPositions(GameCharacter[][] characters, Position attackerPosition) {
         Filter filter = new AddEmptySeat();
-        return buildAttackPosition(characters, attackerPosition, filter);
+        GameCharacter character = characters[attackerPosition.getY()][attackerPosition.getX()];
+        return buildAttackPosition(characters, attackerPosition, filter, character);
+    }
+	
+	public List<Position> getEmptyAttackPositions(GameCharacter[][] characters, Position attackerPosition, GameCharacter whoAttack, String iaTeam) {
+	    Filter filter = new AddEnemiesTeam(iaTeam);
+        return buildAttackPosition(characters, attackerPosition, filter, whoAttack);
     }
 
-	private List<Position> buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
-		if (hasWeaponAndWakeUp(attackerPosition, characters)) {
+	private List<Position> buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter, GameCharacter whoAttack) {
+	    if (hasWeaponAndWakeUp(attackerPosition, whoAttack)) {
 			if (thereIsOnTheSide(attackerPosition.getX())) {
 				return validateSides(characters, filter, attackerPosition);
 			} else {
@@ -61,10 +69,9 @@ public class CharateresToAttackByKnifeGetter {
 		}
 	}
 
-	private boolean hasWeaponAndWakeUp(Position attackerPosition, GameCharacter[][] characters) {
+	private boolean hasWeaponAndWakeUp(Position attackerPosition, GameCharacter whoAttack) {
 		TableSeat tableSeat = gameTable.getTableSeatByPosition(attackerPosition);
-		GameCharacter character = characters[attackerPosition.getY()][attackerPosition.getX()];
-		return !character.isSleeping() && (character.hasKnife() || tableSeat.has(TableObjects.KNIFE));
+		return !whoAttack.isSleeping() && (whoAttack.hasKnife() || tableSeat.has(TableObjects.KNIFE));
 	}
 
 	private boolean thereIsOnTheSide(int x) {

@@ -34,7 +34,7 @@ public class CakeCard extends Card {
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
 		GameCharacter gameCharacter = characters[cake.getPosition().getY()][cake.getPosition().getX()];
 		if (!gameCharacter.isValidSeat()) {
-			throw new GameException(GameMessages.IT_ISNT_SEAT);
+			throw new GameException(GameMessages.IT_ISNT_SEAT + ", " + getReason());
 		}
 	}
 

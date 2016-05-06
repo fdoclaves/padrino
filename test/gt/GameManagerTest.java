@@ -1,6 +1,7 @@
 package gt;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import gm.Cake;
+import gm.CardManager;
 import gm.CardManagerImpl;
 import gm.GameCharacter;
 import gm.GameManager;
+import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.info.CardType;
@@ -192,7 +196,7 @@ public class GameManagerTest {
 		assertEquals(J2.getTeam(), winners.get(0).getTeam());
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void simulacion() {		
 		// ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
@@ -210,7 +214,6 @@ public class GameManagerTest {
 		J1.setHuman(true);
 		GameManager gameManager = new GameManager(teams, characterArray, tableSeats, TOTAL_MONEY);
 		gameManager.start();
-		System.out.println(converter.cToString(characterArray));
 	}
 	
 	@Ignore
@@ -237,9 +240,144 @@ public class GameManagerTest {
 		teams.add(J1);
 		teams.add(J2);
 		GameManager gameManager = new GameManager(teams, characterArray, tableSeats, TOTAL_MONEY);
-		gameManager.addCake(new Position(3, 0), "2");
+		GameTable gameTable = gameManager.getGameTable();
+		gameTable.add(new Cake(new Position(3, 0), "2", gameTable));
 		gameManager.start();
-		System.out.println(converter.cToString(characterArray));
 	}
+	
+	@Test
+    public void moverFatalCakeEntocesYaNoHuir() {       
+        // ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+        String[][] TABLE_VALUES = { { "PG", "_G", "kG", "_k", "__", "__", "P_", "__", "P_" },
+                                    { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+                                    { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+        // ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+        String[][] playerChairs = { { "1k_", "VV", "V", "2_", "1", "V", "VV", "VV", "VV" },
+                                    { "VV", "**", "**", "**", "**", "**", "**", "**", "1_" },
+                                    { "VVs", "VV", "VV", "V", "VV", "VV", "V", "1Pk", "VV" } };
+        
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+        J1.addCard(CardType.CAKE);
+        J2.addCard(CardType.MOVE);
+        J2.addCard(CardType.MOVE_CAKE);
+        List<Player> teams = new ArrayList<Player>();
+        teams.add(J2);
+        teams.add(J1);
+        CardManager cardManager = new CardManagerImpl(){
+            
+            @Override
+            protected void fillCards(List<CardType> chooseCard) {
+                for (int i = 1; i <= 9; i++) {
+                    chooseCard.add(CardType.KNIFE);
+                }
+            }
+            
+        };
+        GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, TOTAL_MONEY){
+            
+            @Override
+            protected boolean canKeepPlaying(List<Player> players, int totalMoney) {
+                return players.size() > 1 && totalMoney > 0 && getCycles() < 1;
+            }
+            
+        };
+        GameTable gameTable = gameManager.getGameTable();
+        gameTable.add(new Cake(new Position(3, 0), "3", gameTable));
+        gameManager.start();
+        assertTrue(J2.hasCard(CardType.MOVE));
+    }
+	
+	@Test
+    public void moverCakeEntocesYaNoHuir() {       
+        // ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+        String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+                                    { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+                                    { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+        // ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+        String[][] playerChairs = { { "1kP_", "VV", "V", "2_", "V", "V", "VV", "VV", "VV" },
+                                    { "V", "**", "**", "**", "**", "**", "**", "**", "1_" },
+                                    { "V", "VV", "VV", "V", "VV", "VV", "V", "1Pk", "VV" } };
+        
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+        J1.addCard(CardType.CAKE);
+        J2.addCard(CardType.MOVE);
+        J2.addCard(CardType.MOVE_CAKE);
+        List<Player> teams = new ArrayList<Player>();
+        teams.add(J2);
+        teams.add(J1);
+        CardManager cardManager = new CardManagerImpl(){
+            
+            @Override
+            protected void fillCards(List<CardType> chooseCard) {
+                for (int i = 1; i <= 9; i++) {
+                    chooseCard.add(CardType.KNIFE);
+                }
+            }
+            
+        };
+        GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, TOTAL_MONEY){
+            
+            @Override
+            protected boolean canKeepPlaying(List<Player> players, int totalMoney) {
+                return players.size() > 1 && totalMoney > 0 && getCycles() < 1;
+            }
+            
+        };
+        GameTable gameTable = gameManager.getGameTable();
+        gameTable.add(new Cake(new Position(3, 0), "3", gameTable));
+        gameManager.start();
+        assertTrue(J2.hasCard(CardType.MOVE));
+    }
+	
+	@Test
+    public void noMoverMismoPersonajesDosVeces() {       
+        // ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+        String[][] TABLE_VALUES = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+                                    { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+                                    { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+        // ...........................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+        String[][] playerChairs = { { "1k", "VV", "VV", "2_", "VV", "VV", "VV", "VV", "VV" },
+                                    { "2_", "**", "**", "**", "**", "**", "**", "**", "1_" },
+                                    { "VV", "VV", "VV", "VV", "VV", "2_", "2_", "VV", "VV" } };
+        
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES);
+        GameCharacter[][] characterArray = converter.toCharacterArray(playerChairs);
+        J1.addCard(CardType.MOVE);
+        J1.addCard(CardType.MOVE);
+        J1.addCard(CardType.MOVE_CAKE);
+        J1.addCard(CardType.MOVE_CAKE);
+        J1.addCard(CardType.MOVE_CAKE);
+        J2.addCard(CardType.MOVE);
+        J2.addCard(CardType.MOVE_CAKE);
+        List<Player> teams = new ArrayList<Player>();
+        teams.add(J1);
+        teams.add(J2);
+        CardManager cardManager = new CardManagerImpl(){
+            
+            @Override
+            protected void fillCards(List<CardType> chooseCard) {
+                for (int i = 1; i <= 9; i++) {
+                    chooseCard.add(CardType.KNIFE);
+                }
+            }
+            
+        };
+        GameManager gameManager = new GameManager(teams, cardManager, characterArray, tableSeats, TOTAL_MONEY){
+            
+            @Override
+            protected boolean canKeepPlaying(List<Player> players, int totalMoney) {
+                return players.size() > 1 && totalMoney > 0 && getCycles() < 1;
+            }
+            
+        };
+        System.out.println(converter.cToString(characterArray));
+        gameManager.start();
+        assertTrue(J1.hasCard(CardType.MOVE));
+    }
 
 }

@@ -1,9 +1,9 @@
 package gm.ia.getters;
 
+import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.TableSeat;
-import gm.ia.CharacterUtils;
 import gm.ia.GeneralTeam;
 import gm.ia.pojos.IA_Character;
 import gm.info.MoneyValues;

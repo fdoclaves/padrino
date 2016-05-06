@@ -15,7 +15,7 @@ import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.cards.CakeUtils;
-import gm.ia.MoverCakeGetter;
+import gm.ia.getters.MoverCakeGetter;
 import gm.ia.getters.WhoMoveGetter;
 import gm.ia.setters.DataCakeSetter;
 import gm.ia.setters.IaComponentsSetter;
@@ -69,8 +69,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),
+                iaComponentsSetter.getEnemyAttackDatas(),gameTable,"R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
     
     @Test
@@ -88,8 +89,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 4)));
     }
     
     @Test
@@ -107,8 +109,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
     
     @Test
@@ -126,8 +129,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
     
     @Test
@@ -145,8 +149,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
     
     @Test
@@ -164,8 +169,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 4)));
     }
     
     @Test
@@ -183,8 +189,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(6, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(6, 4)));
     }
     
     @Test
@@ -201,8 +208,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(6, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(6, 0)));
     }
     
     @Test
@@ -228,8 +236,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 0)));
     }
     
     @Test
@@ -255,8 +264,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 0)));
     }
     
     @Test
@@ -282,8 +292,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(6, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(6, 0)));
     }
     
     @Test
@@ -309,8 +320,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 0)));
     }
     
     @Test
@@ -336,8 +348,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(4, 0)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(4, 0)));
     }
     
     @Test
@@ -363,8 +376,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertNull(position);
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertNull(whoMove);
     }
     
     @Test
@@ -383,8 +397,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(6, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(6, 4)));
     }
     
     @Test
@@ -403,8 +418,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
     
     @Test
@@ -423,8 +439,9 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertNull(position);
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertNull(whoMove);
     }
    
     
@@ -444,7 +461,8 @@ public class WhoMoveGetterTest {
         CakeUtils cakeUtils = new CakeUtils(gameTable.getMaxX(), gameTable.getMaxY());
         new MoverCakeGetter(cakeUtils);
         WhoMoveGetter moveGetter = new WhoMoveGetter();
-        Position position = moveGetter.whoMove(characterArray, playerB.getTeam(), cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable);
-        assertTrue(""+position, position.isEquals(new Position(3, 4)));
+        Position whoMove = moveGetter.whoMove(characterArray, playerB.getTeam(), 
+                cakeUtils,iaComponentsSetter.getIaTeam(),iaComponentsSetter.getEnemyAttackDatas(),gameTable, "R");
+        assertTrue(""+whoMove, whoMove.isEquals(new Position(3, 4)));
     }
 }

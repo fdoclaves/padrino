@@ -2,7 +2,6 @@ package gm;
 
 import java.util.Map;
 
-import gm.ia.CharacterUtils;
 import gm.pojos.Position;
 
 public class Killer {

@@ -55,16 +55,16 @@ public class SleepCard extends Card {
 	public void validateAction(GameCharacter[][] characters, String team) throws GameException {
 		for (Position position : positionList) {
 			if (!gameTable.getTableSeatByPosition(position).has(GLASS_ON_TABLE)) {
-				throw new GameException(GameMessages.THERE_ISNT_GLASS);
+				throw new GameException(GameMessages.THERE_ISNT_GLASS + ", " + getReason());
 			}
 			if (!characters[position.getY()][position.getX()].isValidSeat()) {
-				throw new GameException(GameMessages.IT_ISNT_SEAT);
+				throw new GameException(GameMessages.IT_ISNT_SEAT + ", " + getReason());
 			}
 		}
 		for (int i = 0; i < positionList.size() - 1; i++) {
 			if (positionList.get(i).getX() == positionList.get(i + 1).getX()
 					&& positionList.get(i).getY() == positionList.get(i + 1).getY()) {
-				throw new GameException(GameMessages.SAME_POSITIONS);
+				throw new GameException(GameMessages.SAME_POSITIONS + ", " + getReason());
 			}
 		}
 	}

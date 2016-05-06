@@ -1,6 +1,7 @@
 package gt;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -37,15 +38,15 @@ public class CakeTest {
 
 	private static Player J3;
 
-	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+	//................................... |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	private String[][] TABLE_VALUES = { { "P_", "3$", "k-", "1$", "__", "2$", "P_", "__", "P_" },
-			{ "M_", "**", "**", "**", "**", "**", "**", "**", "P_" },
-			{ "k_", "__", "2$", "P_", "3$", "__", "1$", "__", "k_" } };
+			                            { "M_", "**", "**", "**", "**", "**", "**", "**", "P_" },
+			                            { "k_", "__", "2$", "P_", "3$", "__", "1$", "__", "k_" } };
 
-	// |0 |01 |02 |03 |04 |05 |06 |07 |08|
+	//............................ |0 |01 |02 |03 |04 |05 |06 |07 |08|
 	String[][] playerChairs = { { "1_", "1P", "2_", "1k", "1k", "1P", "1_", "1P", "1_" },
-			{ "1K", "**", "**", "**", "**", "**", "**", "**", "2_" },
-			{ "2_", "1_", "2_", "3_", "2_", "2_", "V", "3_", "2_" } };
+			                    { "1K", "**", "**", "**", "**", "**", "**", "**", "2_" },
+			                    { "2_", "1_", "2_", "3_", "2_", "2_", "V", "3_", "2_" } };
 
 	private PlaysManager donePlays;
 
@@ -504,7 +505,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(6, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.SEAT_EMPTY, e.getMessage());
+			assertEquals(GameMessages.SEAT_EMPTY + ", ", e.getMessage());
 		}
 	}
 
@@ -525,7 +526,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(1, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE + "1,2:3,2", e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "1,2:3,2; ", e.getMessage());
 		}
 	}
 
@@ -595,7 +596,7 @@ public class CakeTest {
 			donePlays.play(new MoveCakeCard(cake, new Position(4, 2)));
 			fail();
 		} catch (GameException e) {
-			assertEquals(GameMessages.INVALID_CAKE_MOVE + "4,2:7,2", e.getMessage());
+			assertEquals(GameMessages.INVALID_CAKE_MOVE + "4,2:7,2; ", e.getMessage());
 		}
 	}
 
@@ -1028,7 +1029,7 @@ public class CakeTest {
 	}
 
 	@Test
-	public void dosJugadasConPastel_RegresarComoEstabaAntes() throws GameException, GameWarning {
+	public void dosJugadasConPastel_RegresarComoEstabaAntes_sinCake() throws GameException, GameWarning {
 		donePlays.startTurn(J1);
 		Cake cake = new Cake(new Position(6, 2), J1.getTeam());
 		donePlays.play(new CakeCard(cake));
@@ -1043,5 +1044,26 @@ public class CakeTest {
 		donePlays.resert();
 		assertEquals(0, gameTable.getCakeList().size());
 	}
+	
+	@Test
+    public void dosJugadasConPastel_RegresarDondeEstabaAntes() throws GameException, GameWarning {
+	    Cake cake = new Cake(new Position(0, 0), "3", gameTable);
+	    gameTable.add(cake);
+        donePlays.startTurn(J1);
+        donePlays.play(new MoveCakeCard(cake, new Position(0, 1)));
+        assertEquals(1, gameTable.getCakeList().size());
+        assertTrue(gameTable.getCakeList().get(0).getPosition().isEquals(new Position(0, 1)));
+        try {
+            donePlays.play(new GunCard(new Position(6, 0), new Position(6, 2)));
+            fail();
+        } catch (GameException e) {
+            assertEquals(GameMessages.TWO_ATTACK_ACTIONS, e.getMessage());
+            assertEquals(1, gameTable.getCakeList().size());
+            assertTrue(gameTable.getCakeList().get(0).getPosition().isEquals(new Position(0, 1)));
+        }
+        donePlays.resert();
+        assertEquals(1, gameTable.getCakeList().size());
+        assertTrue(gameTable.getCakeList().get(0).getPosition().isEquals(new Position(0, 0)));
+    }
 
 }

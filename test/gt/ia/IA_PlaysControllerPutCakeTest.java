@@ -2,6 +2,7 @@ package gt.ia;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,5 +185,36 @@ public class IA_PlaysControllerPutCakeTest {
 		CakeCard cakeCard = (CakeCard) usedCard;
 		assertTrue(""+cakeCard.getCakePosition(),new Position(2, 0).isEquals(cakeCard.getCakePosition()));
 	}
+	
+	@Test
+    public void simulacion_PuedenAtacarme() {
+
+        // ...........................|0 ...|01 ...|02 .|03 ...|04 ..|05 .|06 ..|07 ..|08|
+        String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+                                     { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+                                     { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+        // ............................|0 ..|01 ...|02 ..|03 ..|04 ..|05 ..|06 ..|07 .|08|
+        String[][] playerChairs2 = { { "VV", "VV", "VV", "1kP", "1kP", "VV", "VV", "VV", "VV" },
+                                     { "2_", "**", "**", "**", "**", "**", "**", "**", "VV" },
+                                     { "2_", "VV", "2_", "2_", "VV", "VV", "1P", "VV", "2_" } };
+
+        TableSeat[][] tableSeats = new Converter(9, 3).to(TABLE_VALUES2);
+        GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+        gameTable.add(new Cake(new Position(4, 0), "3", gameTable));
+        PlaysController manager = new IA_PlaysController(gameTable);
+        List<CardType> cards = new ArrayList<CardType>();
+        cards.add(CardType.SLEEP);
+        cards.add(CardType.SLEEP);
+        cards.add(CardType.SLEEP);
+        cards.add(CardType.SLEEP);
+        cards.add(CardType.CAKE);
+        Player player1 = new Player("1", cards);
+        Card usedCard = manager.get1stCard(new Converter(9, 3).toCharacterArray(playerChairs2), player1, "2", 3);
+        assertEquals("PUT CAKE:ENEMIES:2",usedCard.getReason());
+        assertEquals(CardType.CAKE, usedCard.getType());
+        CakeCard cakeCard = (CakeCard) usedCard;
+        assertTrue(""+cakeCard.getCakePosition(),new Position(2, 2).isEquals(cakeCard.getCakePosition()));
+    }
 
 }

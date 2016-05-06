@@ -2,6 +2,7 @@ package gt.ia;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import gm.Card;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
+import gm.cards.ChangeCard;
 import gm.cards.MoveCakeCard;
 import gm.ia.IA_PlaysController;
 import gm.ia.PlaysController;
@@ -156,7 +158,7 @@ public class IA_PlaysControllerMoveCakeTest {
 	}
 	
 	@Test
-	public void muereMenosPoderoso() {
+	public void muereMenosPoderosoMio() {
 
 		// ...........................|0 ..|01 ..|02 .|03 .|04 .|05 .|06 .|07 .|08|
 		String[][] playerChairs2 = { { "V", "V", "B", "V", "V", "B", "V", "R", "V" },
@@ -182,6 +184,59 @@ public class IA_PlaysControllerMoveCakeTest {
 		MoveCakeCard card = (MoveCakeCard) usedCard;
 		assertTrue(new Position(5, 0).isEquals(card.getNewPosition()));
 	}
+	
+	   @Test
+	    public void masPoderosoTwoCakeMio(){
+	     //............................ |0 ...|01 ...|02 .|03 ..|04 ...|05 .|06 ...|07 .|08|
+	        String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+	                                     { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+	                                     { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+	        //........................... |0 ....|01. |02 ..|03 ..|04 ..|05 ...|06...|07 ...|08|
+	        String[][] playerChairs2 = { { "VV", "VV", "VV", "2k", "2k", "VV", "VV", "VV", "VV" },
+	                                     { "2_", "**", "**", "**", "**", "**", "**", "**", "2_" },
+	                                     { "2_", "VV", "2_", "2_", "VV", "VV", "1P", "VV", "2_" } };
+	        Converter converter = new Converter(9, 3);
+	        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+	        GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+	        gameTable.add(new Cake(new Position(4, 0), "3", gameTable));
+	        gameTable.add(new Cake(new Position(2, 2), "1", gameTable));
+	        PlaysController manager = new IA_PlaysController(gameTable);
+	        List<CardType> cards = new ArrayList<CardType>();
+	        Player player2 = new Player("2", cards);
+	        player2.addCard(CardType.MOVE_CAKE);
+	        Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), player2, "1", 3);
+	        assertEquals("MOVE CAKE BY BUSINESS: -200.0",usedCard.getReason());
+	        MoveCakeCard card = (MoveCakeCard) usedCard;
+	        assertTrue(""+card.getNewPosition(),new Position(8, 1).isEquals(card.getNewPosition()));
+	        assertTrue(""+card.getCake().getPosition(),new Position(4, 0).isEquals(card.getCake().getPosition()));
+	    }
+	
+	@Test
+    public void muereMenosPoderosoPeroEnemigo_noHacerNadaPorEllos() {
+
+	    //............................ |0 ...|01 ...|02 .|03 ..|04 ...|05 .|06 ...|07 .|08|
+	    String[][] TABLE_VALUES2 = { { "PG", "_G", "kG", "1$", "__", "__", "P_", "__", "P_" },
+	                                 { "2$", "**", "**", "**", "**", "**", "**", "**", "GP" },
+	                                 { "kG", "__", "__", "GP", "__", "GP", "3$", "__", "k_" } };
+
+	    //........................... |0 ....|01. |02 ..|03 ..|04 ..|05 ...|06...|07 ...|08|
+	    String[][] playerChairs2 = { { "VV", "VV", "VV", "1k", "1k", "VV", "VV", "VV", "VV" },
+	                                 { "2_", "**", "**", "**", "**", "**", "**", "**", "2_" },
+	                                 { "2_", "VV", "2_", "2_", "VV", "VV", "1P", "VV", "2_" } };
+        Converter converter = new Converter(9, 3);
+        TableSeat[][] tableSeats = converter.to(TABLE_VALUES2);
+        GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
+        gameTable.add(new Cake(new Position(4, 0), "3", gameTable));
+        gameTable.add(new Cake(new Position(2, 2), "1", gameTable));
+        PlaysController manager = new IA_PlaysController(gameTable);
+        List<CardType> cards = new ArrayList<CardType>();
+        Player player2 = new Player("2", cards);
+        player2.addCard(CardType.MOVE_CAKE);
+        Card usedCard = manager.get1stCard(converter.toCharacterArray(playerChairs2), player2, "1", 3);
+        assertEquals("NO PUEDO ATACAR//CHANGE CARD",usedCard.getReason());
+        assertTrue(usedCard instanceof ChangeCard);
+    }
 	
 	@Test
 	public void mueroYOPeroTambienEnemy() {

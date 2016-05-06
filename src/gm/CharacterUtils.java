@@ -1,6 +1,5 @@
-package gm.ia;
+package gm;
 
-import gm.GameCharacter;
 import gm.pojos.Position;
 
 public class CharacterUtils {

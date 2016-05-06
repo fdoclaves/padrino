@@ -1,5 +1,6 @@
 package gm.ia.getters;
 
+import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -7,7 +8,6 @@ import gm.TableSeat;
 import gm.ia.AddAttackToIaTeam;
 import gm.ia.AddEmptySeat;
 import gm.ia.AddEnemiesTeam;
-import gm.ia.CharacterUtils;
 import gm.ia.Filter;
 import gm.info.TableObjects;
 import gm.pojos.Position;

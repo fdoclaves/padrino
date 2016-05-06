@@ -1,11 +1,11 @@
 package gm.ia.setters;
 
+import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
 import gm.TableSeat;
 import gm.ia.AttackData;
-import gm.ia.CharacterUtils;
 import gm.ia.GeneralTeam;
 import gm.ia.getters.BusinessValueGetter;
 import gm.ia.getters.CharateresToAttackByGunGetter;

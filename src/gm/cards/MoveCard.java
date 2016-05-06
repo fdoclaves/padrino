@@ -39,7 +39,7 @@ public class MoveCard extends Card {
 		validateAttackerCharacter(whoMove, characters, team);
 		GameCharacter attackedChair = getCharacterFromChair(whereMove, characters);
 		if (!attackedChair.isEmpty()) {
-			throw new GameException(GameMessages.OCCUPIED);
+			throw new GameException(GameMessages.OCCUPIED + ", " + getReason());
 		}
 	}
 
@@ -51,5 +51,9 @@ public class MoveCard extends Card {
 	public Position getWhoToMove(){
 		return whoMove;
 	}
+
+    public Position getWhereMove() {
+        return whereMove;
+    }
 
 }

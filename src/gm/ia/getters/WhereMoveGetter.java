@@ -3,10 +3,10 @@ package gm.ia.getters;
 import java.util.ArrayList;
 import java.util.List;
 
+import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.TableSeat;
-import gm.ia.CharacterUtils;
 import gm.ia.GeneralTeam;
 import gm.ia.setters.IaComponentsSetter;
 import gm.info.MoneyValues;
@@ -20,16 +20,19 @@ public class WhereMoveGetter {
     private CharateresToAttackByGunGetter gunGetter;
     
     private CharateresToAttackByKnifeGetter knifeGetter;
+    
+    private int middle;
 
     public WhereMoveGetter(GameTable gameTable){
         this.gameTable = gameTable;
         this.gunGetter = new CharateresToAttackByGunGetter(gameTable);
         this.knifeGetter = new CharateresToAttackByKnifeGetter(gameTable);
+        middle = (gameTable.getMaxY() - 1) / 2;
     }
 
     public Position whereMove(GameCharacter[][] characterArray, IaComponentsSetter iaComponentsSetter,
             String myTeam, Position whoMove) {
-        List<Position> attackPositions = getAttackPositions(characterArray, iaComponentsSetter.getEnemyAttackDatas());
+        List<Position> attackEnemiesPositions = getAttackPositions(characterArray, iaComponentsSetter.getEnemyAttackDatas());
         float bestValue = -100;
         Position bestPosition = null;
         for (int x = 0; x < characterArray[0].length; x++) {
@@ -41,7 +44,8 @@ public class WhereMoveGetter {
                     		whoMove);
                     TableSeat tableSeat = gameTable.getTableSeatByPosition(position);
                     List<MoneyValues> moneyValues = getMoneyValuesByTeam(iaComponentsSetter, myTeam);
-                    float value = getValue(whoToMove, newSeat, tableSeat, attackPositions, moneyValues);
+                    float value = getValue(whoToMove, newSeat, tableSeat, attackEnemiesPositions, 
+                            moneyValues, characterArray);
                     if (value >= bestValue) {
                         bestPosition = position;
                         bestValue = value;
@@ -61,34 +65,52 @@ public class WhereMoveGetter {
     private List<Position> getAttackPositions(GameCharacter[][] characterArray, List<GameCharacter> enemies) {
         List<Position> attackPositions = new ArrayList<Position>();
         for (GameCharacter gameCharacter : enemies) {
-            attackPositions.addAll(knifeGetter.getEmptyAttackPositions(characterArray, gameCharacter.getPosition()));
-            Position gunAttackPosition = gunGetter.getEmptyAttackPositions(characterArray, gameCharacter.getPosition());
-            if(gunAttackPosition!=null){
-                attackPositions.add(gunAttackPosition);
-            }
-            
+            attackPositions.addAll(getAttackPositionByCharacter(characterArray, gameCharacter));
         }
         return attackPositions;
     }
 
+    private List<Position> getAttackPositionByCharacter(GameCharacter[][] characterArray, GameCharacter gameCharacter) {
+        List<Position> positions = new ArrayList<Position>();
+        positions.addAll(knifeGetter.getEmptyAttackPositions(characterArray, gameCharacter.getPosition()));
+        Position gunAttackPosition = gunGetter.getEmptyAttackPositions(characterArray, gameCharacter.getPosition());
+        if(gunAttackPosition!=null){
+            positions.add(gunAttackPosition);
+        }
+        return positions;
+    }
+    
+    private List<Position> canAttack(GameCharacter[][] characterArray, GameCharacter newSeat, GameCharacter whoToMove) {
+        List<Position> positions = new ArrayList<Position>();
+        positions.addAll(knifeGetter.getEmptyAttackPositions(characterArray, newSeat.getPosition(), whoToMove, whoToMove.getTeam()));
+        Position gunAttackPosition = gunGetter.getEmptyAttackPositions(characterArray, newSeat.getPosition());
+        if(gunAttackPosition!=null){
+            positions.add(gunAttackPosition);
+        }
+        return positions;
+    }
+
     private float getValue(GameCharacter whoToMove, GameCharacter newSeat, TableSeat tableSeat,
-            List<Position> attackPositions, List<MoneyValues> moneyValues) {
+            List<Position> attackEnemiesPositions, List<MoneyValues> moneyValues, GameCharacter[][] characterArray) {
         MoneyValues moneyValue = getMoneyValues(tableSeat);
         float value = 0;
-        for (Position attackPosition : attackPositions) {
+        for (Position attackPosition : attackEnemiesPositions) {
             if(attackPosition.isEquals(newSeat.getPosition())){
                 value = value - 10;
             }
         }
+        List<Position> canAttack = canAttack(characterArray, newSeat, whoToMove);
+        value = value + canAttack.size()*5;
+        
         if (moneyValue != MoneyValues.NOTTHING) {
-            value=value+5;
+            value=value+10;
         }
         value = value + getValueBusiness(moneyValue, moneyValues);
         if (tableSeat.has(TableObjects.GLASS)) {
             value--;
         }
         
-        boolean isOnSide = isOnSide(newSeat.getPosition().getX());
+        boolean isOnSide = isOnSide(newSeat.getPosition());
 		if (isOnSide && (whoToMove.hasKnife() || tableSeat.has(TableObjects.KNIFE))) {
             value++;
         }else{
@@ -106,8 +128,10 @@ public class WhereMoveGetter {
         return value;
     }
 
-	private boolean isOnSide(int x) {
-		return x == 0 || x == (gameTable.getMaxX() - 1);
+	private boolean isOnSide(Position position) {
+	    int x = position.getX();
+	    int y = position.getY();
+		return y != middle && (x == 0 || x == (gameTable.getMaxX() - 1));
 	}
 
     private float getValueBusiness(MoneyValues moneyValue, List<MoneyValues> moneyValues) {
