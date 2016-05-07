@@ -3,7 +3,6 @@ package gm.ia.getters;
 import java.util.ArrayList;
 import java.util.List;
 
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.TableSeat;
@@ -12,6 +11,7 @@ import gm.ia.setters.IaComponentsSetter;
 import gm.info.MoneyValues;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class WhereMoveGetter {
     

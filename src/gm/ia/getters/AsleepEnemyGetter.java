@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gm.Card;
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -12,6 +11,7 @@ import gm.TableSeat;
 import gm.cards.SleepCard;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class AsleepEnemyGetter {
 

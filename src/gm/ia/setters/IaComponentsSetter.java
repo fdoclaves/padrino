@@ -1,6 +1,10 @@
 package gm.ia.setters;
 
-import gm.CharacterUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -13,11 +17,7 @@ import gm.ia.getters.CharateresToAttackByKnifeGetter;
 import gm.info.CardType;
 import gm.info.TableObjects;
 import gm.pojos.Position;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import gm.utils.CharacterUtils;
 
 public class IaComponentsSetter {
 
@@ -122,7 +122,7 @@ public class IaComponentsSetter {
     private List<Position> getKnifeAttack(GameCharacter[][] characters, CharateresToAttackByKnifeGetter knifeGetter,
             Position position, Player player) {
         if (player.hasCard(CardType.KNIFE)) {
-            return knifeGetter.getMyAttackPositions(characters, position, player);
+            return knifeGetter.getMyAttackPositions(characters, position, player.getTeam());
         }
         return new ArrayList<Position>();
     }

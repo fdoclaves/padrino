@@ -6,7 +6,7 @@ import java.util.List;
 import gm.cards.ChangeCard;
 import gm.exceptions.GameException;
 import gm.exceptions.GameWarning;
-import gm.exceptions.HumanException;
+import gm.exceptions.InterfaceException;
 import gm.ia.IA_PlaysController;
 import gm.ia.PlaysController;
 import gm.info.CardType;
@@ -24,9 +24,15 @@ public class GameManager {
 	
 	private int cycles;
 
+	private ExternalDataGetter externalDataGetter;
+	
+	private Writter writter;
+
 	public GameManager(List<Player> players, CardManager cardManager, GameCharacter[][] characterArray,
-			TableSeat[][] tableSeats, Integer totalMoney) {
+			TableSeat[][] tableSeats, Integer totalMoney, ExternalDataGetter externalDataGetter, Writter writter) {
 		this.players = players;
+		this.externalDataGetter = externalDataGetter;
+		this.writter = writter;
 		for (Player team : players) {
 			addCardsToPlayerToStart(team, cardManager);
 		}
@@ -37,8 +43,9 @@ public class GameManager {
 	}
 	
 	public GameManager(List<Player> players, GameCharacter[][] characterArray,
-			TableSeat[][] tableSeats, Integer totalMoney) {
-		this(players, new CardManagerImpl(), characterArray, tableSeats, totalMoney);
+			TableSeat[][] tableSeats, Integer totalMoney, ExternalDataGetter externalDataGetter, 
+			Writter writter) {
+		this(players, new CardManagerImpl(), characterArray, tableSeats, totalMoney, externalDataGetter, writter);
 	}
 
 	private void addCardsToPlayerToStart(Player team, CardManager cardManager) {
@@ -52,15 +59,15 @@ public class GameManager {
 			List<Player> currentPlayer = turnsManager.getCurrentPlayer();
 			Player nowPlayer = currentPlayer.get(0);
 			String nextTeam = currentPlayer.get(1).getTeam();
-			System.out.println("-------------" + nowPlayer.getTeam() + "-----------------");
+			writter.log("-------------" + nowPlayer.getTeam() + "-----------------");
 			playsManager.startTurn(nowPlayer);
 			if(sigueVivo(nowPlayer)){
 			    playCards(nowPlayer, nextTeam);
 			}
 			playsManager.finishTurn();
-			System.out.println(new Converter(8, 3).cToString(playsManager.getChairs()));
+			writter.log(new Converter(8, 3).cToString(playsManager.getChairs()));
 			for (Cake cake : gameTable.getCakeList()) {
-				System.out.print("cake:" + cake.getPosition()+", team:"+cake.getTeam() + " ");
+				writter.log("cake:" + cake.getPosition()+", team:"+cake.getTeam() + " ");
 			}
 			cycles++;
 		}
@@ -78,7 +85,7 @@ public class GameManager {
 		try {
 		    PlaysController playsController = getPlayController(player);
             play(player, nextTeam, playsController);
-		} catch (HumanException e) {
+		} catch (InterfaceException e) {
 			e.printStackTrace();
 			playsManager.resert();
 			playCards(player, nextTeam);
@@ -86,7 +93,7 @@ public class GameManager {
 			e.printStackTrace();
 			getManagerException(player, nextTeam).managerGameExceptionException();
 		} catch (GameWarning e) {
-			System.out.println("Warning!");
+			writter.log("Warning!");
 			e.printStackTrace();
 		}
 	}
@@ -104,7 +111,7 @@ public class GameManager {
     private PlaysController getPlayController(Player nowPlayer) {
         PlaysController playsController;
         if(nowPlayer.isHuman()){
-            playsController = new Human_PlaysController(gameTable);
+            playsController = new Human_PlaysController(gameTable, externalDataGetter, writter);
         }else{
             playsController = new IA_PlaysController(gameTable);
         }
@@ -143,8 +150,8 @@ public class GameManager {
             try {
                 playsManager.play(new ChangeCard(cardList.get(0)));
             } catch (GameException e1) {
-                System.out.println("Se salvo!");
-                e1.printStackTrace();
+            	writter.log("Se salvo!");
+            	writter.log(e1.getMessage());
             } catch (GameWarning e1) {
 
             }
@@ -157,17 +164,19 @@ public class GameManager {
         Card firstCard = playsController.get1stCard(playsManager.getChairs(), player, nextTeam, players.size());
 		if (!waitForBestAction(firstCard)) {
             playsManager.play(firstCard);
+            writter.log("played: " + firstCard);
         }
 		Card secondCard = playsController.get2ndCard(playsManager.getChairs(), player, nextTeam, players.size(),
 					firstCard);
 		if (secondCard == null) {
             if (waitForBestAction(firstCard)) {
                 playsManager.play(firstCard);
+                writter.log("played: " + firstCard);
             }
         } else {
             playsManager.play(secondCard);
+            writter.log("played: " + secondCard);
         }
-		System.out.println("1st: "  + firstCard + ", 2nd: " + secondCard);
     }
 
 	private boolean waitForBestAction(Card firstCard) {

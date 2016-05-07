@@ -54,7 +54,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void abajo() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(7, 4), playerB);
+				new Position(7, 4), playerB.getTeam());
 		assertEquals(1, positionsList.size());
 		assertEquals(new Position(8, 4).toString(), positionsList.get(0).toString());
 	}
@@ -62,14 +62,14 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void abajo2() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(1, 4), playerR);
+				new Position(1, 4), playerR.getTeam());
 		assertEquals(0, positionsList.size());
 	}
 
 	@Test
 	public void arriba() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(1, 0), playerR);
+				new Position(1, 0), playerR.getTeam());
 		assertEquals(2, positionsList.size());
 		assertEquals(new Position(2, 0).toString(), positionsList.get(0).toString());
 		assertEquals(new Position(0, 0).toString(), positionsList.get(1).toString());
@@ -78,7 +78,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void ladoDerecho() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(8, 1), playerB);
+				new Position(8, 1), playerB.getTeam());
 		assertEquals(1, positionsList.size());
 		assertEquals(new Position(8, 2).toString(), positionsList.get(0).toString());
 	}
@@ -86,7 +86,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void ladoIzq() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(0, 2), playerB);
+				new Position(0, 2), playerB.getTeam());
 		assertEquals(2, positionsList.size());
 		assertEquals(new Position(0, 3).toString(), positionsList.get(0).toString());
 		assertEquals(new Position(0, 1).toString(), positionsList.get(1).toString());
@@ -95,7 +95,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void esquinaInferiorIzq() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(0, 4), playerB);
+				new Position(0, 4), playerB.getTeam());
 		assertEquals(2, positionsList.size());
 		assertEquals(new Position(1, 4).toString(), positionsList.get(0).toString());
 		assertEquals(new Position(0, 3).toString(), positionsList.get(1).toString());
@@ -104,7 +104,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void esquinaInferiorDerecha() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(8, 4), playerR);
+				new Position(8, 4), playerR.getTeam());
 		assertEquals(2, positionsList.size());
 		assertEquals(new Position(7, 4).toString(), positionsList.get(0).toString());
 		assertEquals(new Position(8, 3).toString(), positionsList.get(1).toString());
@@ -113,7 +113,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void esquinaSuperiorDerecha() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(8, 0), playerB);
+				new Position(8, 0), playerB.getTeam());
 		assertEquals(1, positionsList.size());
 		assertEquals(new Position(7, 0).toString(), positionsList.get(0).toString());
 	}
@@ -121,7 +121,7 @@ public class CharateresToAttackByKnifeGetterTest {
 	@Test
 	public void esquinaSuperiorIzquierda() throws GameException, GameWarning {
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs),
-				new Position(0, 0), playerA);
+				new Position(0, 0), playerA.getTeam());
 		assertEquals(2, positionsList.size());
 		assertEquals(new Position(1, 0).toString(), positionsList.get(0).toString());
 		assertEquals(new Position(0, 1).toString(), positionsList.get(1).toString());
@@ -145,7 +145,7 @@ public class CharateresToAttackByKnifeGetterTest {
 		GameTable gameTable = new GameTable(tableSeats, TOTAL_MONEY);
 		getter = new CharateresToAttackByKnifeGetter(gameTable);
 		List<Position> positionsList = getter.getMyAttackPositions(converter.toCharacterArray(playerChairs2),
-				new Position(0, 0), playerA);
+				new Position(0, 0), playerA.getTeam());
 		assertEquals(0, positionsList.size());
 	}
 

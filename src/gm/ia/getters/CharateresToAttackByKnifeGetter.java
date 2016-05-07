@@ -5,7 +5,6 @@ import java.util.List;
 
 import gm.GameCharacter;
 import gm.GameTable;
-import gm.Player;
 import gm.TableSeat;
 import gm.ia.AddAttackToIaTeam;
 import gm.ia.AddEmptySeat;
@@ -28,8 +27,8 @@ public class CharateresToAttackByKnifeGetter {
 		this.maxY = gameTable.getMaxY() - 1;
 	}
 
-	public List<Position> getMyAttackPositions(GameCharacter[][] characters, Position attackerPosition, Player player) {
-		Filter filter = new AddEnemiesTeam(player.getTeam());
+	public List<Position> getMyAttackPositions(GameCharacter[][] characters, Position attackerPosition, String team) {
+		Filter filter = new AddEnemiesTeam(team);
 		GameCharacter character = characters[attackerPosition.getY()][attackerPosition.getX()];
 		return buildAttackPosition(characters, attackerPosition, filter, character);
 	}

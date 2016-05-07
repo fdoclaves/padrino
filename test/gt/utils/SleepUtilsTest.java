@@ -1,24 +1,23 @@
-package gt;
+package gt.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-
-import gm.SleepUtils;
-import gm.pojos.Position;
-import gt.extras.Converter;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import gm.pojos.Position;
+import gm.utils.SleepUtils;
+import gt.extras.Converter;
+
 public class SleepUtilsTest {
 
-    private SleepUtils sleepUtils;
     private Converter converter;
 
     @Before
     public void setUp() throws Exception {
-        sleepUtils = new SleepUtils();
         converter = new Converter(9, 3);
     }
 
@@ -35,7 +34,7 @@ public class SleepUtilsTest {
                                     { "2_", "1_", "2_", "2_", "V", "3_", "2_", "2_", "2Z" } };
         
         
-        List<Position> list = sleepUtils.get(converter.toCharacterArray(playerChairs), converter.to(TABLE_VALUES), "1");
+        List<Position> list = SleepUtils.get(converter.toCharacterArray(playerChairs), converter.to(TABLE_VALUES), "1");
         assertEquals(5, list.size());
         assertTrue("" + list.get(4), list.get(4).isEquals(new Position(8, 1)));
         assertTrue("" + list.get(3), list.get(3).isEquals(new Position(5, 2)));

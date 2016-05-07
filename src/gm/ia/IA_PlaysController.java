@@ -6,7 +6,6 @@ import java.util.Map;
 
 import gm.Cake;
 import gm.Card;
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -31,6 +30,7 @@ import gm.ia.setters.DataCakeSetter;
 import gm.ia.setters.IaComponentsSetter;
 import gm.info.CardType;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class IA_PlaysController implements PlaysController {
 

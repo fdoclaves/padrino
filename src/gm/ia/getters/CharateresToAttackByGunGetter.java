@@ -1,6 +1,5 @@
 package gm.ia.getters;
 
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.Player;
@@ -11,6 +10,7 @@ import gm.ia.AddEnemiesTeam;
 import gm.ia.Filter;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class CharateresToAttackByGunGetter {
 
@@ -47,24 +47,29 @@ public class CharateresToAttackByGunGetter {
 	private Position buildAttackPosition(GameCharacter[][] characters, Position attackerPosition, Filter filter) {
 		GameCharacter attackerCharacter = CharacterUtils.getCharacterByPosition(characters, attackerPosition);
 		if (hasWeapon(attackerPosition, characters) && addAsleep(attackerCharacter, filter)) {
-			if (isConer(attackerPosition)) {
-				return null;
-			}
-			if (isMiddle(attackerPosition.getY())) {
-				if (attackerPosition.getX() == 0) {
-					return filterByTeamAndEmpty(characters, filter, new Position(maxX, attackerPosition.getY()));
-				} else {
-					return filterByTeamAndEmpty(characters, filter, new Position(0, attackerPosition.getY()));
-				}
-			} else {
-				if (attackerPosition.getY() == 0) {
-					return filterByTeamAndEmpty(characters, filter, new Position(attackerPosition.getX(), maxY));
-				} else {
-					return filterByTeamAndEmpty(characters, filter, new Position(attackerPosition.getX(), 0));
-				}
-			}
+			return getAttackedPositionWhenItIsPosibleAttack(characters, attackerPosition, filter);
 		} else {
 			return null;
+		}
+	}
+
+	public Position getAttackedPositionWhenItIsPosibleAttack(GameCharacter[][] characters, Position attackerPosition,
+			Filter filter) {
+		if (isConer(attackerPosition)) {
+			return null;
+		}
+		if (isMiddle(attackerPosition.getY())) {
+			if (attackerPosition.getX() == 0) {
+				return filterByTeamAndEmpty(characters, filter, new Position(maxX, attackerPosition.getY()));
+			} else {
+				return filterByTeamAndEmpty(characters, filter, new Position(0, attackerPosition.getY()));
+			}
+		} else {
+			if (attackerPosition.getY() == 0) {
+				return filterByTeamAndEmpty(characters, filter, new Position(attackerPosition.getX(), maxY));
+			} else {
+				return filterByTeamAndEmpty(characters, filter, new Position(attackerPosition.getX(), 0));
+			}
 		}
 	}
 

@@ -12,6 +12,7 @@ import gm.info.CardType;
 import gm.info.GameMessages;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class PlaysManager {
 

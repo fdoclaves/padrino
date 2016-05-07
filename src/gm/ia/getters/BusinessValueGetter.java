@@ -1,6 +1,5 @@
 package gm.ia.getters;
 
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.TableSeat;
@@ -9,6 +8,7 @@ import gm.ia.pojos.IA_Character;
 import gm.info.MoneyValues;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 import java.util.ArrayList;
 import java.util.List;

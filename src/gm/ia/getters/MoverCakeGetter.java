@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gm.Cake;
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.cards.CakeUtils;
 import gm.ia.DataCake;
 import gm.ia.ValueAndDataCake;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class MoverCakeGetter {
 	

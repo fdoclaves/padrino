@@ -3,6 +3,7 @@ package gm;
 import java.util.Map;
 
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class Killer {
 

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gm.Cake;
-import gm.CharacterUtils;
 import gm.GameCharacter;
 import gm.GameTable;
 import gm.TableSeat;
 import gm.cards.CakeUtils;
 import gm.info.TableObjects;
 import gm.pojos.Position;
+import gm.utils.CharacterUtils;
 
 public class WhoMoveGetter {
 
