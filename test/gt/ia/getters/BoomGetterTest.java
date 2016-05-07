@@ -29,7 +29,7 @@ private Converter converter;
 	
 	private Player playerB;
 	
-	private Player playerR;
+	//private Player playerR;
 
 	@Before
 	public void setUp() throws Exception {
@@ -38,7 +38,7 @@ private Converter converter;
 		playerB = new Player("B", cardsB);
 		List<CardType> cardsA = new ArrayList<CardType>();
 		cardsA.add(CardType.BOOM);
-		playerR = new Player("R", cardsA);
+		//playerR = new Player("R", cardsA);
 		converter = new Converter(9, 5);
 		//........................... |0... |01.. |02.. |03.. |04 ..|05. |06 ...|07... |08|
 		String[][] TABLE_VALUES = { { "__", "__", "__", "__", "__", "__", "__", "__", "__" },
